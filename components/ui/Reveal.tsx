@@ -1,0 +1,121 @@
+"use client";
+
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import type { ReactNode } from "react";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+interface RevealProps {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  y?: number;
+  duration?: number;
+  blur?: boolean;
+  once?: boolean;
+  as?: "div" | "section" | "span" | "li" | "figure";
+}
+
+/** Soft fade + slide-up reveal when the element scrolls into view. */
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  y = 30,
+  duration = 0.9,
+  blur = false,
+  once = true,
+  as = "div",
+}: RevealProps) {
+  const reduce = useReducedMotion();
+  const MotionTag = motion[as];
+
+  if (reduce) {
+    const Tag = as;
+    return <Tag className={className}>{children}</Tag>;
+  }
+
+  return (
+    <MotionTag
+      className={className}
+      initial={{
+        opacity: 0,
+        y,
+        filter: blur ? "blur(14px)" : "blur(0px)",
+      }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once, margin: "-80px 0px -80px 0px" }}
+      transition={{ duration, delay, ease: EASE }}
+    >
+      {children}
+    </MotionTag>
+  );
+}
+
+/** Container that staggers the reveal of its <StaggerItem> children. */
+export function Stagger({
+  children,
+  className,
+  delayChildren = 0.1,
+  staggerChildren = 0.14,
+  once = true,
+}: {
+  children: ReactNode;
+  className?: string;
+  delayChildren?: number;
+  staggerChildren?: number;
+  once?: boolean;
+}) {
+  const reduce = useReducedMotion();
+
+  const container: Variants = {
+    hidden: {},
+    show: {
+      transition: {
+        delayChildren: reduce ? 0 : delayChildren,
+        staggerChildren: reduce ? 0 : staggerChildren,
+      },
+    },
+  };
+
+  return (
+    <motion.div
+      className={className}
+      variants={container}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once, margin: "-60px 0px -60px 0px" }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export function StaggerItem({
+  children,
+  className,
+  y = 32,
+  duration = 0.85,
+}: {
+  children: ReactNode;
+  className?: string;
+  y?: number;
+  duration?: number;
+}) {
+  const reduce = useReducedMotion();
+
+  const item: Variants = {
+    hidden: { opacity: 0, y: reduce ? 0 : y },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reduce ? 0 : duration, ease: EASE },
+    },
+  };
+
+  return (
+    <motion.div className={className} variants={item}>
+      {children}
+    </motion.div>
+  );
+}

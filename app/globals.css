@@ -1,0 +1,367 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    --cream: #faf4ea;
+    --gold: #c9a24b;
+    --maroon: #6e1e2a;
+    --forest: #234437;
+    --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -10px 26px rgba(0, 0, 0, 0.1), 0 14px 34px -14px rgba(0, 0, 0, 0.45);
+    --temple-gold: #d9a84f;
+    --deep-gold: #8a5a1f;
+    --soft-cream: #fff1cf;
+    --warm-amber: #c47a2c;
+    --peacock-blue: #063f4f;
+    --peacock-green: #0b4a3f;
+    --dark-temple: #1b1208;
+    --lotus-pink: #e8b7a0;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: auto; /* Lenis handles smooth scroll */
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply text-ink font-body;
+    background-color: #efd9a6; /* warm gold fallback */
+    background-image:
+      radial-gradient(1200px circle at 50% -6%, rgba(255, 240, 190, 0.9), transparent 42%),
+      radial-gradient(1000px circle at 10% 100%, rgba(11, 74, 63, 0.18), transparent 42%),
+      radial-gradient(1000px circle at 90% 100%, rgba(6, 63, 79, 0.18), transparent 42%),
+      linear-gradient(180deg, #fff3d4 0%, #f1dca6 52%, #e7c98a 100%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: rgba(201, 162, 75, 0.25);
+    color: #4a1219;
+  }
+
+  /* Lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Custom scrollbar (thin, gold)                                      */
+/* ------------------------------------------------------------------ */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f3e8d5;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #d9bb70, #a8842f);
+  border-radius: 999px;
+  border: 2px solid #f3e8d5;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Custom tulsi-leaf cursor (JS-activated on fine pointers)           */
+/* ------------------------------------------------------------------ */
+html.tulsi-cursor-active,
+html.tulsi-cursor-active * {
+  cursor: none !important;
+}
+/* Keep a normal text caret where people actually type */
+html.tulsi-cursor-active input,
+html.tulsi-cursor-active textarea,
+html.tulsi-cursor-active [contenteditable="true"] {
+  cursor: text !important;
+}
+
+.tulsi-leaf {
+  transition: opacity 260ms ease;
+  will-change: transform;
+}
+.tulsi-leaf__inner {
+  transform: rotate(0deg) scale(1);
+  transform-origin: 22% 16%;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(0 3px 6px rgba(20, 60, 20, 0.35));
+}
+.tulsi-leaf__inner.is-hover {
+  transform: rotate(-8deg) scale(1.35);
+}
+.tulsi-leaf__inner.is-press {
+  transform: scale(0.82);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Components                                                          */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .container-temple {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  .section-pad {
+    @apply py-20 sm:py-28 lg:py-36;
+  }
+
+  .gallery-bg {
+    background:
+      radial-gradient(1200px circle at 50% -6%, rgba(217, 168, 79, 0.30), transparent 42%),
+      radial-gradient(1000px circle at 10% 100%, rgba(11, 74, 63, 0.45), transparent 42%),
+      radial-gradient(1000px circle at 90% 100%, rgba(6, 63, 79, 0.45), transparent 42%),
+      linear-gradient(180deg, #1b1208 0%, #5c3915 52%, #0b2f2a 100%);
+  }
+
+  .visit-bg {
+    background:
+      radial-gradient(1200px circle at 50% -6%, rgba(255, 246, 238, 0.92), transparent 42%),
+      radial-gradient(1000px circle at 10% 100%, rgba(200, 126, 142, 0.35), transparent 42%),
+      radial-gradient(1000px circle at 90% 100%, rgba(217, 168, 79, 0.28), transparent 42%),
+      linear-gradient(180deg, #fdeef0 0%, #f3c9d0 52%, #e7a3b0 100%);
+  }
+
+  .festivals-bg {
+    background:
+      radial-gradient(1200px circle at 50% -6%, rgba(255, 216, 150, 0.50), transparent 42%),
+      radial-gradient(1000px circle at 10% 100%, rgba(217, 168, 79, 0.38), transparent 42%),
+      radial-gradient(1000px circle at 90% 100%, rgba(255, 170, 110, 0.28), transparent 42%),
+      linear-gradient(180deg, #8a1f28 0%, #b23a34 52%, #3a0f16 100%);
+  }
+
+  /* Serene peacock-blue background for the About Temple section */
+  .about-bg {
+    background:
+      radial-gradient(1200px circle at 50% -6%, rgba(219, 237, 248, 0.95), transparent 42%),
+      radial-gradient(1000px circle at 10% 100%, rgba(6, 63, 79, 0.28), transparent 42%),
+      radial-gradient(1000px circle at 90% 100%, rgba(23, 92, 112, 0.22), transparent 42%),
+      linear-gradient(180deg, #e9f4fb 0%, #a6c9e2 52%, #1d5069 100%);
+  }
+
+  /* Small eyebrow label above headings */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-xs sm:text-sm font-body font-medium uppercase tracking-widest2 text-gold-deep;
+  }
+
+  .eyebrow::before,
+  .eyebrow::after {
+    content: "";
+    @apply h-px w-8 bg-gradient-to-r from-transparent via-gold to-transparent;
+  }
+
+  /* Gradient gold text */
+  .text-gold-gradient {
+    @apply bg-gold-gradient bg-clip-text text-transparent;
+  }
+
+  /* Primary devotional button */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold-gradient px-7 py-3.5
+           text-sm font-body font-semibold uppercase tracking-wider text-maroon-dark
+           shadow-soft transition-all duration-500 ease-devotional
+           hover:-translate-y-0.5 hover:shadow-glow focus:outline-none focus-visible:ring-2
+           focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/60 bg-white/5
+           px-7 py-3.5 text-sm font-body font-semibold uppercase tracking-wider text-cream
+           backdrop-blur-sm transition-all duration-500 ease-devotional
+           hover:border-gold hover:bg-white/10 hover:-translate-y-0.5 focus:outline-none
+           focus-visible:ring-2 focus-visible:ring-gold;
+  }
+
+  .btn-outline-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-maroon/30 bg-transparent
+           px-7 py-3.5 text-sm font-body font-semibold uppercase tracking-wider text-maroon
+           transition-all duration-500 ease-devotional
+           hover:border-maroon hover:bg-maroon hover:text-cream hover:-translate-y-0.5
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-maroon/40;
+  }
+
+  /* Elegant card */
+  .card-temple {
+    @apply relative overflow-hidden rounded-[1.75rem] bg-cream-50 shadow-card
+           ring-1 ring-gold/15 transition-all duration-700 ease-devotional;
+  }
+
+  /* Temple arch (top) mask */
+  .arch-top {
+    border-top-left-radius: 50% 22%;
+    border-top-right-radius: 50% 22%;
+  }
+
+  /* Thin gold divider with a lotus dot */
+  .divider-lotus {
+    @apply relative mx-auto h-px w-40 bg-gradient-to-r from-transparent via-gold to-transparent;
+  }
+  .divider-lotus::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: linear-gradient(135deg, #e3c77e, #a8842f);
+    border-radius: 2px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utilities                                                          */
+/* ------------------------------------------------------------------ */
+@layer utilities {
+  /* Subtle peacock-feather / floral texture (very light, premium) */
+  .pattern-floral {
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A24B' stroke-opacity='0.10' stroke-width='1.1'%3E%3Cpath d='M60 20c10 12 10 28 0 40-10-12-10-28 0-40z'/%3E%3Cpath d='M60 60c10 12 10 28 0 40-10-12-10-28 0-40z'/%3E%3Cpath d='M20 60c12 10 28 10 40 0-12-10-28-10-40 0z'/%3E%3Cpath d='M60 60c12 10 28 10 40 0-12-10-28-10-40 0z'/%3E%3Ccircle cx='60' cy='60' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 120px 120px;
+  }
+
+  .pattern-peacock {
+    background-image: url("data:image/svg+xml,%3Csvg width='90' height='90' viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23234437' stroke-opacity='0.08' stroke-width='1'%3E%3Cellipse cx='45' cy='40' rx='16' ry='26'/%3E%3Cellipse cx='45' cy='44' rx='8' ry='13'/%3E%3Ccircle cx='45' cy='40' r='3' fill='%23C9A24B' fill-opacity='0.10' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 90px 90px;
+  }
+
+  .text-shadow-hero {
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Home-page redesign — glass buttons & ornate arch                   */
+/* ------------------------------------------------------------------ */
+@layer components {
+  /* Frosted glassmorphic pill button (hero CTAs) */
+  .btn-glass {
+    @apply inline-flex items-center justify-center gap-3 rounded-full px-7 py-3.5
+           font-body text-sm font-semibold tracking-wide
+           backdrop-blur-sm transition-all duration-500 ease-devotional
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-gold
+           focus-visible:ring-offset-2 focus-visible:ring-offset-transparent;
+    color: #123531; /* teal-dark — reads on the light cream hero */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(201, 162, 75, 0.7);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      0 8px 22px -14px rgba(74, 40, 10, 0.4);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
+  }
+
+  .btn-glass:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-2px);
+    border-color: rgba(201, 162, 75, 0.95);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      0 16px 32px -14px rgba(74, 40, 10, 0.5),
+      0 0 26px -6px rgba(201, 162, 75, 0.5);
+  }
+
+  .btn-glass svg {
+    @apply h-4 w-4 shrink-0;
+  }
+
+  /* Tint modifiers — gentle color washes over the frosted-white base so the
+     dark teal text stays clearly legible on the light hero. */
+  .btn-glass--teal {
+    background: rgba(46, 106, 99, 0.1);
+  }
+  .btn-glass--amber {
+    background: rgba(201, 162, 75, 0.12);
+  }
+  .btn-glass--green {
+    background: rgba(53, 97, 80, 0.1);
+  }
+
+  /* Smaller glass pill for the navbar "Contact Temple" action */
+  .nav-glass-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2
+           font-body text-xs font-semibold tracking-wide backdrop-blur-sm
+           transition-all duration-500 ease-devotional focus:outline-none
+           focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2
+           focus-visible:ring-offset-transparent;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(201, 162, 75, 0.7);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      0 8px 22px -14px rgba(74, 40, 10, 0.4);
+  }
+  .nav-glass-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+    border-color: rgba(201, 162, 75, 0.95);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      0 14px 30px -14px rgba(74, 40, 10, 0.5),
+      0 0 20px -6px rgba(201, 162, 75, 0.5);
+  }
+}
+
+@layer utilities {
+  .text-shadow-soft {
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Text-link underline — grows from center + fades in (premium)       */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .link-underline {
+    @apply relative;
+  }
+  .link-underline::after {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 -bottom-0.5 h-px bg-gold;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after,
+  .link-underline.is-active::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-underline::after {
+    transition: opacity 0.2s ease;
+  }
+}
