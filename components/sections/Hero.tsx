@@ -75,7 +75,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="hero-desktop-touch relative min-h-[100svh] w-full overflow-hidden bg-[#f3e6c9]"
+      className="relative h-[92svh] min-h-[660px] w-full overflow-hidden bg-[#f3e6c9] sm:h-auto sm:min-h-[100svh]"
     >
       {!bgError && (
         // eslint-disable-next-line @next/next/no-img-element
@@ -91,7 +91,7 @@ export default function Hero() {
           initial={reduce ? undefined : { scale: 1 }}
           animate={reduce ? undefined : { scale: 1.04 }}
           transition={reduce ? undefined : { duration: 14, ease: "easeOut" }}
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[50%_center] sm:object-center"
         />
       )}
 
@@ -114,29 +114,29 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 pb-[4vh] text-center"
+        className="absolute inset-0 z-10 flex flex-col items-center justify-start px-4 pb-20 pt-[36svh] text-center sm:justify-center sm:pb-[4vh] sm:pt-0"
       >
-        <motion.div variants={item} className="w-[86%] max-w-xl sm:w-[62%] lg:w-[42%]">
+        <motion.div variants={item} className="w-full max-w-[22rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
           <RippleHeading
             text={t.hero.title}
             lang={lang}
-            className="mt-3 font-display text-2xl font-semibold uppercase leading-[1.25] tracking-wide text-teal-dark sm:text-4xl lg:text-5xl"
+            className="font-display text-[1.75rem] font-semibold uppercase leading-[1.14] tracking-wide text-teal-dark sm:mt-3 sm:text-4xl sm:leading-[1.25] lg:text-5xl"
           />
 
-          <p className="mx-auto mt-4 max-w-md font-body text-sm text-teal-dark/75 sm:text-base">
+          <p className="mx-auto mt-3 max-w-xs font-body text-[13px] leading-relaxed text-teal-dark/80 sm:mt-4 sm:max-w-md sm:text-base">
             {t.hero.subtitle}
           </p>
         </motion.div>
 
         <motion.div
           variants={item}
-          className="mt-8 flex flex-col flex-wrap items-center justify-center gap-3 sm:flex-row sm:gap-4"
+          className="mt-5 grid w-full max-w-[22rem] grid-cols-2 gap-3 sm:mt-8 sm:flex sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
         >
           {CTAS.map(({ target, tint, Icon }, i) => (
             <button
               key={target}
               onClick={() => scrollTo(target)}
-              className={`btn-glass ${tint} w-full sm:w-auto`}
+              className={`btn-glass ${tint} min-h-12 w-full !px-3 !py-3 text-xs sm:min-h-0 sm:w-auto sm:!px-7 sm:!py-3.5 sm:text-sm ${i === 2 ? "col-span-2" : ""}`}
             >
               <Icon />
               {ctaLabels[i]}
@@ -150,7 +150,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: reduce ? 0 : 1.6, duration: 1 }}
-        className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-teal/60 transition-colors hover:text-teal"
+        className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 text-teal/60 transition-colors hover:text-teal sm:bottom-6 sm:gap-2"
         aria-label={t.hero.scroll}
       >
         <span className="font-body text-[10px] uppercase tracking-widest2">
@@ -159,7 +159,7 @@ export default function Hero() {
         <motion.span
           animate={reduce ? {} : { y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="block h-10 w-px bg-gradient-to-b from-gold to-transparent"
+          className="block h-6 w-px bg-gradient-to-b from-gold to-transparent sm:h-10"
         />
       </motion.button>
     </section>

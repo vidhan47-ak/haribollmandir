@@ -142,7 +142,7 @@ export default function Navbar() {
         className="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-all duration-500 ease-devotional sm:px-4 sm:pt-4 lg:px-6"
       >
         <nav
-          className={`mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full px-5 sm:px-6 ${
+          className={`mx-auto flex max-w-7xl items-center justify-between gap-2 rounded-full px-3 sm:gap-4 sm:px-6 ${
             glass
               ? "nav-liquid-glass nav-liquid-glass--solid py-2.5 transition-all duration-500 ease-devotional"
               : lightText
@@ -153,7 +153,7 @@ export default function Navbar() {
           {/* Brand */}
           <button
             onClick={() => handleNav({ target: "#home" })}
-            className="group flex items-center gap-3 text-left"
+            className="group flex min-w-0 items-center gap-2 text-left sm:gap-3"
             aria-label="Back to top"
           >
             {logoOk ? (
@@ -163,7 +163,7 @@ export default function Navbar() {
                 alt="Hariboll Mandir logo"
                 draggable={false}
                 onError={() => setLogoOk(false)}
-                className="h-11 w-auto max-w-[132px] shrink-0 object-contain"
+                className="h-9 w-auto max-w-[96px] shrink-0 object-contain sm:h-11 sm:max-w-[132px]"
               />
             ) : (
               <LotusMark
@@ -174,14 +174,14 @@ export default function Navbar() {
             )}
             <span className="flex flex-col">
               <span
-                className={`font-display text-base font-semibold leading-normal tracking-wide transition-colors duration-500 ${
+                className={`font-display text-sm font-semibold leading-normal tracking-wide transition-colors duration-500 sm:text-base ${
                   solid ? "text-maroon" : "text-cream"
                 }`}
               >
                 {t.nav.brand}
               </span>
               <span
-                className={`mt-1 font-body text-[10px] uppercase leading-none tracking-widest2 transition-colors duration-500 ${
+                className={`mt-1 hidden font-body text-[10px] uppercase leading-none tracking-widest2 transition-colors duration-500 min-[380px]:block ${
                   solid ? "text-gold-deeper" : "text-gold-light/90"
                 }`}
               >

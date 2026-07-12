@@ -453,13 +453,3 @@ html[lang="hi"] h3,
 html[lang="hi"] h4 {
   font-family: var(--font-hi-heading), "Noto Serif Devanagari", serif;
 }
-
-/* Chrome's Desktop Site mode keeps a phone's unusually tall screen while
-   exposing a desktop-width viewport. Size the hero from the artwork's native
-   2560:1429 ratio on touch devices so its full width is visible. */
-@media (pointer: coarse) and (min-width: 821px) {
-  .hero-desktop-touch {
-    min-height: 0;
-    aspect-ratio: 2560 / 1429;
-  }
-}

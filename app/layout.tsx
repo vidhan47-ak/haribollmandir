@@ -13,7 +13,6 @@ import Navbar from "@/components/Navbar";
 import TulsiCursor from "@/components/ui/TulsiCursor";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { LanguageProvider } from "@/lib/i18n";
-import MobileExperienceNotice from "@/components/MobileExperienceNotice";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -106,7 +105,6 @@ export default function RootLayout({
         className={`${playfair.variable} ${cinzel.variable} ${inter.variable} ${handlee.variable} ${notoSerifDev.variable} ${notoSansDev.variable} font-body antialiased`}
       >
         <LanguageProvider>
-          <MobileExperienceNotice />
           <SmoothScroll>
             <ScrollProgress />
             <Navbar />
