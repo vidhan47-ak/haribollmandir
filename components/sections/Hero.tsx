@@ -75,7 +75,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[100svh] w-full overflow-hidden bg-[#f3e6c9]"
+      className="hero-desktop-touch relative min-h-[100svh] w-full overflow-hidden bg-[#f3e6c9]"
     >
       {!bgError && (
         // eslint-disable-next-line @next/next/no-img-element
