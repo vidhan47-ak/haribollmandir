@@ -143,6 +143,15 @@ export default function Hero() {
             </button>
           ))}
         </motion.div>
+
+        <motion.p
+          variants={item}
+          className="mt-3 rounded-full border border-gold/25 bg-[#fff8e8]/70 px-4 py-1.5 font-body text-[10px] leading-relaxed text-teal-dark/70 sm:hidden"
+        >
+          {lang === "hi"
+            ? "सर्वोत्तम दृश्य अनुभव के लिए डेस्कटॉप पर देखें।"
+            : "For the best visual experience, visit on a desktop."}
+        </motion.p>
       </motion.div>
 
       <motion.button
