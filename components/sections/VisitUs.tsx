@@ -1,5 +1,8 @@
-import SectionHeading from "@/components/ui/SectionHeading";
+"use client";
+
 import { Reveal } from "@/components/ui/Reveal";
+import SectionHeading from "@/components/ui/SectionHeading";
+import { useLang } from "@/lib/i18n";
 
 const MAPS_QUERY =
   "Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir Pratap Bagh Jalandhar Punjab";
@@ -10,11 +13,6 @@ const MAP_EMBED_URL = `https://maps.google.com/maps?q=${encodeURIComponent(
   MAPS_QUERY,
 )}&z=15&output=embed`;
 const INSTAGRAM_URL = "https://instagram.com/hariboll_mandir";
-
-const TIMINGS = [
-  { label: "Morning Darshan", value: "6:00 AM – 11:00 AM" },
-  { label: "Evening Darshan", value: "5:00 PM – 9:00 PM" },
-];
 
 function PinIcon() {
   return (
@@ -35,33 +33,42 @@ function ClockIcon() {
 }
 
 export default function VisitUs() {
+  const { t } = useLang();
   return (
-    <section id="visit" className="section-pad relative visit-bg">
-      <div className="container-temple">
+    <section id="visit" className="section-pad relative overflow-hidden bg-[#d8c28f]">
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/visit-bg.webp"
+          alt=""
+          loading="lazy"
+          className="h-full w-full scale-[1.03] object-cover object-center"
+        />
+      </div>
+      <div className="pattern-peacock pointer-events-none absolute inset-0 opacity-10" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
+
+      <div className="container-temple relative z-10">
         <SectionHeading
-          eyebrow="Come, Take Shelter"
-          title="Visit Hariboll Mandir"
-          subtitle="Devotees are warmly welcomed for darshan, kirtan and prasadam. We look forward to serving you."
+          eyebrow={t.visit.eyebrow}
+          title={t.visit.title}
+          subtitle={t.visit.subtitle}
+          className="rounded-[2rem] border border-white/55 bg-[#fff8e8]/90 px-6 py-8 shadow-[0_18px_50px_-28px_rgba(45,28,8,0.55)] sm:px-10"
         />
 
         <div className="mt-16 overflow-hidden rounded-[2rem] border border-gold/25 bg-cream-50 shadow-soft lg:mt-20">
           <div className="grid lg:grid-cols-2">
-            {/* Info */}
-            <Reveal className="p-8 sm:p-12 lg:p-14">
+            <Reveal className="darshan-glass-panel p-8 sm:p-12 lg:p-14">
               <div className="flex items-start gap-4">
                 <span className="mt-1 text-gold-deep">
                   <PinIcon />
                 </span>
                 <div>
                   <h3 className="font-heading text-2xl font-semibold text-maroon">
-                    Sree Chaitanya Mahaprabhu
-                    <br />
-                    Sree Radha Madhav Mandir
+                    {t.visit.addressName}
                   </h3>
                   <p className="mt-3 font-body text-base leading-relaxed text-ink-soft">
-                    Pratap Bagh, Jalandhar,
-                    <br />
-                    Punjab, India
+                    {t.visit.address}
                   </p>
                 </div>
               </div>
@@ -73,17 +80,17 @@ export default function VisitUs() {
                   <ClockIcon />
                 </span>
                 <div className="w-full">
-                  <p className="font-body text-xs uppercase tracking-widest2 text-gold-deep">
-                    Darshan Timings
+                  <p className="font-body text-xs uppercase tracking-widest2 text-gold-deeper">
+                    {t.visit.timingsLabel}
                   </p>
                   <ul className="mt-3 space-y-2">
-                    {TIMINGS.map((t) => (
+                    {t.visit.timings.map((tm) => (
                       <li
-                        key={t.label}
+                        key={tm.label}
                         className="flex items-center justify-between gap-4 font-body text-[15px] text-ink"
                       >
-                        <span className="text-ink-soft">{t.label}</span>
-                        <span className="font-medium">{t.value}</span>
+                        <span className="text-ink-soft">{tm.label}</span>
+                        <span className="font-medium">{tm.value}</span>
                       </li>
                     ))}
                   </ul>
@@ -91,37 +98,25 @@ export default function VisitUs() {
               </div>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <a
-                  href={DIRECTIONS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-gold"
-                >
-                  Get Directions
+                <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer" className="btn-gold">
+                  {t.visit.getDirections}
                 </a>
-                <a
-                  href={INSTAGRAM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline-dark"
-                >
-                  Contact Temple
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="btn-outline-dark">
+                  {t.visit.contactTemple}
                 </a>
               </div>
             </Reveal>
 
-            {/* Map */}
             <div className="relative min-h-[320px] bg-forest/5 lg:min-h-full">
-              {/* decorative placeholder shown behind the map */}
               <div className="pattern-peacock absolute inset-0 opacity-70" />
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-forest/50">
                 <PinIcon />
                 <span className="font-body text-xs uppercase tracking-widest2">
-                  Pratap Bagh, Jalandhar
+                  {t.visit.mapPin}
                 </span>
               </div>
               <iframe
-                title="Map to Hariboll Mandir, Pratap Bagh, Jalandhar"
+                title={t.visit.addressName}
                 src={MAP_EMBED_URL}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

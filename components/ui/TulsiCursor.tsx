@@ -88,7 +88,7 @@ export default function TulsiCursor() {
         life: 1,
         size: 0.8 + Math.random() * 1.3,
       });
-      if (pts.length > 140) pts.splice(0, pts.length - 140);
+      if (pts.length > 80) pts.splice(0, pts.length - 80);
     };
 
     const onMove = (e: MouseEvent) => {
@@ -116,6 +116,7 @@ export default function TulsiCursor() {
       }
       lastX = target.x;
       lastY = target.y;
+      ensureRender();
     };
     const hide = () => {
       leaf.style.opacity = "0";
@@ -131,6 +132,7 @@ export default function TulsiCursor() {
         "a,button,[role='button'],input,textarea,select,label,summary",
       );
       inner.classList.toggle("is-hover", interactive);
+      leaf.style.opacity = interactive ? "0" : shown ? "1" : "0";
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
@@ -142,7 +144,13 @@ export default function TulsiCursor() {
 
     let raf = 0;
     let last = performance.now();
+    const ensureRender = () => {
+      if (raf) return;
+      last = performance.now();
+      raf = requestAnimationFrame(render);
+    };
     const render = (now: number) => {
+      raf = 0;
       const dt = Math.min(now - last, 64);
       last = now;
       const step = dt / 16;
@@ -171,12 +179,13 @@ export default function TulsiCursor() {
         }
         ctx.globalAlpha = 1;
       }
-      raf = requestAnimationFrame(render);
+      const moving =
+        Math.abs(target.x - cx) > 0.1 || Math.abs(target.y - cy) > 0.1;
+      if (moving || pts.length > 0) raf = requestAnimationFrame(render);
     };
-    raf = requestAnimationFrame(render);
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", hide);

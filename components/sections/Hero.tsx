@@ -6,10 +6,11 @@ import { useSmoothScrollTo } from "@/components/SmoothScroll";
 import OrnateFrame from "@/components/ui/OrnateFrame";
 import PeacockOrnament from "@/components/ui/PeacockOrnament";
 import { heroDecor } from "@/lib/images";
+import { useLang } from "@/lib/i18n";
+import RippleHeading from "@/components/ui/RippleHeading";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/* ---- small inline icons for the glass CTAs -------------------------- */
 function LotusIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -40,17 +41,18 @@ function OfferingIcon() {
 }
 
 const CTAS = [
-  { label: "View Darshan", target: "#darshan", tint: "btn-glass--teal", Icon: LotusIcon },
-  { label: "Upcoming Events", target: "#festivals", tint: "btn-glass--amber", Icon: CalendarIcon },
-  { label: "Seva & Donations", target: "#seva", tint: "btn-glass--green", Icon: OfferingIcon },
+  { target: "#darshan", tint: "btn-glass--teal", Icon: LotusIcon },
+  { target: "#festivals", tint: "btn-glass--amber", Icon: CalendarIcon },
+  { target: "#seva", tint: "btn-glass--green", Icon: OfferingIcon },
 ] as const;
 
 export default function Hero() {
   const scrollTo = useSmoothScrollTo();
   const reduce = useReducedMotion();
-  // When the composed background photo is missing/404s, hide it so the warm
-  // ornamental SVG composition shows through as the fallback.
+  const { t, lang } = useLang();
   const [bgError, setBgError] = useState(false);
+
+  const ctaLabels = [t.hero.cta1, t.hero.cta2, t.hero.cta3];
 
   const container = {
     hidden: {},
@@ -75,23 +77,24 @@ export default function Hero() {
       id="home"
       className="relative min-h-[100svh] w-full overflow-hidden bg-[#f3e6c9]"
     >
-      {/* PRIMARY — single composed hero artwork. The image already contains
-          the peacocks, arch, vines and divider; we only overlay text below.
-          object-cover keeps the center arch in frame on every screen size. */}
       {!bgError && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <motion.img
           src={heroDecor.bg}
           alt=""
           aria-hidden="true"
           draggable={false}
           loading="eager"
+          decoding="async"
+          fetchPriority="high"
           onError={() => setBgError(true)}
+          initial={reduce ? undefined : { scale: 1 }}
+          animate={reduce ? undefined : { scale: 1.04 }}
+          transition={reduce ? undefined : { duration: 14, ease: "easeOut" }}
           className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
         />
       )}
 
-      {/* FALLBACK — warm gradient + ornamental SVGs when the photo is missing */}
       {bgError && (
         <>
           <div className="absolute inset-0 bg-hero-warm" aria-hidden="true" />
@@ -99,74 +102,59 @@ export default function Hero() {
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_circle_at_50%_42%,rgba(255,244,214,0.55),transparent_62%)]"
             aria-hidden="true"
           />
-          <PeacockOrnament
-            side="left"
-            className="pointer-events-none absolute bottom-0 left-0 hidden h-[70vh] w-auto lg:block"
-          />
-          <PeacockOrnament
-            side="right"
-            className="pointer-events-none absolute bottom-0 right-0 hidden h-[70vh] w-auto lg:block"
-          />
+          <PeacockOrnament side="left" className="pointer-events-none absolute bottom-0 left-0 hidden h-[70vh] w-auto lg:block" />
+          <PeacockOrnament side="right" className="pointer-events-none absolute bottom-0 right-0 hidden h-[70vh] w-auto lg:block" />
           <OrnateFrame />
         </>
       )}
 
-      {/* Top scrim keeps the navbar legible over the hero artwork */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-32 bg-gradient-to-b from-black/45 via-black/10 to-transparent" />
 
-      {/* CONTENT OVERLAY — text lands inside the artwork's empty center arch.
-          The bottom padding nudges the centered column upward into the arch. */}
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
         className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 pb-[4vh] text-center"
       >
-        {/* Arch text — width constrained so it stays inside the arch */}
         <motion.div variants={item} className="w-[86%] max-w-xl sm:w-[62%] lg:w-[42%]">
-          <h1 className="mt-3">
-            <span className="block font-heading text-lg font-medium text-teal sm:text-2xl lg:text-3xl">
-              Sree Chaitanya Mahaprabhu
-            </span>
-            <span className="mt-1 block font-heading text-2xl font-semibold leading-tight text-teal-dark sm:text-4xl lg:text-5xl">
-              Sree Radha Madhav Mandir
-            </span>
-          </h1>
+          <RippleHeading
+            text={t.hero.title}
+            lang={lang}
+            className="mt-3 font-display text-2xl font-semibold uppercase leading-[1.25] tracking-wide text-teal-dark sm:text-4xl lg:text-5xl"
+          />
 
           <p className="mx-auto mt-4 max-w-md font-body text-sm text-teal-dark/75 sm:text-base">
-            A sacred home of Harinam, Darshan, Seva and Devotion in Jalandhar.
+            {t.hero.subtitle}
           </p>
         </motion.div>
 
-        {/* Glass CTAs below the arch text */}
         <motion.div
           variants={item}
           className="mt-8 flex flex-col flex-wrap items-center justify-center gap-3 sm:flex-row sm:gap-4"
         >
-          {CTAS.map(({ label, target, tint, Icon }) => (
+          {CTAS.map(({ target, tint, Icon }, i) => (
             <button
               key={target}
               onClick={() => scrollTo(target)}
               className={`btn-glass ${tint} w-full sm:w-auto`}
             >
               <Icon />
-              {label}
+              {ctaLabels[i]}
             </button>
           ))}
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.button
         onClick={() => scrollTo("#darshan")}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: reduce ? 0 : 1.6, duration: 1 }}
         className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-teal/60 transition-colors hover:text-teal"
-        aria-label="Scroll down"
+        aria-label={t.hero.scroll}
       >
         <span className="font-body text-[10px] uppercase tracking-widest2">
-          Scroll
+          {t.hero.scroll}
         </span>
         <motion.span
           animate={reduce ? {} : { y: [0, 8, 0] }}

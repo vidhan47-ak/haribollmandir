@@ -38,7 +38,6 @@
       radial-gradient(1000px circle at 10% 100%, rgba(11, 74, 63, 0.18), transparent 42%),
       radial-gradient(1000px circle at 90% 100%, rgba(6, 63, 79, 0.18), transparent 42%),
       linear-gradient(180deg, #fff3d4 0%, #f1dca6 52%, #e7c98a 100%);
-    background-attachment: fixed;
   }
 
   h1,
@@ -98,6 +97,14 @@ html.tulsi-cursor-active textarea,
 html.tulsi-cursor-active [contenteditable="true"] {
   cursor: text !important;
 }
+html.tulsi-cursor-active a,
+html.tulsi-cursor-active button,
+html.tulsi-cursor-active [role="button"],
+html.tulsi-cursor-active summary,
+html.tulsi-cursor-active label,
+html.tulsi-cursor-active select {
+  cursor: pointer !important;
+}
 
 .tulsi-leaf {
   transition: opacity 260ms ease;
@@ -120,6 +127,70 @@ html.tulsi-cursor-active [contenteditable="true"] {
 /*  Components                                                          */
 /* ------------------------------------------------------------------ */
 @layer components {
+  /* Liquid-glass navigation: consistent across the hero and content scenes. */
+  .nav-liquid-glass {
+    isolation: isolate;
+    border: 1px solid rgba(255, 255, 255, 0.46);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.72),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.16),
+      0 14px 42px -22px rgba(20, 18, 12, 0.6),
+      0 2px 10px rgba(42, 28, 10, 0.08);
+  }
+
+  .nav-liquid-glass--hero {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 244, 218, 0.018)
+    );
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.34),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+      0 8px 30px -24px rgba(10, 12, 8, 0.42);
+  }
+
+  .nav-liquid-glass--solid {
+    background:
+      radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.72), transparent 34%),
+      radial-gradient(circle at 88% 115%, rgba(201, 162, 75, 0.34), transparent 44%),
+      linear-gradient(
+        112deg,
+        rgba(255, 249, 235, 0.94) 0%,
+        rgba(242, 220, 220, 0.92) 48%,
+        rgba(226, 216, 232, 0.92) 100%
+      );
+    border-color: rgba(255, 255, 255, 0.76);
+    box-shadow:
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
+      inset 10px 0 28px -24px rgba(255, 255, 255, 0.95),
+      inset -12px 0 30px -26px rgba(110, 30, 42, 0.34),
+      0 18px 46px -24px rgba(32, 18, 28, 0.58),
+      0 3px 12px rgba(45, 27, 18, 0.10);
+  }
+
+  .darshan-glass-panel {
+    background:
+      radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.72), transparent 34%),
+      radial-gradient(circle at 88% 115%, rgba(201, 162, 75, 0.34), transparent 44%),
+      linear-gradient(
+        112deg,
+        rgba(255, 249, 235, 0.50) 0%,
+        rgba(232, 196, 204, 0.30) 48%,
+        rgba(196, 178, 214, 0.25) 100%
+      );
+    border-top: 1px solid rgba(255, 255, 255, 0.76);
+    box-shadow:
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
+      inset 10px 0 28px -24px rgba(255, 255, 255, 0.95),
+      inset -12px 0 30px -26px rgba(110, 30, 42, 0.34),
+      0 18px 46px -24px rgba(32, 18, 28, 0.42),
+      0 3px 12px rgba(45, 27, 18, 0.08);
+  }
+
   .container-temple {
     @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
   }
@@ -130,35 +201,35 @@ html.tulsi-cursor-active [contenteditable="true"] {
 
   .gallery-bg {
     background:
-      radial-gradient(1200px circle at 50% -6%, rgba(217, 168, 79, 0.30), transparent 42%),
-      radial-gradient(1000px circle at 10% 100%, rgba(11, 74, 63, 0.45), transparent 42%),
-      radial-gradient(1000px circle at 90% 100%, rgba(6, 63, 79, 0.45), transparent 42%),
-      linear-gradient(180deg, #1b1208 0%, #5c3915 52%, #0b2f2a 100%);
+      radial-gradient(circle at 50% 15%, rgba(217, 168, 79, 0.55), transparent 35%),
+      radial-gradient(circle at 15% 50%, rgba(6, 63, 79, 0.45), transparent 40%),
+      radial-gradient(circle at 85% 50%, rgba(11, 74, 63, 0.45), transparent 40%),
+      linear-gradient(180deg, #1b1208 0%, #5c3915 45%, #0b2f2a 100%);
   }
 
   .visit-bg {
     background:
-      radial-gradient(1200px circle at 50% -6%, rgba(255, 246, 238, 0.92), transparent 42%),
-      radial-gradient(1000px circle at 10% 100%, rgba(200, 126, 142, 0.35), transparent 42%),
-      radial-gradient(1000px circle at 90% 100%, rgba(217, 168, 79, 0.28), transparent 42%),
+      radial-gradient(circle at 50% 12%, rgba(255, 246, 238, 0.92), transparent 40%),
+      radial-gradient(circle at 12% 90%, rgba(200, 126, 142, 0.35), transparent 46%),
+      radial-gradient(circle at 88% 90%, rgba(217, 168, 79, 0.28), transparent 46%),
       linear-gradient(180deg, #fdeef0 0%, #f3c9d0 52%, #e7a3b0 100%);
   }
 
   .festivals-bg {
     background:
-      radial-gradient(1200px circle at 50% -6%, rgba(255, 216, 150, 0.50), transparent 42%),
-      radial-gradient(1000px circle at 10% 100%, rgba(217, 168, 79, 0.38), transparent 42%),
-      radial-gradient(1000px circle at 90% 100%, rgba(255, 170, 110, 0.28), transparent 42%),
-      linear-gradient(180deg, #8a1f28 0%, #b23a34 52%, #3a0f16 100%);
+      radial-gradient(circle at 50% 12%, rgba(255, 216, 150, 0.5), transparent 40%),
+      radial-gradient(circle at 12% 88%, rgba(217, 168, 79, 0.38), transparent 45%),
+      radial-gradient(circle at 88% 86%, rgba(255, 170, 110, 0.28), transparent 42%),
+      linear-gradient(165deg, #8a1f28 0%, #b23a34 42%, #6e1e2a 74%, #3a0f16 100%);
   }
 
   /* Serene peacock-blue background for the About Temple section */
   .about-bg {
     background:
-      radial-gradient(1200px circle at 50% -6%, rgba(219, 237, 248, 0.95), transparent 42%),
-      radial-gradient(1000px circle at 10% 100%, rgba(6, 63, 79, 0.28), transparent 42%),
-      radial-gradient(1000px circle at 90% 100%, rgba(23, 92, 112, 0.22), transparent 42%),
-      linear-gradient(180deg, #e9f4fb 0%, #a6c9e2 52%, #1d5069 100%);
+      radial-gradient(circle at 50% 10%, rgba(219, 237, 248, 0.95), transparent 42%),
+      radial-gradient(circle at 14% 86%, rgba(6, 63, 79, 0.45), transparent 46%),
+      radial-gradient(circle at 86% 88%, rgba(23, 92, 112, 0.32), transparent 46%),
+      linear-gradient(180deg, #e9f4fb 0%, #a6c9e2 44%, #1d5069 100%);
   }
 
   /* Small eyebrow label above headings */
@@ -189,7 +260,7 @@ html.tulsi-cursor-active [contenteditable="true"] {
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/60 bg-white/5
            px-7 py-3.5 text-sm font-body font-semibold uppercase tracking-wider text-cream
-           backdrop-blur-sm transition-all duration-500 ease-devotional
+           transition-all duration-500 ease-devotional
            hover:border-gold hover:bg-white/10 hover:-translate-y-0.5 focus:outline-none
            focus-visible:ring-2 focus-visible:ring-gold;
   }
@@ -273,7 +344,7 @@ html.tulsi-cursor-active [contenteditable="true"] {
   .btn-glass {
     @apply inline-flex items-center justify-center gap-3 rounded-full px-7 py-3.5
            font-body text-sm font-semibold tracking-wide
-           backdrop-blur-sm transition-all duration-500 ease-devotional
+           transition-all duration-500 ease-devotional
            focus:outline-none focus-visible:ring-2 focus-visible:ring-gold
            focus-visible:ring-offset-2 focus-visible:ring-offset-transparent;
     color: #123531; /* teal-dark — reads on the light cream hero */
@@ -312,7 +383,7 @@ html.tulsi-cursor-active [contenteditable="true"] {
   /* Smaller glass pill for the navbar "Contact Temple" action */
   .nav-glass-btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2
-           font-body text-xs font-semibold tracking-wide backdrop-blur-sm
+           font-body text-xs font-semibold tracking-wide
            transition-all duration-500 ease-devotional focus:outline-none
            focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2
            focus-visible:ring-offset-transparent;
@@ -364,4 +435,21 @@ html.tulsi-cursor-active [contenteditable="true"] {
   .link-underline::after {
     transition: opacity 0.2s ease;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Hindi (Devanagari) typography — applied when <html lang="hi">      */
+/* ------------------------------------------------------------------ */
+html[lang="hi"] body,
+html[lang="hi"] .font-body {
+  font-family: var(--font-hi-body), "Noto Sans Devanagari", sans-serif;
+}
+html[lang="hi"] .font-heading,
+html[lang="hi"] .font-display,
+html[lang="hi"] .font-script,
+html[lang="hi"] h1,
+html[lang="hi"] h2,
+html[lang="hi"] h3,
+html[lang="hi"] h4 {
+  font-family: var(--font-hi-heading), "Noto Serif Devanagari", serif;
 }

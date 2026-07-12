@@ -97,7 +97,7 @@ export default function FallbackImage({
   draggable = false,
 }: FallbackImageProps) {
   const placeholder = makePlaceholder(label ?? alt, palette);
-  const [currentSrc, setCurrentSrc] = useState(src);
+  const [currentSrc, setCurrentSrc] = useState(src || placeholder);
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -105,6 +105,7 @@ export default function FallbackImage({
       src={currentSrc}
       alt={alt}
       loading={loading}
+      decoding="async"
       draggable={draggable}
       onError={() => {
         if (currentSrc !== placeholder) setCurrentSrc(placeholder);

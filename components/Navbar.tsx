@@ -5,41 +5,79 @@ import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLenisInstance, useSmoothScrollTo } from "@/components/SmoothScroll";
 import LotusMark from "@/components/ui/LotusMark";
+import { useLang } from "@/lib/i18n";
+import LanguageToggle from "@/components/LanguageToggle";
 
-type NavLink = { label: string; target?: string; href?: string };
+type NavKey = "home" | "about" | "festivals" | "heritage" | "gallery" | "visit";
+type NavLink = { key: NavKey; target?: string; href?: string };
 
 const LINKS: NavLink[] = [
-  { label: "Home", target: "#home" },
-  { label: "About Temple", target: "#about" },
-  { label: "Festivals", target: "#festivals" },
-  { label: "Gaudiya Heritage", href: "/gaudiya-heritage" },
-  { label: "Gallery", target: "#gallery" },
-  { label: "Visit Us", target: "#visit" },
+  { key: "home", target: "#home" },
+  { key: "about", target: "#about" },
+  { key: "festivals", target: "#festivals" },
+  { key: "heritage", href: "/gaudiya-heritage" },
+  { key: "gallery", target: "#gallery" },
+  { key: "visit", target: "#visit" },
 ];
 
 // Sections tracked for the active-link scroll-spy (homepage only).
 const SPY_TARGETS = ["#home", "#about", "#festivals", "#seva", "#gallery", "#visit"];
 
+// Home sections with dark backdrops — the bar-less home navbar shows light text
+// over these (hero, festivals, gallery) and dark text over the light sections.
+const HOME_DARK_SECTIONS = ["#home", "#festivals", "#gallery"];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [navDark, setNavDark] = useState(true);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("#home");
+  const [logoOk, setLogoOk] = useState(true);
   const scrollTo = useSmoothScrollTo();
   const lenis = useLenisInstance();
   const pathname = usePathname();
   const router = useRouter();
+  const { t } = useLang();
 
   const isHome = pathname === "/";
-  // On interior routes there is no dark hero to sit over, so keep the navbar in
-  // its solid, legible treatment rather than the transparent-over-hero look.
-  const solid = scrolled || !isHome;
+  // Keep the homepage navbar bar-less only at the top of the hero. Once the
+  // page moves, transition into the Apple-style liquid-glass material.
+  const glass = !isHome || scrolled;
+  const lightText = isHome && !scrolled && navDark;
+  const solid = glass || !lightText;
 
+  // Home only: track whether the section directly behind the nav is a dark one,
+  // so the bar-less nav text stays legible as sections alternate light/dark.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 28);
-    onScroll();
+    if (!isHome) return;
+    const sections = SPY_TARGETS.map((id) =>
+      document.querySelector(id),
+    ).filter((el): el is HTMLElement => el !== null);
+    const NAV_Y = 72;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      setScrolled(window.scrollY > 56);
+      let dark = false;
+      for (const el of sections) {
+        const r = el.getBoundingClientRect();
+        if (r.top <= NAV_Y && r.bottom > NAV_Y) {
+          dark = HOME_DARK_SECTIONS.includes("#" + el.id);
+          break;
+        }
+      }
+      setNavDark(dark);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [isHome]);
 
   // Active-link scroll-spy via IntersectionObserver — homepage only.
   useEffect(() => {
@@ -80,7 +118,7 @@ export default function Navbar() {
   const isLinkActive = (link: NavLink) =>
     link.href ? pathname === link.href : isHome && active === link.target;
 
-  const handleNav = (link: NavLink) => {
+  const handleNav = (link: { target?: string; href?: string }) => {
     setOpen(false);
     // Wait a tick so the menu-close scroll unlock applies first.
     setTimeout(() => {
@@ -101,38 +139,53 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-devotional ${
-          solid
-            ? "border-b border-gold/15 bg-cream/5 py-3 shadow-soft backdrop-blur-md"
-            : "border-b border-transparent bg-transparent py-5"
-        }`}
+        className="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-all duration-500 ease-devotional sm:px-4 sm:pt-4 lg:px-6"
       >
-        <nav className={`container-temple flex items-center justify-between gap-4${solid ? "" : " [text-shadow:0_1px_8px_rgba(0,0,0,0.35)]"}`}>
+        <nav
+          className={`mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full px-5 sm:px-6 ${
+            glass
+              ? "nav-liquid-glass nav-liquid-glass--solid py-2.5 transition-all duration-500 ease-devotional"
+              : lightText
+                ? "py-4 transition-none [text-shadow:0_1px_8px_rgba(0,0,0,0.35)]"
+                : "py-4 transition-none"
+          }`}
+        >
           {/* Brand */}
           <button
             onClick={() => handleNav({ target: "#home" })}
-            className="group flex items-center gap-3 text-left -ml-1 sm:-ml-2 lg:-ml-6 xl:-ml-9"
+            className="group flex items-center gap-3 text-left"
             aria-label="Back to top"
           >
-            <LotusMark
-              className={`h-9 w-9 shrink-0 transition-colors duration-500 ${
-                solid ? "text-maroon" : "text-gold-light"
-              }`}
-            />
+            {logoOk ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src="/images/logo.png"
+                alt="Hariboll Mandir logo"
+                draggable={false}
+                onError={() => setLogoOk(false)}
+                className="h-11 w-auto max-w-[132px] shrink-0 object-contain"
+              />
+            ) : (
+              <LotusMark
+                className={`h-9 w-9 shrink-0 transition-colors duration-500 ${
+                  solid ? "text-maroon" : "text-gold-light"
+                }`}
+              />
+            )}
             <span className="flex flex-col">
               <span
                 className={`font-display text-base font-semibold leading-normal tracking-wide transition-colors duration-500 ${
                   solid ? "text-maroon" : "text-cream"
                 }`}
               >
-                Hariboll Mandir
+                {t.nav.brand}
               </span>
               <span
                 className={`mt-1 font-body text-[10px] uppercase leading-none tracking-widest2 transition-colors duration-500 ${
-                  solid ? "text-gold-deep" : "text-gold-light/90"
+                  solid ? "text-gold-deeper" : "text-gold-light/90"
                 }`}
               >
-                Jalandhar, Punjab
+                {t.nav.location}
               </span>
             </span>
           </button>
@@ -156,7 +209,7 @@ export default function Navbar() {
                         : "text-cream/90 hover:text-white"
                   }`}
                 >
-                  {link.label}
+                  {t.nav[link.key]}
                   <span
                     className={`absolute inset-x-2.5 -bottom-0.5 h-px origin-center bg-gold transition-all duration-300 ease-devotional xl:inset-x-3 ${
                       isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100"
@@ -165,6 +218,9 @@ export default function Navbar() {
                 </button>
               );
             })}
+
+            {/* Language toggle */}
+            <LanguageToggle className={`ml-2 ${solid ? "text-maroon" : "text-cream"}`} />
 
             {/* Glass Contact Temple pill flanked by gold ornaments */}
             <div className="ml-2 flex items-center gap-2">
@@ -180,7 +236,7 @@ export default function Navbar() {
                 onClick={() => handleNav({ target: "#visit" })}
                 className={`nav-glass-btn ${solid ? "text-maroon" : "text-cream"}`}
               >
-                Contact Temple
+                {t.nav.contact}
               </button>
               <span
                 aria-hidden="true"
@@ -193,18 +249,20 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className={`relative z-50 flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-300 lg:hidden ${
-              solid || open
-                ? "border-maroon/20 text-maroon"
-                : "border-cream/40 text-cream"
-            }`}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-          >
-            <span className="sr-only">Menu</span>
+          {/* Mobile: language toggle + hamburger */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguageToggle className={solid || open ? "text-maroon" : "text-cream"} />
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className={`relative z-50 flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-300 ${
+                solid || open
+                  ? "border-maroon/20 text-maroon"
+                  : "border-cream/40 text-cream"
+              }`}
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+            >
+              <span className="sr-only">Menu</span>
             <div className="flex flex-col items-center justify-center gap-1.5">
               <span
                 className={`block h-0.5 w-6 bg-current transition-all duration-300 ${
@@ -222,7 +280,8 @@ export default function Navbar() {
                 }`}
               />
             </div>
-          </button>
+            </button>
+          </div>
         </nav>
       </header>
 
@@ -263,7 +322,7 @@ export default function Navbar() {
                         isActive ? "is-active text-gold-light" : "text-cream"
                       }`}
                     >
-                      {link.label}
+                      {t.nav[link.key]}
                     </button>
                   </motion.li>
                 );

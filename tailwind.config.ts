@@ -23,6 +23,7 @@ const config: Config = {
           light: "#E3C77E",
           soft: "#D9BB70",
           deep: "#A8842F",
+          deeper: "#8A5A1F",
         },
         // Devotional maroon
         maroon: {

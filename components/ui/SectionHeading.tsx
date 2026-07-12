@@ -26,7 +26,9 @@ export default function SectionHeading({
     >
       {eyebrow && (
         <Reveal>
-          <span className="eyebrow">{eyebrow}</span>
+          <span className={`eyebrow ${light ? "text-gold-light" : "text-gold-deeper"}`}>
+            {eyebrow}
+          </span>
         </Reveal>
       )}
 

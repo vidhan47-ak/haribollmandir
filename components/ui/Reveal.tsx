@@ -21,8 +21,8 @@ export function Reveal({
   children,
   className,
   delay = 0,
-  y = 30,
-  duration = 0.9,
+  y = 24,
+  duration = 0.72,
   blur = false,
   once = true,
   as = "div",
@@ -41,10 +41,10 @@ export function Reveal({
       initial={{
         opacity: 0,
         y,
-        filter: blur ? "blur(14px)" : "blur(0px)",
+        filter: blur ? "blur(8px)" : "blur(0px)",
       }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once, margin: "-80px 0px -80px 0px" }}
+      viewport={{ once, margin: "-48px 0px -48px 0px" }}
       transition={{ duration, delay, ease: EASE }}
     >
       {children}
@@ -57,7 +57,7 @@ export function Stagger({
   children,
   className,
   delayChildren = 0.1,
-  staggerChildren = 0.14,
+  staggerChildren = 0.1,
   once = true,
 }: {
   children: ReactNode;
@@ -84,7 +84,7 @@ export function Stagger({
       variants={container}
       initial="hidden"
       whileInView="show"
-      viewport={{ once, margin: "-60px 0px -60px 0px" }}
+      viewport={{ once, margin: "-48px 0px -48px 0px" }}
     >
       {children}
     </motion.div>
@@ -94,8 +94,8 @@ export function Stagger({
 export function StaggerItem({
   children,
   className,
-  y = 32,
-  duration = 0.85,
+  y = 24,
+  duration = 0.7,
 }: {
   children: ReactNode;
   className?: string;

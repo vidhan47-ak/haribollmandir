@@ -26,7 +26,7 @@ export function useSmoothScrollTo() {
     if (lenis) {
       lenis.scrollTo(el as HTMLElement, {
         offset,
-        duration: 1.6,
+        duration: 1.15,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       });
     } else {
@@ -47,9 +47,9 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     if (prefersReduced) return;
 
     const instance = new Lenis({
-      lerp: 0.08, // lower = smoother / slower catch-up (buttery, cinematic)
-      wheelMultiplier: 0.95,
-      touchMultiplier: 1.3,
+      lerp: 0.12,
+      wheelMultiplier: 1,
+      touchMultiplier: 1,
       smoothWheel: true,
     });
 

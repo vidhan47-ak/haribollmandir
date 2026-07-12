@@ -4,11 +4,15 @@ import {
   Cinzel,
   Inter,
   Handlee,
+  Noto_Serif_Devanagari,
+  Noto_Sans_Devanagari,
 } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import TulsiCursor from "@/components/ui/TulsiCursor";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import { LanguageProvider } from "@/lib/i18n";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -38,6 +42,20 @@ const handlee = Handlee({
   display: "swap",
 });
 
+const notoSerifDev = Noto_Serif_Devanagari({
+  subsets: ["devanagari"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-hi-heading",
+  display: "swap",
+});
+
+const notoSansDev = Noto_Sans_Devanagari({
+  subsets: ["devanagari"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-hi-body",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://hariboll-mandir.example"),
   title:
@@ -63,6 +81,11 @@ export const metadata: Metadata = {
     siteName: "Hariboll Mandir",
   },
   robots: { index: true, follow: true },
+  icons: {
+    icon: "/images/logo.png",
+    shortcut: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
 };
 
 export const viewport: Viewport = {
@@ -79,13 +102,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfair.variable} ${cinzel.variable} ${inter.variable} ${handlee.variable} font-body antialiased`}
+        className={`${playfair.variable} ${cinzel.variable} ${inter.variable} ${handlee.variable} ${notoSerifDev.variable} ${notoSansDev.variable} font-body antialiased`}
       >
-        <SmoothScroll>
-          <Navbar />
-          {children}
-        </SmoothScroll>
-        <TulsiCursor />
+        <LanguageProvider>
+          <SmoothScroll>
+            <ScrollProgress />
+            <Navbar />
+            {children}
+          </SmoothScroll>
+          <TulsiCursor />
+        </LanguageProvider>
       </body>
     </html>
   );

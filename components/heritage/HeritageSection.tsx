@@ -107,7 +107,7 @@ export default function HeritageSection({
         {/* Golden number badge — top corner, always visible */}
         <div className={`absolute top-0 z-30 ${isLeft ? "left-0" : "right-0"}`}>
           <div
-            className="flex h-20 w-20 items-center justify-center rounded-[1.25rem] border border-gold/50 shadow-[0_10px_30px_rgba(60,35,10,0.25)] backdrop-blur-sm transition-[transform,box-shadow] duration-500 ease-devotional group-hover:scale-105 group-hover:shadow-[0_0_44px_rgba(201,162,75,0.6)]"
+            className="flex h-20 w-20 items-center justify-center rounded-[1.25rem] border border-gold/50 shadow-[0_10px_30px_rgba(60,35,10,0.25)] transition-[transform,box-shadow] duration-500 ease-devotional group-hover:scale-105 group-hover:shadow-[0_0_44px_rgba(201,162,75,0.6)]"
             style={{
               backgroundImage:
                 "linear-gradient(135deg, rgba(255,241,207,0.9), rgba(217,168,79,0.55))",

@@ -11,6 +11,7 @@ interface QuoteBandProps {
   imageLabel: string;
   imagePalette: Palette;
   tone?: Tone;
+  compact?: boolean;
 }
 
 /** Subtle colour wash per tone (keeps the devotional mood). */
@@ -41,10 +42,15 @@ export default function QuoteBand({
   imageLabel,
   imagePalette,
   tone = "maroon",
+  compact = false,
 }: QuoteBandProps) {
   return (
     <section
-      className="relative flex min-h-[440px] flex-col justify-end overflow-hidden py-14 text-cream sm:min-h-[520px] sm:py-16 lg:min-h-[560px] lg:py-20"
+      className={`relative flex flex-col justify-end overflow-hidden text-cream ${
+        compact
+          ? "min-h-[340px] py-12 sm:min-h-[400px] sm:py-14 lg:min-h-[430px] lg:py-16"
+          : "min-h-[440px] py-14 sm:min-h-[520px] sm:py-16 lg:min-h-[560px] lg:py-20"
+      }`}
       style={{ backgroundColor: TONE_BASE[tone] }}
     >
       {/* deity banner — object-top keeps the face in frame near the top */}
@@ -54,7 +60,7 @@ export default function QuoteBand({
           alt=""
           label={imageLabel}
           palette={imagePalette}
-          amount={40}
+          amount={compact ? 24 : 36}
           className="h-full w-full"
           imgClassName="h-full w-full object-cover object-top"
         />
@@ -78,7 +84,7 @@ export default function QuoteBand({
             </span>
           </Reveal>
 
-          <Reveal blur duration={1.3} y={20} className="-mt-4">
+          <Reveal duration={0.8} y={20} className="-mt-4">
             <p className="font-heading text-2xl font-medium italic leading-snug text-cream sm:text-3xl lg:text-4xl [text-shadow:0_2px_16px_rgba(0,0,0,0.7)]">
               {quote}
             </p>
@@ -88,7 +94,7 @@ export default function QuoteBand({
             <div className="divider-lotus mt-6 !via-gold-light" />
           </Reveal>
 
-          <Reveal blur delay={0.3} duration={1.3}>
+          <Reveal delay={0.3} duration={0.8}>
             <p className="mt-5 font-script text-xl text-gold-light sm:text-2xl [text-shadow:0_2px_16px_rgba(0,0,0,0.7)]">
               {subquote}
             </p>

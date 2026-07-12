@@ -1,3 +1,5 @@
+"use client";
+
 import Hero from "@/components/sections/Hero";
 import Darshan from "@/components/sections/Darshan";
 import About from "@/components/sections/About";
@@ -10,8 +12,10 @@ import Footer from "@/components/sections/Footer";
 import CursorGlow from "@/components/ui/CursorGlow";
 import HashScroll from "@/components/ui/HashScroll";
 import { quoteBandImages } from "@/lib/images";
+import { useLang } from "@/lib/i18n";
 
 export default function Home() {
+  const { t } = useLang();
   return (
     <>
       <CursorGlow />
@@ -20,8 +24,8 @@ export default function Home() {
         <Hero />
         <Darshan />
         <QuoteBand
-          quote="The Holy Name is the sweetest gift of this age — chant it, and the heart awakens."
-          subquote="Sri Chaitanya Mahaprabhu's ocean of mercy."
+          quote={t.quotes.harinam.quote}
+          subquote={t.quotes.harinam.subquote}
           imageSrc={quoteBandImages.harinam.src}
           imageLabel={quoteBandImages.harinam.label}
           imagePalette={quoteBandImages.harinam.palette}
@@ -29,8 +33,8 @@ export default function Home() {
         />
         <About />
         <QuoteBand
-          quote="A temple is not built of stone alone, but of the love that gathers within it."
-          subquote="Every soul is welcome at the Lord's door."
+          quote={t.quotes.temple.quote}
+          subquote={t.quotes.temple.subquote}
           imageSrc={quoteBandImages.temple.src}
           imageLabel={quoteBandImages.temple.label}
           imagePalette={quoteBandImages.temple.palette}
@@ -38,8 +42,8 @@ export default function Home() {
         />
         <HeritageCallout />
         <QuoteBand
-          quote="Seva offered with love turns the smallest act into worship."
-          subquote="In service, the restless heart finds its shelter."
+          quote={t.quotes.seva.quote}
+          subquote={t.quotes.seva.subquote}
           imageSrc={quoteBandImages.seva.src}
           imageLabel={quoteBandImages.seva.label}
           imagePalette={quoteBandImages.seva.palette}
@@ -47,8 +51,8 @@ export default function Home() {
         />
         <Festivals />
         <QuoteBand
-          quote="Every festival is the soul remembering its eternal home."
-          subquote="Joy, offered before the Lord, only grows."
+          quote={t.quotes.festival.quote}
+          subquote={t.quotes.festival.subquote}
           imageSrc={quoteBandImages.festival.src}
           imageLabel={quoteBandImages.festival.label}
           imagePalette={quoteBandImages.festival.palette}
@@ -56,8 +60,8 @@ export default function Home() {
         />
         <Gallery />
         <QuoteBand
-          quote="Their darshan does not change the world around us; it changes the world within us."
-          subquote="Mahaprabhu's mercy leads us to Radha-Madhav."
+          quote={t.quotes.darshan.quote}
+          subquote={t.quotes.darshan.subquote}
           imageSrc={quoteBandImages.darshan.src}
           imageLabel={quoteBandImages.darshan.label}
           imagePalette={quoteBandImages.darshan.palette}

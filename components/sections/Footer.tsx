@@ -4,23 +4,17 @@ import { usePathname, useRouter } from "next/navigation";
 import { Reveal } from "@/components/ui/Reveal";
 import LotusMark from "@/components/ui/LotusMark";
 import { useSmoothScrollTo } from "@/components/SmoothScroll";
+import { useLang } from "@/lib/i18n";
 
-const LINKS = [
-  { label: "Darshan", target: "#darshan" },
-  { label: "About Temple", target: "#about" },
-  { label: "Seva & Donations", target: "#seva" },
-  { label: "Festivals", target: "#festivals" },
-  { label: "Gallery", target: "#gallery" },
-  { label: "Visit Us", target: "#visit" },
-];
+const TARGETS = ["#darshan", "#about", "#seva", "#festivals", "#gallery", "#visit"];
 
 export default function Footer() {
   const scrollTo = useSmoothScrollTo();
   const pathname = usePathname();
   const router = useRouter();
+  const { t } = useLang();
   const year = new Date().getFullYear();
 
-  // Smooth-scroll on the homepage; from other routes return home and scroll.
   const goTo = (target: string) => {
     if (pathname === "/") {
       scrollTo(target);
@@ -40,52 +34,47 @@ export default function Footer() {
       <Reveal>
         <div className="container-temple relative py-16 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr]">
-            {/* Brand */}
             <div>
               <div className="flex items-center gap-3">
                 <LotusMark className="h-10 w-10 text-gold-light" />
                 <div className="leading-tight">
                   <p className="font-display text-lg font-semibold text-cream">
-                    Hariboll Mandir
+                    {t.footer.brand}
                   </p>
                   <p className="font-body text-[11px] uppercase tracking-widest2 text-gold-light/80">
-                    Radha Madhav · Jalandhar
+                    {t.footer.brandSub}
                   </p>
                 </div>
               </div>
               <p className="mt-5 max-w-sm font-heading text-xl leading-relaxed text-cream/90">
-                Sree Chaitanya Mahaprabhu
-                <br />
-                Sree Radha Madhav Mandir
+                {t.footer.addressName}
               </p>
               <p className="mt-3 font-body text-sm text-cream/70">
-                Pratap Bagh, Jalandhar, Punjab
+                {t.footer.address}
               </p>
             </div>
 
-            {/* Explore */}
             <nav>
               <p className="font-body text-xs uppercase tracking-widest2 text-gold-light">
-                Explore
+                {t.footer.explore}
               </p>
               <ul className="mt-5 space-y-3">
-                {LINKS.map((link) => (
-                  <li key={link.target}>
+                {t.footer.links.map((label, i) => (
+                  <li key={TARGETS[i]}>
                     <button
-                      onClick={() => goTo(link.target)}
+                      onClick={() => goTo(TARGETS[i])}
                       className="link-underline font-body text-sm text-cream/75 transition-colors duration-300 hover:text-gold-light"
                     >
-                      {link.label}
+                      {label}
                     </button>
                   </li>
                 ))}
               </ul>
             </nav>
 
-            {/* Connect */}
             <div>
               <p className="font-body text-xs uppercase tracking-widest2 text-gold-light">
-                Connect
+                {t.footer.connect}
               </p>
               <a
                 href="https://instagram.com/hariboll_mandir"
@@ -101,19 +90,16 @@ export default function Footer() {
                 @hariboll_mandir
               </a>
               <p className="mt-8 font-script text-3xl text-gold-light">
-                Haribol!
+                {t.footer.haribol}
               </p>
             </div>
           </div>
 
           <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-cream/15 pt-8 text-center sm:flex-row sm:text-left">
             <p className="font-body text-xs text-cream/60">
-              © {year} Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir,
-              Jalandhar.
+              © {year} {t.footer.rights}
             </p>
-            <p className="font-body text-xs text-cream/60">
-              Made with devotion · Hare Krishna
-            </p>
+            <p className="font-body text-xs text-cream/60">{t.footer.made}</p>
           </div>
         </div>
       </Reveal>
