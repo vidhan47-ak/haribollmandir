@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useSmoothScrollTo } from "@/components/SmoothScroll";
 import OrnateFrame from "@/components/ui/OrnateFrame";
 import PeacockOrnament from "@/components/ui/PeacockOrnament";
@@ -41,6 +41,18 @@ export default function Hero() {
   const reduce = useReducedMotion();
   const { t, lang } = useLang();
   const [bgError, setBgError] = useState(false);
+  const [showDesktopNote, setShowDesktopNote] = useState(false);
+
+  useEffect(() => {
+    if (!window.matchMedia("(max-width: 639px)").matches) return;
+
+    const showTimer = window.setTimeout(() => setShowDesktopNote(true), 600);
+    const hideTimer = window.setTimeout(() => setShowDesktopNote(false), 6600);
+    return () => {
+      window.clearTimeout(showTimer);
+      window.clearTimeout(hideTimer);
+    };
+  }, []);
 
   const ctaLabels = [t.hero.cta1, t.hero.cta2];
 
@@ -136,16 +148,21 @@ export default function Hero() {
 
       </motion.div>
 
-      <motion.p
-        variants={item}
-        initial="hidden"
-        animate="show"
-        className="absolute bottom-4 left-4 z-10 max-w-[11rem] rounded-xl border border-gold/25 bg-[#fff8e8]/75 px-3 py-2 text-left font-body text-[9px] leading-relaxed text-teal-dark/70 sm:hidden"
-      >
-        {lang === "hi"
-          ? "सर्वोत्तम दृश्य अनुभव के लिए डेस्कटॉप पर देखें।"
-          : "For the best visual experience, visit on a desktop."}
-      </motion.p>
+      <AnimatePresence>
+        {showDesktopNote && (
+          <motion.p
+            initial={{ opacity: 0, x: -16, y: 8 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: -12, y: 6 }}
+            transition={{ duration: reduce ? 0 : 0.4, ease: EASE }}
+            className="absolute bottom-4 left-4 z-10 max-w-[11rem] rounded-xl border border-gold/25 bg-[#fff8e8]/90 px-3 py-2 text-left font-body text-[9px] leading-relaxed text-teal-dark/75 shadow-soft sm:hidden"
+          >
+            {lang === "hi"
+              ? "सर्वोत्तम दृश्य अनुभव के लिए डेस्कटॉप पर देखें।"
+              : "For the best visual experience, visit on a desktop."}
+          </motion.p>
+        )}
+      </AnimatePresence>
 
       <motion.button
         onClick={() => scrollTo("#darshan")}
