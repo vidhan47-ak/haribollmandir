@@ -31,19 +31,9 @@ function CalendarIcon() {
   );
 }
 
-function OfferingIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 5c-1 2-3 3.2-5 4.2C5 10 4.5 12 5.2 14l1.9 4.4c.4.9 1.3 1.6 2.3 1.6h5.2c1 0 1.9-.7 2.3-1.6L18.8 14c.7-2 .2-4-1.8-4.8C15 8.2 13 7 12 5Z" />
-      <path d="M12 5v13" />
-    </svg>
-  );
-}
-
 const CTAS = [
   { target: "#darshan", tint: "btn-glass--teal", Icon: LotusIcon },
   { target: "#festivals", tint: "btn-glass--amber", Icon: CalendarIcon },
-  { target: "#seva", tint: "btn-glass--green", Icon: OfferingIcon },
 ] as const;
 
 export default function Hero() {
@@ -52,7 +42,7 @@ export default function Hero() {
   const { t, lang } = useLang();
   const [bgError, setBgError] = useState(false);
 
-  const ctaLabels = [t.hero.cta1, t.hero.cta2, t.hero.cta3];
+  const ctaLabels = [t.hero.cta1, t.hero.cta2];
 
   const container = {
     hidden: {},
@@ -136,7 +126,7 @@ export default function Hero() {
             <button
               key={target}
               onClick={() => scrollTo(target)}
-              className={`btn-glass ${tint} min-h-12 w-full !px-3 !py-3 text-xs sm:min-h-0 sm:w-auto sm:!px-7 sm:!py-3.5 sm:text-sm ${i === 2 ? "col-span-2" : ""}`}
+              className={`btn-glass ${tint} min-h-12 w-full !px-3 !py-3 text-xs sm:min-h-0 sm:w-auto sm:!px-7 sm:!py-3.5 sm:text-sm`}
             >
               <Icon />
               {ctaLabels[i]}
@@ -144,15 +134,18 @@ export default function Hero() {
           ))}
         </motion.div>
 
-        <motion.p
-          variants={item}
-          className="mt-3 rounded-full border border-gold/25 bg-[#fff8e8]/70 px-4 py-1.5 font-body text-[10px] leading-relaxed text-teal-dark/70 sm:hidden"
-        >
-          {lang === "hi"
-            ? "सर्वोत्तम दृश्य अनुभव के लिए डेस्कटॉप पर देखें।"
-            : "For the best visual experience, visit on a desktop."}
-        </motion.p>
       </motion.div>
+
+      <motion.p
+        variants={item}
+        initial="hidden"
+        animate="show"
+        className="absolute bottom-4 left-4 z-10 max-w-[11rem] rounded-xl border border-gold/25 bg-[#fff8e8]/75 px-3 py-2 text-left font-body text-[9px] leading-relaxed text-teal-dark/70 sm:hidden"
+      >
+        {lang === "hi"
+          ? "सर्वोत्तम दृश्य अनुभव के लिए डेस्कटॉप पर देखें।"
+          : "For the best visual experience, visit on a desktop."}
+      </motion.p>
 
       <motion.button
         onClick={() => scrollTo("#darshan")}
