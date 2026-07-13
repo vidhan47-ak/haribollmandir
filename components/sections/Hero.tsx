@@ -55,6 +55,9 @@ export default function Hero() {
   }, []);
 
   const ctaLabels = [t.hero.cta1, t.hero.cta2];
+  const mobileTitleLines = lang === "hi"
+    ? ["श्री", "चैतन्य", "महाप्रभु", "श्री राधा", "माधव मंदिर"]
+    : ["Sree", "Chaitanya", "Mahaprabhu", "Sree Radha", "Madhav Mandir"];
 
   const container = {
     hidden: {},
@@ -116,16 +119,27 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="absolute inset-0 z-10 flex flex-col items-center justify-start px-4 pb-16 pt-[37%] text-center sm:justify-center sm:pb-[4vh] sm:pt-0"
+        className="absolute inset-x-0 bottom-0 top-[17%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:justify-center sm:pb-[4vh]"
       >
-        <motion.div variants={item} className="w-full max-w-[22rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
+        <motion.div variants={item} className="w-full max-w-[19rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
+          <h1
+            aria-label={t.hero.title}
+            className="font-display text-[1.35rem] font-semibold uppercase leading-[1.12] tracking-[0.045em] text-teal-dark sm:hidden"
+          >
+            {mobileTitleLines.map((line) => (
+              <span key={line} className="block">
+                {line}
+              </span>
+            ))}
+          </h1>
+
           <RippleHeading
             text={t.hero.title}
             lang={lang}
-            className="font-display text-[1.35rem] font-semibold uppercase leading-[1.16] tracking-[0.02em] text-teal-dark [text-wrap:balance] sm:mt-3 sm:text-4xl sm:leading-[1.25] sm:tracking-wide lg:text-5xl"
+            className="hidden font-display font-semibold uppercase text-teal-dark sm:mt-3 sm:block sm:text-4xl sm:leading-[1.25] sm:tracking-wide lg:text-5xl"
           />
 
-          <p className="mx-auto mt-2.5 max-w-[19rem] font-body text-[10px] leading-relaxed text-teal-dark/80 sm:mt-4 sm:max-w-md sm:text-base">
+          <p className="mx-auto mt-3 max-w-[17.5rem] font-body text-[10px] leading-relaxed text-teal-dark/80 sm:mt-4 sm:max-w-md sm:text-base">
             {t.hero.subtitle}
           </p>
         </motion.div>
