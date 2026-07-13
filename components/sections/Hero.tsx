@@ -122,7 +122,7 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="absolute inset-x-0 bottom-0 top-[21%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:justify-center sm:pb-[4vh]"
+        className="absolute inset-x-0 bottom-0 top-[25%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:justify-center sm:pb-[4vh]"
       >
         <motion.div variants={item} className="w-full max-w-[19rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
           <h1
