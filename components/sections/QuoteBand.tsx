@@ -13,6 +13,7 @@ interface QuoteBandProps {
   imagePalette: Palette;
   tone?: Tone;
   compact?: boolean;
+  focusRight?: boolean;
 }
 
 /** Subtle colour wash per tone (keeps the devotional mood). */
@@ -44,6 +45,7 @@ export default function QuoteBand({
   imagePalette,
   tone = "maroon",
   compact = false,
+  focusRight = false,
 }: QuoteBandProps) {
   return (
     <section
@@ -63,7 +65,9 @@ export default function QuoteBand({
           palette={imagePalette}
           amount={compact ? 24 : 36}
           className="h-full w-full"
-          imgClassName="h-full w-full object-cover object-top"
+          imgClassName={focusRight
+            ? "h-full w-full object-cover object-[68%_top] sm:object-top"
+            : "h-full w-full object-cover object-top"}
         />
       </div>
 

@@ -82,7 +82,7 @@ export const festivalImages = {
   ekadashi:    { src: "/images/festival-ekadashi.webp",     label: "Ekadashi", palette: "forest" },
   jhulan:      { src: "/images/festival-jhulan.webp",       label: "Jhulan", palette: "sky" },
   janmashtami: { src: "/images/festival-janmashtami.webp",  label: "Janmashtami", palette: "maroon" },
-  kartik:      { src: "",                                   label: "Kartik", palette: "gold" },
+  kartik:      { src: "/images/festival-kartik.webp",       label: "Kartik", palette: "gold" },
 } satisfies Record<string, { src: string; label: string; palette: Palette }>;
 
 /**

@@ -1,10 +1,9 @@
-/**
- * Turn `isLive` on and add the temple's YouTube embed URL when a broadcast
- * begins. The player is intentionally absent when no verified stream exists.
- */
 export const LIVE_DARSHAN = {
-  isLive: false,
   title: "Live Darshan from Hariboll Mandir",
-  embedUrl: "",
+  facebookUrl: "https://www.facebook.com/hari.bol.temple/",
+  timeZone: "Asia/Kolkata",
+  broadcasts: [
+    { label: "Morning Darshan", startMinutes: 5 * 60, earlyMinutes: 10, durationMinutes: 75 },
+    { label: "Evening Darshan", startMinutes: 19 * 60 + 30, earlyMinutes: 10, durationMinutes: 75 },
+  ],
 } as const;
-

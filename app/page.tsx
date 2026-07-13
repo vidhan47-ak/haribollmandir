@@ -67,6 +67,7 @@ export default function Home() {
           imageLabel={quoteBandImages.darshan.label}
           imagePalette={quoteBandImages.darshan.palette}
           tone="maroon"
+          focusRight
         />
         <VisitUs />
       </main>
