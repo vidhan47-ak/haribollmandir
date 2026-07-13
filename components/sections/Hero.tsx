@@ -58,6 +58,9 @@ export default function Hero() {
   const mobileTitleLines = lang === "hi"
     ? ["श्री", "चैतन्य", "महाप्रभु", "श्री राधा", "माधव मंदिर"]
     : ["Sree", "Chaitanya", "Mahaprabhu", "Sree Radha", "Madhav Mandir"];
+  const mobileSubtitleLines = lang === "hi"
+    ? ["जालंधर में हरिनाम, दर्शन और सेवा का", "पावन भक्ति धाम।"]
+    : ["A sacred home of Harinam, Darshan, Seva", "and Devotion in Jalandhar."];
 
   const container = {
     hidden: {},
@@ -119,7 +122,7 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="absolute inset-x-0 bottom-0 top-[17%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:justify-center sm:pb-[4vh]"
+        className="absolute inset-x-0 bottom-0 top-[19%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:justify-center sm:pb-[4vh]"
       >
         <motion.div variants={item} className="w-full max-w-[19rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
           <h1
@@ -139,20 +142,28 @@ export default function Hero() {
             className="hidden font-display font-semibold uppercase text-teal-dark sm:mt-3 sm:block sm:text-4xl sm:leading-[1.25] sm:tracking-wide lg:text-5xl"
           />
 
-          <p className="mx-auto mt-3 max-w-[17.5rem] font-body text-[10px] leading-relaxed text-teal-dark/80 sm:mt-4 sm:max-w-md sm:text-base">
+          <p className="mx-auto mt-3 font-body text-[10px] leading-[1.45] text-teal-dark/80 sm:hidden">
+            {mobileSubtitleLines.map((line) => (
+              <span key={line} className="block whitespace-nowrap">
+                {line}
+              </span>
+            ))}
+          </p>
+
+          <p className="mx-auto mt-4 hidden max-w-md font-body text-base leading-relaxed text-teal-dark/80 sm:block">
             {t.hero.subtitle}
           </p>
         </motion.div>
 
         <motion.div
           variants={item}
-          className="mt-4 grid w-full max-w-[18rem] grid-cols-2 gap-2.5 sm:mt-8 sm:flex sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
+          className="mt-3.5 grid w-full max-w-[12.5rem] grid-cols-1 gap-2.5 sm:mt-8 sm:flex sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
         >
           {CTAS.map(({ target, tint, Icon }, i) => (
             <button
               key={target}
               onClick={() => scrollTo(target)}
-              className={`btn-glass ${tint} min-h-12 w-full whitespace-nowrap !gap-2 !px-2.5 !py-3 text-[10px] leading-none sm:min-h-0 sm:w-auto sm:!gap-3 sm:!px-7 sm:!py-3.5 sm:text-sm`}
+              className={`btn-glass ${tint} min-h-11 w-full whitespace-nowrap !gap-2 !px-3 !py-2.5 text-[10px] leading-none sm:min-h-0 sm:w-auto sm:!gap-3 sm:!px-7 sm:!py-3.5 sm:text-sm`}
             >
               <Icon />
               {ctaLabels[i]}
