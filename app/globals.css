@@ -437,6 +437,129 @@ html.tulsi-cursor-active select {
   }
 }
 
+/* Festival cards: a restrained warm light follows precise pointers only. */
+.festival-card {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  isolation: isolate;
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.festival-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    260px circle at var(--glow-x) var(--glow-y),
+    rgba(255, 231, 165, 0.28),
+    rgba(201, 162, 75, 0.08) 34%,
+    transparent 68%
+  );
+  box-shadow: inset 0 0 0 1px rgba(239, 207, 126, 0.62);
+  transition: opacity 450ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .festival-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 28px 70px -28px rgba(227, 199, 126, 0.46);
+  }
+  .festival-card:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Kartik diya ritual, composed entirely with light and CSS shapes. */
+.diya-scene {
+  position: relative;
+  width: 150px;
+  height: 145px;
+}
+.diya-halo {
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  width: 116px;
+  height: 116px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 214, 105, 0.32), transparent 68%);
+  opacity: 0.55;
+  transition: opacity 700ms ease, transform 900ms ease;
+}
+.diya-flame {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 30px;
+  width: 26px;
+  height: 42px;
+  transform: translateX(-50%) rotate(3deg);
+  transform-origin: 50% 100%;
+  border-radius: 55% 45% 58% 42% / 70% 65% 35% 30%;
+  background: radial-gradient(circle at 48% 70%, #fff8c7 0 18%, #ffd35f 38%, #ef772b 72%, transparent 74%);
+  filter: drop-shadow(0 0 12px rgba(255, 185, 72, 0.8));
+  animation: diya-flicker 2.4s ease-in-out infinite;
+}
+.diya-wick {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 67px;
+  width: 3px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #2b170e;
+}
+.diya-bowl {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 78px;
+  width: 112px;
+  height: 48px;
+  transform: translateX(-50%);
+  border-radius: 8px 8px 58px 58px;
+  background: linear-gradient(180deg, #efc56b, #bd6f2d 58%, #6f321d);
+  box-shadow: inset 0 5px 8px rgba(255, 238, 179, 0.5), 0 14px 24px -12px rgba(0, 0, 0, 0.85);
+}
+.diya-petal {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 55px;
+  width: 10px;
+  height: 15px;
+  border-radius: 70% 30% 65% 35%;
+  background: linear-gradient(135deg, #f1b8a8, #d27774);
+  opacity: 0;
+}
+.is-offered .diya-halo {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.18);
+}
+.is-offered .diya-petal { animation: diya-petal-rise 2.7s ease-out infinite; }
+.is-offered .diya-petal-0 { --petal-x: -48px; animation-delay: 0ms; }
+.is-offered .diya-petal-1 { --petal-x: -26px; animation-delay: 380ms; }
+.is-offered .diya-petal-2 { --petal-x: -8px; animation-delay: 720ms; }
+.is-offered .diya-petal-3 { --petal-x: 16px; animation-delay: 180ms; }
+.is-offered .diya-petal-4 { --petal-x: 38px; animation-delay: 540ms; }
+.is-offered .diya-petal-5 { --petal-x: 55px; animation-delay: 920ms; }
+@keyframes diya-flicker {
+  0%, 100% { transform: translateX(-50%) rotate(2deg) scale(1); }
+  45% { transform: translateX(-50%) rotate(-3deg) scale(0.94, 1.05); }
+  70% { transform: translateX(-50%) rotate(4deg) scale(1.04, 0.98); }
+}
+@keyframes diya-petal-rise {
+  0% { opacity: 0; transform: translate(0, 45px) rotate(0deg) scale(0.7); }
+  18% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(var(--petal-x), -90px) rotate(190deg) scale(1.05); }
+}
+
 /* ------------------------------------------------------------------ */
 /*  Hindi (Devanagari) typography — applied when <html lang="hi">      */
 /* ------------------------------------------------------------------ */

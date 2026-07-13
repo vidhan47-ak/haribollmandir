@@ -13,6 +13,7 @@ import CursorGlow from "@/components/ui/CursorGlow";
 import HashScroll from "@/components/ui/HashScroll";
 import { quoteBandImages } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
+import LiveDarshanPlayer from "@/components/features/LiveDarshanPlayer";
 
 export default function Home() {
   const { t } = useLang();
@@ -70,6 +71,7 @@ export default function Home() {
         <VisitUs />
       </main>
       <Footer />
+      <LiveDarshanPlayer />
     </>
   );
 }

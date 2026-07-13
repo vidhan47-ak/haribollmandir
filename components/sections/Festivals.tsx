@@ -5,6 +5,8 @@ import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import FallbackImage from "@/components/ui/FallbackImage";
 import { festivalImages } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
+import SacredCountdown from "@/components/features/SacredCountdown";
+import DiyaOffering from "@/components/features/DiyaOffering";
 
 const IMGS = [
   festivalImages.prakatUtsav,
@@ -16,7 +18,7 @@ const IMGS = [
 ];
 
 export default function Festivals() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   return (
     <section id="festivals" className="section-pad relative overflow-hidden bg-maroon-dark">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -37,15 +39,25 @@ export default function Festivals() {
           light
         />
 
+        <SacredCountdown />
+
         <Stagger
-          className="mt-16 grid gap-6 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3 lg:gap-8"
+          className="mt-12 grid gap-6 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-8"
           staggerChildren={0.1}
         >
           {t.festivals.items.map((festival, i) => {
             const img = IMGS[i];
             return (
               <StaggerItem key={i}>
-                <article className="group relative h-full overflow-hidden rounded-[1.5rem] shadow-card ring-1 ring-gold/15">
+                <article
+                  className="festival-card group relative h-full overflow-hidden rounded-[1.5rem] shadow-card ring-1 ring-gold/15"
+                  onPointerMove={(event) => {
+                    if (event.pointerType !== "mouse") return;
+                    const rect = event.currentTarget.getBoundingClientRect();
+                    event.currentTarget.style.setProperty("--glow-x", `${event.clientX - rect.left}px`);
+                    event.currentTarget.style.setProperty("--glow-y", `${event.clientY - rect.top}px`);
+                  }}
+                >
                   <div className="relative aspect-[4/5] w-full overflow-hidden">
                     <FallbackImage
                       src={img.src}
@@ -68,6 +80,7 @@ export default function Festivals() {
                     <p className="mt-3 max-w-xs font-body text-sm leading-relaxed text-cream/80">
                       {festival.blurb}
                     </p>
+                    {i === 5 && <DiyaOffering lang={lang} />}
                   </div>
                 </article>
               </StaggerItem>

@@ -13,6 +13,7 @@ import Navbar from "@/components/Navbar";
 import TulsiCursor from "@/components/ui/TulsiCursor";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { LanguageProvider } from "@/lib/i18n";
+import PWAClient from "@/components/features/PWAClient";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -57,11 +58,12 @@ const notoSansDev = Noto_Sans_Devanagari({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hariboll-mandir.example"),
+  metadataBase: new URL("https://hariboll-mandir-test.vidhanarora60.chatgpt.site"),
   title:
     "Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir | Hariboll Mandir, Jalandhar",
   description:
     "A sacred home of Harinam, Darshan, Seva and Devotion in Pratap Bagh, Jalandhar. Experience the mercy of Sri Chaitanya Mahaprabhu and the loving shelter of Sri Sri Radha Madhav Ji.",
+  manifest: "/manifest.webmanifest",
   keywords: [
     "Hariboll Mandir",
     "Radha Madhav Mandir Jalandhar",
@@ -79,6 +81,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     siteName: "Hariboll Mandir",
+    images: [{ url: "/og.png", width: 1536, height: 1024, alt: "Hariboll Mandir, Jalandhar" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hariboll Mandir, Jalandhar",
+    description: "A sacred home of Harinam, Darshan, Seva and Devotion.",
+    images: ["/og.png"],
   },
   robots: { index: true, follow: true },
   icons: {
@@ -111,6 +120,7 @@ export default function RootLayout({
             {children}
           </SmoothScroll>
           <TulsiCursor />
+          <PWAClient />
         </LanguageProvider>
       </body>
     </html>

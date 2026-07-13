@@ -1,0 +1,31 @@
+{
+  "name": "Hariboll Mandir Jalandhar",
+  "short_name": "Hariboll Mandir",
+  "description": "Darshan, festival information and temple timings for Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir, Jalandhar.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FAF4EA",
+  "theme_color": "#6E1E2A",
+  "icons": [
+    {
+      "src": "/images/pwa-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/pwa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/pwa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

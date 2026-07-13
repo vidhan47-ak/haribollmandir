@@ -1,6 +1,7 @@
 import { Reveal } from "@/components/ui/Reveal";
 import ParallaxImage from "@/components/ui/Parallax";
 import type { Palette } from "@/lib/images";
+import PoeticQuote from "@/components/features/PoeticQuote";
 
 type Tone = "maroon" | "forest" | "gold";
 
@@ -84,11 +85,9 @@ export default function QuoteBand({
             </span>
           </Reveal>
 
-          <Reveal duration={0.8} y={20} className="-mt-4">
-            <p className="font-heading text-2xl font-medium italic leading-snug text-cream sm:text-3xl lg:text-4xl [text-shadow:0_2px_16px_rgba(0,0,0,0.7)]">
-              {quote}
-            </p>
-          </Reveal>
+          <p className="-mt-4 font-heading text-2xl font-medium italic leading-snug text-cream sm:text-3xl lg:text-4xl [text-shadow:0_2px_16px_rgba(0,0,0,0.7)]">
+            <PoeticQuote text={quote} />
+          </p>
 
           <Reveal delay={0.2}>
             <div className="divider-lotus mt-6 !via-gold-light" />
