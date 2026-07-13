@@ -118,27 +118,27 @@ export default function Hero() {
         animate="show"
         className="absolute inset-0 z-10 flex flex-col items-center justify-start px-4 pb-16 pt-[37%] text-center sm:justify-center sm:pb-[4vh] sm:pt-0"
       >
-        <motion.div variants={item} className="w-full max-w-[19rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
+        <motion.div variants={item} className="w-full max-w-[22rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
           <RippleHeading
             text={t.hero.title}
             lang={lang}
-            className="font-display text-[1.45rem] font-semibold uppercase leading-[1.16] tracking-[0.025em] text-teal-dark [text-wrap:balance] sm:mt-3 sm:text-4xl sm:leading-[1.25] sm:tracking-wide lg:text-5xl"
+            className="font-display text-[1.35rem] font-semibold uppercase leading-[1.16] tracking-[0.02em] text-teal-dark [text-wrap:balance] sm:mt-3 sm:text-4xl sm:leading-[1.25] sm:tracking-wide lg:text-5xl"
           />
 
-          <p className="mx-auto mt-3 max-w-[18rem] font-body text-[11px] leading-relaxed text-teal-dark/80 sm:mt-4 sm:max-w-md sm:text-base">
+          <p className="mx-auto mt-2.5 max-w-[19rem] font-body text-[10px] leading-relaxed text-teal-dark/80 sm:mt-4 sm:max-w-md sm:text-base">
             {t.hero.subtitle}
           </p>
         </motion.div>
 
         <motion.div
           variants={item}
-          className="mt-5 grid w-full max-w-[22rem] grid-cols-2 gap-3 sm:mt-8 sm:flex sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
+          className="mt-4 grid w-full max-w-[18rem] grid-cols-2 gap-2.5 sm:mt-8 sm:flex sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
         >
           {CTAS.map(({ target, tint, Icon }, i) => (
             <button
               key={target}
               onClick={() => scrollTo(target)}
-              className={`btn-glass ${tint} min-h-12 w-full !px-3 !py-3 text-xs sm:min-h-0 sm:w-auto sm:!px-7 sm:!py-3.5 sm:text-sm`}
+              className={`btn-glass ${tint} min-h-12 w-full whitespace-nowrap !gap-2 !px-2.5 !py-3 text-[10px] leading-none sm:min-h-0 sm:w-auto sm:!gap-3 sm:!px-7 sm:!py-3.5 sm:text-sm`}
             >
               <Icon />
               {ctaLabels[i]}
