@@ -77,7 +77,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative h-[92svh] min-h-[660px] w-full overflow-hidden bg-[#f3e6c9] sm:h-auto sm:min-h-[100svh]"
+      className="relative aspect-[9/16] h-auto min-h-0 w-full overflow-hidden bg-[#f3e6c9] sm:aspect-auto sm:min-h-[100svh]"
     >
       {!bgError && (
         <picture className="block h-full w-full">
@@ -92,10 +92,7 @@ export default function Hero() {
             decoding="async"
             fetchPriority="high"
             onError={() => setBgError(true)}
-            initial={reduce ? undefined : { scale: 1 }}
-            animate={reduce ? undefined : { scale: 1.04 }}
-            transition={reduce ? undefined : { duration: 14, ease: "easeOut" }}
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+            className="pointer-events-none absolute inset-0 h-full w-full object-contain object-top sm:object-cover sm:object-center"
           />
         </picture>
       )}
@@ -119,16 +116,16 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="absolute inset-0 z-10 flex flex-col items-center justify-start px-4 pb-20 pt-[36svh] text-center sm:justify-center sm:pb-[4vh] sm:pt-0"
+        className="absolute inset-0 z-10 flex flex-col items-center justify-start px-4 pb-16 pt-[37%] text-center sm:justify-center sm:pb-[4vh] sm:pt-0"
       >
-        <motion.div variants={item} className="w-full max-w-[22rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
+        <motion.div variants={item} className="w-full max-w-[19rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
           <RippleHeading
             text={t.hero.title}
             lang={lang}
-            className="font-display text-[1.75rem] font-semibold uppercase leading-[1.14] tracking-wide text-teal-dark sm:mt-3 sm:text-4xl sm:leading-[1.25] lg:text-5xl"
+            className="font-display text-[1.45rem] font-semibold uppercase leading-[1.16] tracking-[0.025em] text-teal-dark [text-wrap:balance] sm:mt-3 sm:text-4xl sm:leading-[1.25] sm:tracking-wide lg:text-5xl"
           />
 
-          <p className="mx-auto mt-3 max-w-xs font-body text-[13px] leading-relaxed text-teal-dark/80 sm:mt-4 sm:max-w-md sm:text-base">
+          <p className="mx-auto mt-3 max-w-[18rem] font-body text-[11px] leading-relaxed text-teal-dark/80 sm:mt-4 sm:max-w-md sm:text-base">
             {t.hero.subtitle}
           </p>
         </motion.div>
