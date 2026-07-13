@@ -15,13 +15,11 @@ export default function HeritageCallout() {
   return (
     <section id="seva" className="section-pad relative overflow-hidden bg-[#f5dfac] lg:min-h-[44rem]">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/harinam-bg.webp"
-          alt=""
-          loading="lazy"
-          className="h-full w-full scale-[1.03] object-cover object-center"
-        />
+        <picture className="block h-full w-full">
+          <source media="(max-width: 639px)" srcSet="/images/harinam-bg-mobile.webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/harinam-bg.webp" alt="" loading="lazy" className="h-full w-full scale-[1.03] object-cover object-center" />
+        </picture>
       </div>
       <div className="pattern-peacock pointer-events-none absolute inset-0 opacity-10" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />

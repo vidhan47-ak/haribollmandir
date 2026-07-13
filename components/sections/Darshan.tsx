@@ -14,13 +14,11 @@ export default function Darshan() {
     <section id="darshan" className="section-pad relative overflow-hidden bg-[#ead7ad]">
       {/* Govardhan scene — a calm, continuous Vrindavan backdrop. */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/darshan.webp"
-          alt=""
-          loading="lazy"
-          className="h-full w-full scale-[1.03] object-cover object-center"
-        />
+        <picture className="block h-full w-full">
+          <source media="(max-width: 639px)" srcSet="/images/darshan-mobile.webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/darshan.webp" alt="" loading="lazy" className="h-full w-full scale-[1.03] object-cover object-center" />
+        </picture>
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,247,230,0.84)_0%,rgba(250,235,205,0.50)_28%,rgba(45,36,18,0.18)_62%,rgba(250,239,216,0.80)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(62,38,15,0.18)_100%)]" />
       </div>

@@ -80,21 +80,24 @@ export default function Hero() {
       className="relative h-[92svh] min-h-[660px] w-full overflow-hidden bg-[#f3e6c9] sm:h-auto sm:min-h-[100svh]"
     >
       {!bgError && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <motion.img
-          src={heroDecor.bg}
-          alt=""
-          aria-hidden="true"
-          draggable={false}
-          loading="eager"
-          decoding="async"
-          fetchPriority="high"
-          onError={() => setBgError(true)}
-          initial={reduce ? undefined : { scale: 1 }}
-          animate={reduce ? undefined : { scale: 1.04 }}
-          transition={reduce ? undefined : { duration: 14, ease: "easeOut" }}
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[50%_center] sm:object-center"
-        />
+        <picture className="block h-full w-full">
+          <source media="(max-width: 639px)" srcSet="/images/hero-bg-mobile.webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <motion.img
+            src={heroDecor.bg}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            onError={() => setBgError(true)}
+            initial={reduce ? undefined : { scale: 1 }}
+            animate={reduce ? undefined : { scale: 1.04 }}
+            transition={reduce ? undefined : { duration: 14, ease: "easeOut" }}
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+          />
+        </picture>
       )}
 
       {bgError && (

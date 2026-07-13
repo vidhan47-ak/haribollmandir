@@ -132,13 +132,11 @@ export default function Gallery() {
   return (
     <section id="gallery" className="section-pad relative overflow-hidden bg-[#071d26]">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/gallery-bg.webp"
-          alt=""
-          loading="lazy"
-          className="h-full w-full scale-[1.03] object-cover object-center"
-        />
+        <picture className="block h-full w-full">
+          <source media="(max-width: 639px)" srcSet="/images/gallery-bg-mobile.webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/gallery-bg.webp" alt="" loading="lazy" className="h-full w-full scale-[1.03] object-cover object-center" />
+        </picture>
         <div className="absolute inset-0 bg-[#061d25]/35" />
       </div>
       <div aria-hidden className="pattern-peacock pointer-events-none absolute inset-0 opacity-10" />

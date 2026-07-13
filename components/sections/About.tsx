@@ -19,13 +19,11 @@ export default function About() {
     <section id="about" className="section-pad relative overflow-hidden bg-[#d6b97f]">
       {/* Warm temple-kund scene, shared with the homepage's cinematic language. */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/about.webp"
-          alt=""
-          loading="lazy"
-          className="h-full w-full scale-[1.03] object-cover object-center"
-        />
+        <picture className="block h-full w-full">
+          <source media="(max-width: 639px)" srcSet="/images/about-mobile.webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/about.webp" alt="" loading="lazy" className="h-full w-full scale-[1.03] object-cover object-center" />
+        </picture>
       </div>
 
       <div className="pattern-peacock pointer-events-none absolute inset-0 opacity-20" />
