@@ -71,7 +71,7 @@ export default function LiveDarshanPlayer() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 24 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed right-0 top-[58%] z-[70] flex items-center gap-2 rounded-l-full border border-r-0 border-white/35 bg-maroon/95 px-3 py-2 text-cream shadow-xl backdrop-blur-md"
+          className="live-darshan-glass fixed right-0 top-[58%] z-[70] flex items-center gap-2 rounded-l-full border border-r-0 px-3 py-2 text-cream"
           aria-label={activeBroadcast
             ? `${activeBroadcast.label} live on Facebook`
             : "Facebook Darshan at 5 AM and 7:30 PM"}
