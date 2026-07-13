@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { LIVE_DARSHAN } from "@/lib/live-darshan";
 
 function minutesInTempleTime(date: Date) {
@@ -18,11 +18,36 @@ function minutesInTempleTime(date: Date) {
 
 export default function LiveDarshanPlayer() {
   const [now, setNow] = useState<Date | null>(null);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     setNow(new Date());
     const timer = window.setInterval(() => setNow(new Date()), 30_000);
     return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    let hideTimer = 0;
+    let showTimer = 0;
+    let cancelled = false;
+
+    const cycle = () => {
+      hideTimer = window.setTimeout(() => {
+        setVisible(false);
+        showTimer = window.setTimeout(() => {
+          if (cancelled) return;
+          setVisible(true);
+          cycle();
+        }, 10_000);
+      }, 20_000);
+    };
+
+    cycle();
+    return () => {
+      cancelled = true;
+      window.clearTimeout(hideTimer);
+      window.clearTimeout(showTimer);
+    };
   }, []);
 
   const activeBroadcast = useMemo(() => {
@@ -35,28 +60,36 @@ export default function LiveDarshanPlayer() {
     }) ?? null;
   }, [now]);
 
-  if (!activeBroadcast) return null;
-
   return (
-    <motion.a
-      href={LIVE_DARSHAN.facebookUrl}
-      target="_blank"
-      rel="noreferrer"
-      initial={{ opacity: 0, y: 16, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed bottom-5 right-4 z-[70] flex items-center gap-3 rounded-full border border-white/35 bg-maroon px-4 py-3 text-cream shadow-xl backdrop-blur-md sm:bottom-7 sm:right-7"
-      aria-label={`${activeBroadcast.label} live on Facebook`}
-    >
-      <span className="relative flex h-3 w-3" aria-hidden="true">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-300 opacity-70" />
-        <span className="relative inline-flex h-3 w-3 rounded-full bg-red-300" />
-      </span>
-      <span>
-        <span className="block font-body text-[9px] font-medium uppercase tracking-[0.18em] text-gold-light">Live on Facebook</span>
-        <span className="mt-0.5 block font-body text-xs font-semibold">{activeBroadcast.label}</span>
-      </span>
-    </motion.a>
+    <AnimatePresence>
+      {visible && (
+        <motion.a
+          href={LIVE_DARSHAN.facebookUrl}
+          target="_blank"
+          rel="noreferrer"
+          initial={{ opacity: 0, x: 24 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 24 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed right-0 top-[58%] z-[70] flex items-center gap-2 rounded-l-full border border-r-0 border-white/35 bg-maroon/95 px-3 py-2 text-cream shadow-xl backdrop-blur-md"
+          aria-label={activeBroadcast
+            ? `${activeBroadcast.label} live on Facebook`
+            : "Facebook Darshan at 5 AM and 7:30 PM"}
+        >
+          <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+            {activeBroadcast && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-300 opacity-70" />}
+            <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${activeBroadcast ? "bg-red-300" : "bg-gold-light"}`} />
+          </span>
+          <span>
+            <span className="block font-body text-[8px] font-medium uppercase tracking-[0.14em] text-gold-light">
+              {activeBroadcast ? "Live Now" : "Facebook Darshan"}
+            </span>
+            <span className="mt-0.5 block whitespace-nowrap font-body text-[10px] font-semibold">
+              {activeBroadcast ? activeBroadcast.label : "5 AM • 7:30 PM"}
+            </span>
+          </span>
+        </motion.a>
+      )}
+    </AnimatePresence>
   );
 }
-
