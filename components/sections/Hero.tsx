@@ -123,7 +123,7 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="absolute inset-x-0 bottom-0 top-[28%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:translate-y-[2vh] sm:justify-center sm:pb-[4vh]"
+        className="absolute inset-x-0 bottom-0 top-[26%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:-translate-y-[1vh] sm:justify-center sm:pb-[4vh]"
       >
         <motion.div variants={item} className="w-full max-w-[19rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
           <h1
@@ -174,7 +174,7 @@ export default function Hero() {
 
       </motion.div>
 
-      <div className="absolute bottom-[11%] left-1/2 z-20 -translate-x-1/2 sm:bottom-[12%]">
+      <div className="absolute bottom-3 left-1/2 z-20 -translate-x-1/2 sm:bottom-6">
         <LiveDarshanPlayer />
       </div>
 
@@ -194,23 +194,6 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
-      <motion.button
-        onClick={() => scrollTo("#darshan")}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: reduce ? 0 : 1.6, duration: 1 }}
-        className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 text-teal/60 transition-colors hover:text-teal sm:bottom-6 sm:gap-2"
-        aria-label={t.hero.scroll}
-      >
-        <span className="font-body text-[10px] uppercase tracking-widest2">
-          {t.hero.scroll}
-        </span>
-        <motion.span
-          animate={reduce ? {} : { y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="block h-6 w-px bg-gradient-to-b from-gold to-transparent sm:h-10"
-        />
-      </motion.button>
     </section>
   );
 }
