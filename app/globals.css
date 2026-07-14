@@ -742,6 +742,8 @@ html[lang="hi"] h4 {
   height: 0;
   overflow: hidden;
   pointer-events: none;
+  contain: paint;
+  will-change: height;
 }
 .quote-aperture__panel {
   position: absolute;
@@ -750,7 +752,7 @@ html[lang="hi"] h4 {
   width: 100%;
   overflow: hidden;
   transform: translate3d(0, -50%, 0);
-  will-change: height, opacity;
+  will-change: opacity;
   filter:
     drop-shadow(0 -12px 22px rgba(227, 199, 126, 0.18))
     drop-shadow(0 12px 22px rgba(48, 22, 12, 0.34));

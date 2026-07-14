@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 
 /**
  * A zero-layout-height transition layer. The surrounding main sections remain
@@ -29,16 +29,18 @@ export default function QuoteAperture({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  const height = useTransform(
+  const rawHeight = useTransform(
     scrollYProgress,
-    [0, 0.18, 0.42, 0.62, 0.84, 1],
+    [0, 0.12, 0.38, 0.54, 0.7, 0.84],
     [0, 0, openHeight, openHeight, 0, 0],
   );
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.36, 0.68, 0.82, 1],
-    [0, 0, 1, 1, 0, 0],
-  );
+  const height = useSpring(rawHeight, {
+    stiffness: 260,
+    damping: 36,
+    mass: 0.45,
+    restDelta: 0.3,
+  });
+  const opacity = useTransform(height, [0, Math.min(90, openHeight * 0.18)], [0, 1]);
 
   return (
     <div ref={ref} className="quote-aperture-anchor">
