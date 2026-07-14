@@ -13,7 +13,7 @@ export default function QuoteAperture({ children }: { children: ReactNode }) {
   const [openHeight, setOpenHeight] = useState(560);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 88%", "start 12%"],
+    offset: ["start 95%", "start -65%"],
   });
 
   useEffect(() => {
@@ -31,12 +31,12 @@ export default function QuoteAperture({ children }: { children: ReactNode }) {
 
   const height = useTransform(
     scrollYProgress,
-    [0, 0.12, 0.34, 0.66, 0.88, 1],
+    [0, 0.18, 0.42, 0.62, 0.84, 1],
     [0, 0, openHeight, openHeight, 0, 0],
   );
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.14, 0.27, 0.73, 0.86, 1],
+    [0, 0.2, 0.36, 0.68, 0.82, 1],
     [0, 0, 1, 1, 0, 0],
   );
 
