@@ -52,7 +52,7 @@ export default function PWAClient() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 12 }}
-          className="fixed bottom-4 right-4 z-[65] w-[min(88vw,320px)] rounded-2xl border border-gold/35 bg-[#fff8e8]/95 p-4 shadow-2xl backdrop-blur-md"
+          className="fixed bottom-20 right-4 z-[65] w-[min(88vw,320px)] rounded-2xl border border-gold/35 bg-[#fff8e8]/95 p-4 shadow-2xl backdrop-blur-md"
         >
           <button onClick={dismiss} className="absolute right-2 top-1 px-2 py-1 text-ink-muted" aria-label="Dismiss install suggestion">×</button>
           <div className="flex items-center gap-3 pr-5">
@@ -71,4 +71,3 @@ export default function PWAClient() {
     </AnimatePresence>
   );
 }
-

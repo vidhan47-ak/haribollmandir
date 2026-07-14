@@ -21,9 +21,9 @@ export function Reveal({
   children,
   className,
   delay = 0,
-  y = 24,
-  duration = 0.72,
-  blur = false,
+  y = 32,
+  duration = 0.92,
+  blur = true,
   once = true,
   as = "div",
 }: RevealProps) {
@@ -94,8 +94,8 @@ export function Stagger({
 export function StaggerItem({
   children,
   className,
-  y = 24,
-  duration = 0.7,
+  y = 30,
+  duration = 0.88,
 }: {
   children: ReactNode;
   className?: string;
@@ -105,10 +105,11 @@ export function StaggerItem({
   const reduce = useReducedMotion();
 
   const item: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : y },
+    hidden: { opacity: 0, y: reduce ? 0 : y, filter: reduce ? "blur(0px)" : "blur(6px)" },
     show: {
       opacity: 1,
       y: 0,
+      filter: "blur(0px)",
       transition: { duration: reduce ? 0 : duration, ease: EASE },
     },
   };

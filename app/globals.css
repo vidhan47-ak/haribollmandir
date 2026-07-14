@@ -477,6 +477,15 @@ html.tulsi-cursor-active select {
   position: relative;
   width: 150px;
   height: 145px;
+  border-radius: 999px;
+  outline: none;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.diya-scene:not(:disabled):hover {
+  transform: translateY(-2px) scale(1.025);
+}
+.diya-scene:not(:disabled):focus-visible {
+  box-shadow: 0 0 0 2px rgba(227, 199, 126, 0.9), 0 0 0 6px rgba(227, 199, 126, 0.2);
 }
 .diya-halo {
   position: absolute;
@@ -500,9 +509,10 @@ html.tulsi-cursor-active select {
   transform: translateX(-50%) rotate(3deg);
   transform-origin: 50% 100%;
   border-radius: 55% 45% 58% 42% / 70% 65% 35% 30%;
-  background: radial-gradient(circle at 48% 70%, #fff8c7 0 18%, #ffd35f 38%, #ef772b 72%, transparent 74%);
-  filter: drop-shadow(0 0 12px rgba(255, 185, 72, 0.8));
-  animation: diya-flicker 2.4s ease-in-out infinite;
+  background: linear-gradient(180deg, #4d4039, #1d1715 76%, transparent 78%);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45));
+  opacity: 0.72;
+  transition: opacity 500ms ease, filter 700ms ease, background 500ms ease;
 }
 .diya-wick {
   position: absolute;
@@ -541,6 +551,12 @@ html.tulsi-cursor-active select {
 .is-offered .diya-halo {
   opacity: 1;
   transform: translateX(-50%) scale(1.18);
+}
+.is-offered .diya-flame {
+  background: radial-gradient(circle at 48% 70%, #fff8c7 0 18%, #ffd35f 38%, #ef772b 72%, transparent 74%);
+  filter: drop-shadow(0 0 12px rgba(255, 185, 72, 0.8));
+  opacity: 1;
+  animation: diya-flicker 2.4s ease-in-out infinite;
 }
 .is-offered .diya-petal { animation: diya-petal-rise 2.7s ease-out infinite; }
 .is-offered .diya-petal-0 { --petal-x: -48px; animation-delay: 0ms; }
@@ -604,4 +620,86 @@ html[lang="hi"] h4 {
     inset 0 -1px 0 rgba(255, 255, 255, 0.14),
     0 16px 38px -18px rgba(35, 12, 18, 0.8),
     0 0 26px -10px rgba(227, 199, 126, 0.58);
+}
+
+/* A sparse layer of slow golden motes, visible mainly over darker scenes. */
+.sacred-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0.72;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 92%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 92%, transparent);
+}
+
+/* User-activated, lightweight flute-inspired temple ambience. */
+.ambient-sound-toggle {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 75;
+  display: inline-flex;
+  min-width: 3rem;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  padding: 0.7rem 0.9rem;
+  color: #fff4dc;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.32), transparent 42%),
+    linear-gradient(135deg, rgba(84, 45, 33, 0.62), rgba(77, 20, 30, 0.72));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 14px 34px -18px rgba(25, 8, 12, 0.82),
+    0 0 20px -12px rgba(227, 199, 126, 0.65);
+  -webkit-backdrop-filter: blur(16px) saturate(135%);
+  backdrop-filter: blur(16px) saturate(135%);
+  transition: border-color 220ms ease, background 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+.ambient-sound-toggle:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 225, 153, 0.82);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 18px 38px -18px rgba(25, 8, 12, 0.9),
+    0 0 28px -10px rgba(227, 199, 126, 0.72);
+}
+.ambient-sound-toggle:focus-visible {
+  outline: 2px solid rgba(255, 224, 150, 0.92);
+  outline-offset: 3px;
+}
+.ambient-sound-icon {
+  display: flex;
+  height: 1.1rem;
+  width: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.ambient-sound-icon i {
+  display: block;
+  width: 2px;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: #f3d78e;
+  transform-origin: center;
+}
+.ambient-sound-toggle.is-playing .ambient-sound-icon i {
+  animation: ambient-wave 1.15s ease-in-out infinite;
+}
+.ambient-sound-toggle.is-playing .ambient-sound-icon i:nth-child(2) { animation-delay: -0.38s; }
+.ambient-sound-toggle.is-playing .ambient-sound-icon i:nth-child(3) { animation-delay: -0.72s; }
+@keyframes ambient-wave {
+  0%, 100% { transform: scaleY(0.65); opacity: 0.72; }
+  50% { transform: scaleY(2.1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sacred-particles { display: none; }
+  .ambient-sound-toggle.is-playing .ambient-sound-icon i { animation: none; }
 }

@@ -57,13 +57,21 @@ export default function DiyaOffering({ lang }: { lang: "en" | "hi" }) {
             >
               <button onClick={close} className="absolute right-4 top-4 rounded-full px-3 py-2 text-cream/60 transition hover:text-cream" aria-label="Close diya offering">×</button>
 
-              <div className={`diya-scene mx-auto ${offered ? "is-offered" : ""}`} aria-hidden="true">
+              <button
+                type="button"
+                onClick={offered ? undefined : offer}
+                className={`diya-scene mx-auto block ${offered ? "is-offered" : "is-unlit"}`}
+                aria-label={offered
+                  ? (lang === "hi" ? "दीप अर्पित हुआ" : "Diya offered")
+                  : (lang === "hi" ? "दीप प्रज्वलित करें" : "Click to light the diya")}
+                disabled={offered}
+              >
                 <div className="diya-halo" />
                 <div className="diya-flame" />
                 <div className="diya-wick" />
                 <div className="diya-bowl" />
                 {offered && [0, 1, 2, 3, 4, 5].map((petal) => <i className={`diya-petal diya-petal-${petal}`} key={petal} />)}
-              </div>
+              </button>
 
               <p className="mt-7 font-body text-[10px] font-medium uppercase tracking-widest2 text-gold-light">
                 {lang === "hi" ? "कार्तिक दीपदान" : "Kartik Deep Daan"}
@@ -95,4 +103,3 @@ export default function DiyaOffering({ lang }: { lang: "en" | "hi" }) {
     </>
   );
 }
-

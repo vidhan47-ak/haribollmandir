@@ -14,6 +14,8 @@ import TulsiCursor from "@/components/ui/TulsiCursor";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { LanguageProvider } from "@/lib/i18n";
 import PWAClient from "@/components/features/PWAClient";
+import SacredParticles from "@/components/features/SacredParticles";
+import AmbientSoundscape from "@/components/features/AmbientSoundscape";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -116,11 +118,13 @@ export default function RootLayout({
         <LanguageProvider>
           <SmoothScroll>
             <ScrollProgress />
+            <SacredParticles />
             <Navbar />
             {children}
           </SmoothScroll>
           <TulsiCursor />
           <PWAClient />
+          <AmbientSoundscape />
         </LanguageProvider>
       </body>
     </html>
