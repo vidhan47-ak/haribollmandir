@@ -123,7 +123,7 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="absolute inset-x-0 bottom-0 top-[25%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:justify-center sm:pb-[4vh]"
+        className="absolute inset-x-0 bottom-0 top-[28%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:translate-y-[2vh] sm:justify-center sm:pb-[4vh]"
       >
         <motion.div variants={item} className="w-full max-w-[19rem] sm:w-[62%] sm:max-w-xl lg:w-[42%]">
           <h1
@@ -158,13 +158,13 @@ export default function Hero() {
 
         <motion.div
           variants={item}
-          className="mt-3.5 grid w-full max-w-[12.5rem] grid-cols-1 gap-2.5 sm:mt-8 sm:flex sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
+          className="mt-3 grid w-full max-w-[11.5rem] grid-cols-1 gap-2 sm:mt-6 sm:flex sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-3"
         >
           {CTAS.map(({ target, tint, Icon }, i) => (
             <button
               key={target}
               onClick={() => scrollTo(target)}
-              className={`btn-glass ${tint} min-h-11 w-full whitespace-nowrap !gap-2 !px-3 !py-2.5 text-[10px] leading-none sm:min-h-0 sm:w-auto sm:!gap-3 sm:!px-7 sm:!py-3.5 sm:text-sm`}
+              className={`btn-glass ${tint} min-h-10 w-full whitespace-nowrap !gap-2 !px-2.5 !py-2 text-[9px] leading-none sm:min-h-0 sm:w-auto sm:!gap-2.5 sm:!px-5 sm:!py-2.5 sm:text-xs`}
             >
               <Icon />
               {ctaLabels[i]}
@@ -172,11 +172,11 @@ export default function Hero() {
           ))}
         </motion.div>
 
-        <motion.div variants={item} className="mt-3 sm:mt-5">
-          <LiveDarshanPlayer />
-        </motion.div>
-
       </motion.div>
+
+      <div className="absolute bottom-[11%] left-1/2 z-20 -translate-x-1/2 sm:bottom-[12%]">
+        <LiveDarshanPlayer />
+      </div>
 
       <AnimatePresence>
         {showDesktopNote && (
