@@ -16,7 +16,6 @@
   "dependencies": {
     "@vinext/cloudflare": "^1.0.0-beta.1",
     "framer-motion": "^11.18.2",
-    "lenis": "^1.1.18",
     "next": "^16.2.10",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

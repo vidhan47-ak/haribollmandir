@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLenisInstance } from "@/components/SmoothScroll";
 
 /**
  * Side-effect-only helper: when the homepage loads with a hash in the URL
@@ -10,8 +9,6 @@ import { useLenisInstance } from "@/components/SmoothScroll";
  * when Lenis is unavailable (reduced-motion).
  */
 export default function HashScroll() {
-  const lenis = useLenisInstance();
-
   useEffect(() => {
     const hash = window.location.hash;
     if (!hash || hash === "#") return;
@@ -19,19 +16,12 @@ export default function HashScroll() {
     const id = window.setTimeout(() => {
       const target = document.querySelector(hash);
       if (!target) return;
-      if (lenis) {
-        lenis.scrollTo(target as HTMLElement, {
-          offset: -84,
-          duration: 1.6,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        });
-      } else {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      const top = target.getBoundingClientRect().top + window.scrollY - 84;
+      window.scrollTo({ top, behavior: "smooth" });
     }, 250);
 
     return () => window.clearTimeout(id);
-  }, [lenis]);
+  }, []);
 
   return null;
 }

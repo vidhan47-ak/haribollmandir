@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { useLenisInstance, useSmoothScrollTo } from "@/components/SmoothScroll";
+import { useSmoothScrollTo } from "@/components/SmoothScroll";
 import LotusMark from "@/components/ui/LotusMark";
 import { useLang } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
@@ -34,7 +34,6 @@ export default function Navbar() {
   const [active, setActive] = useState("#home");
   const [logoOk, setLogoOk] = useState(true);
   const scrollTo = useSmoothScrollTo();
-  const lenis = useLenisInstance();
   const pathname = usePathname();
   const router = useRouter();
   const { t } = useLang();
@@ -104,16 +103,14 @@ export default function Navbar() {
   // Lock scroll while the mobile menu is open.
   useEffect(() => {
     if (open) {
-      lenis?.stop();
       document.body.style.overflow = "hidden";
     } else {
-      lenis?.start();
       document.body.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open, lenis]);
+  }, [open]);
 
   const isLinkActive = (link: NavLink) =>
     link.href ? pathname === link.href : isHome && active === link.target;

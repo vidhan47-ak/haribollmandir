@@ -1,27 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
-/**
- * A zero-layout-height transition layer. The surrounding main sections remain
- * directly connected while the quote unfolds vertically over their boundary.
- */
+/** Opens each quote in the central viewport without recalculating every scroll frame. */
 export default function QuoteAperture({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
+  const [open, setOpen] = useState(false);
   const [openHeight, setOpenHeight] = useState(560);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 95%", "start -65%"],
-  });
 
   useEffect(() => {
     const measure = () => {
       const mobile = window.innerWidth < 640;
       const height = mobile
-        ? Math.min(520, Math.max(420, window.innerHeight * 0.62))
-        : Math.min(680, Math.max(520, window.innerHeight * 0.72));
+        ? Math.min(500, Math.max(400, window.innerHeight * 0.6))
+        : Math.min(650, Math.max(500, window.innerHeight * 0.68));
       setOpenHeight(Math.round(height));
     };
     measure();
@@ -29,31 +23,28 @@ export default function QuoteAperture({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  const rawHeight = useTransform(
-    scrollYProgress,
-    [0, 0.12, 0.38, 0.54, 0.7, 0.84],
-    [0, 0, openHeight, openHeight, 0, 0],
-  );
-  const height = useSpring(rawHeight, {
-    stiffness: 260,
-    damping: 36,
-    mass: 0.45,
-    restDelta: 0.3,
-  });
-  const opacity = useTransform(height, [0, Math.min(90, openHeight * 0.18)], [0, 1]);
+  useEffect(() => {
+    const target = ref.current;
+    if (!target || reduceMotion) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setOpen(entry.isIntersecting),
+      { rootMargin: "-14% 0px -14% 0px", threshold: 0 },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [reduceMotion]);
 
   return (
     <div ref={ref} className="quote-aperture-anchor">
       <motion.div
         className="quote-aperture"
-        style={reduceMotion ? undefined : { height }}
+        initial={false}
+        animate={reduceMotion ? undefined : { height: open ? openHeight : 0 }}
+        transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
       >
-        <motion.div
-          className="quote-aperture__panel"
-          style={reduceMotion ? undefined : { height: openHeight, opacity }}
-        >
+        <div className="quote-aperture__panel" style={{ height: openHeight }}>
           {children}
-        </motion.div>
+        </div>
       </motion.div>
     </div>
   );
