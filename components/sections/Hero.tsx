@@ -158,7 +158,7 @@ export default function Hero() {
 
         <motion.div
           variants={item}
-          className="mt-3 grid w-full max-w-[11.5rem] -translate-y-3 grid-cols-1 gap-2 sm:mt-6 sm:flex sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-3"
+          className="mt-3 grid w-full max-w-[11.5rem] -translate-y-4 grid-cols-1 gap-2 sm:mt-6 sm:flex sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-3"
         >
           {CTAS.map(({ target, tint, Icon }, i) => (
             <button
