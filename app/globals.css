@@ -731,3 +731,38 @@ html[lang="hi"] h4 {
     will-change: auto;
   }
 }
+
+/* Quote aperture: closed sections stay connected, then the quote opens from centre. */
+.quote-aperture {
+  position: relative;
+  z-index: 30;
+  height: 100svh;
+  margin-bottom: -100svh;
+  pointer-events: none;
+}
+.quote-aperture__panel {
+  height: 100svh;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: clip-path;
+  filter:
+    drop-shadow(0 -12px 22px rgba(227, 199, 126, 0.18))
+    drop-shadow(0 12px 22px rgba(48, 22, 12, 0.34));
+}
+.quote-aperture__panel > section {
+  height: 100%;
+  min-height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-aperture {
+    height: auto;
+    margin-bottom: 0;
+  }
+  .quote-aperture__panel {
+    height: auto;
+    clip-path: none !important;
+    filter: none;
+    will-change: auto;
+  }
+}
