@@ -23,7 +23,7 @@ export function Reveal({
   delay = 0,
   y = 32,
   duration = 0.92,
-  blur = true,
+  blur = false,
   once = true,
   as = "div",
 }: RevealProps) {
@@ -105,11 +105,10 @@ export function StaggerItem({
   const reduce = useReducedMotion();
 
   const item: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : y, filter: reduce ? "blur(0px)" : "blur(6px)" },
+    hidden: { opacity: 0, y: reduce ? 0 : y },
     show: {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
       transition: { duration: reduce ? 0 : duration, ease: EASE },
     },
   };

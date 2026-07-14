@@ -9,11 +9,9 @@ import QuoteBand from "@/components/sections/QuoteBand";
 import Gallery from "@/components/sections/Gallery";
 import VisitUs from "@/components/sections/VisitUs";
 import Footer from "@/components/sections/Footer";
-import CursorGlow from "@/components/ui/CursorGlow";
 import HashScroll from "@/components/ui/HashScroll";
 import { quoteBandImages } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
-import LiveDarshanPlayer from "@/components/features/LiveDarshanPlayer";
 import ParallaxScene from "@/components/ui/ParallaxScene";
 import QuoteAperture from "@/components/ui/QuoteAperture";
 
@@ -21,7 +19,6 @@ export default function Home() {
   const { t } = useLang();
   return (
     <>
-      <CursorGlow />
       <HashScroll />
       <main>
         <ParallaxScene amount={42} mobileAmount={0}><Hero /></ParallaxScene>
@@ -84,7 +81,6 @@ export default function Home() {
         <ParallaxScene><VisitUs /></ParallaxScene>
       </main>
       <Footer />
-      <LiveDarshanPlayer />
     </>
   );
 }

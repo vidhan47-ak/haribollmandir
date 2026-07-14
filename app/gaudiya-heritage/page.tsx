@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Footer from "@/components/sections/Footer";
-import CursorGlow from "@/components/ui/CursorGlow";
 import HeritageContent from "@/components/heritage/HeritageContent";
 
 export const metadata: Metadata = {
@@ -12,7 +11,6 @@ export const metadata: Metadata = {
 export default function GaudiyaHeritagePage() {
   return (
     <>
-      <CursorGlow />
       <HeritageContent />
       <Footer />
     </>

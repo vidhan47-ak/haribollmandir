@@ -593,7 +593,7 @@ html[lang="hi"] h4 {
   font-family: var(--font-hi-heading), "Noto Serif Devanagari", serif;
 }
 
-/* Warm glass treatment for the compact Facebook Darshan prompt. */
+/* Warm glass treatment for the permanent home-page Live Darshan pill. */
 .live-darshan-glass {
   border-color: rgba(255, 255, 255, 0.44);
   background:
@@ -714,6 +714,10 @@ html[lang="hi"] h4 {
   transform: translate3d(0, var(--section-parallax-y, 0px), 0) scale(1.12);
   transform-origin: 50% 50%;
   will-change: transform;
+}
+
+.parallax-main-scene:first-child .hero-artwork {
+  transform: translate3d(0, var(--section-parallax-y, 0px), 0) scale(1.01);
 }
 
 @media (max-width: 767px) {

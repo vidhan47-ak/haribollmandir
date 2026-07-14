@@ -42,9 +42,10 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    const touchFirst = window.matchMedia("(pointer: coarse)").matches;
 
-    // Honour reduced-motion: keep native scrolling, no Lenis.
-    if (prefersReduced) return;
+    // Native scrolling is faster and more reliable on touch devices.
+    if (prefersReduced || touchFirst) return;
 
     const instance = new Lenis({
       lerp: 0.12,

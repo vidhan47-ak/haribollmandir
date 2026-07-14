@@ -8,6 +8,7 @@ import PeacockOrnament from "@/components/ui/PeacockOrnament";
 import { heroDecor } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
 import RippleHeading from "@/components/ui/RippleHeading";
+import LiveDarshanPlayer from "@/components/features/LiveDarshanPlayer";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -86,10 +87,10 @@ export default function Hero() {
       className="relative aspect-[9/16] h-auto min-h-0 w-full overflow-hidden bg-[#f3e6c9] sm:aspect-auto sm:min-h-[100svh]"
     >
       {!bgError && (
-        <picture className="parallax-section-bg block h-full w-full">
+        <picture className="absolute inset-0 block h-full w-full">
           <source media="(max-width: 639px)" srcSet="/images/hero-bg-mobile.webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <motion.img
+          <img
             src={heroDecor.bg}
             alt=""
             aria-hidden="true"
@@ -98,7 +99,7 @@ export default function Hero() {
             decoding="async"
             fetchPriority="high"
             onError={() => setBgError(true)}
-            className="pointer-events-none absolute inset-0 h-full w-full object-contain object-top sm:object-cover sm:object-center"
+            className="hero-artwork parallax-section-bg pointer-events-none h-full w-full object-contain object-top sm:object-cover sm:object-center"
           />
         </picture>
       )}
@@ -169,6 +170,10 @@ export default function Hero() {
               {ctaLabels[i]}
             </button>
           ))}
+        </motion.div>
+
+        <motion.div variants={item} className="mt-3 sm:mt-5">
+          <LiveDarshanPlayer />
         </motion.div>
 
       </motion.div>

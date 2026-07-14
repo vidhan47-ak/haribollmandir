@@ -17,7 +17,7 @@ type ParallaxStyle = CSSProperties & {
 export default function ParallaxScene({
   children,
   amount = 68,
-  mobileAmount = 24,
+  mobileAmount = 0,
 }: ParallaxSceneProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();

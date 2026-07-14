@@ -1,4 +1,4 @@
-const CACHE = "hariboll-mandir-v1";
+const CACHE = "hariboll-mandir-v2";
 const CORE = [
   "/",
   "/offline.html",

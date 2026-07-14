@@ -19,7 +19,8 @@ export default function SacredParticles() {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!canvas || !context || reduceMotion) return;
+    const touchFirst = window.matchMedia("(pointer: coarse)").matches;
+    if (!canvas || !context || reduceMotion || touchFirst || window.innerWidth < 768) return;
 
     let width = 0;
     let height = 0;
@@ -47,7 +48,7 @@ export default function SacredParticles() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      const count = width < 640 ? 14 : Math.min(34, Math.round(width / 48));
+      const count = Math.min(24, Math.round(width / 72));
       particles = Array.from({ length: count }, () => makeParticle());
     };
 
@@ -93,4 +94,3 @@ export default function SacredParticles() {
 
   return <canvas ref={canvasRef} className="sacred-particles" aria-hidden="true" />;
 }
-
