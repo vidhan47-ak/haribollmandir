@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/ui/Reveal";
-import ParallaxImage from "@/components/ui/Parallax";
+import FallbackImage from "@/components/ui/FallbackImage";
 import type { Palette } from "@/lib/images";
 import PoeticQuote from "@/components/features/PoeticQuote";
 
@@ -58,14 +58,13 @@ export default function QuoteBand({
     >
       {/* deity banner — object-top keeps the face in frame near the top */}
       <div className="absolute inset-0">
-        <ParallaxImage
+        <FallbackImage
           src={imageSrc}
           alt=""
           label={imageLabel}
           palette={imagePalette}
-          amount={compact ? 24 : 36}
-          className="h-full w-full"
-          imgClassName={focusRight
+          loading="lazy"
+          className={focusRight
             ? "h-full w-full object-cover object-[68%_top] sm:object-top"
             : "h-full w-full object-cover object-top"}
         />

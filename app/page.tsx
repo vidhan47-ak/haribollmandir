@@ -14,7 +14,7 @@ import HashScroll from "@/components/ui/HashScroll";
 import { quoteBandImages } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
 import LiveDarshanPlayer from "@/components/features/LiveDarshanPlayer";
-import SacredCurtain from "@/components/ui/SacredCurtain";
+import ParallaxScene from "@/components/ui/ParallaxScene";
 
 export default function Home() {
   const { t } = useLang();
@@ -23,36 +23,26 @@ export default function Home() {
       <CursorGlow />
       <HashScroll />
       <main>
-        <Hero />
-        <Darshan />
-        <SacredCurtain
-          scene={(
-            <QuoteBand
-              quote={t.quotes.harinam.quote}
-              subquote={t.quotes.harinam.subquote}
-              imageSrc={quoteBandImages.harinam.src}
-              imageLabel={quoteBandImages.harinam.label}
-              imagePalette={quoteBandImages.harinam.palette}
-              tone="gold"
-            />
-          )}
-        >
-          <About />
-        </SacredCurtain>
-        <SacredCurtain
-          scene={(
-            <QuoteBand
-              quote={t.quotes.temple.quote}
-              subquote={t.quotes.temple.subquote}
-              imageSrc={quoteBandImages.temple.src}
-              imageLabel={quoteBandImages.temple.label}
-              imagePalette={quoteBandImages.temple.palette}
-              tone="forest"
-            />
-          )}
-        >
-          <HeritageCallout />
-        </SacredCurtain>
+        <ParallaxScene amount={42} mobileAmount={0}><Hero /></ParallaxScene>
+        <ParallaxScene><Darshan /></ParallaxScene>
+        <QuoteBand
+          quote={t.quotes.harinam.quote}
+          subquote={t.quotes.harinam.subquote}
+          imageSrc={quoteBandImages.harinam.src}
+          imageLabel={quoteBandImages.harinam.label}
+          imagePalette={quoteBandImages.harinam.palette}
+          tone="gold"
+        />
+        <ParallaxScene><About /></ParallaxScene>
+        <QuoteBand
+          quote={t.quotes.temple.quote}
+          subquote={t.quotes.temple.subquote}
+          imageSrc={quoteBandImages.temple.src}
+          imageLabel={quoteBandImages.temple.label}
+          imagePalette={quoteBandImages.temple.palette}
+          tone="forest"
+        />
+        <ParallaxScene><HeritageCallout /></ParallaxScene>
         <QuoteBand
           quote={t.quotes.seva.quote}
           subquote={t.quotes.seva.subquote}
@@ -61,36 +51,26 @@ export default function Home() {
           imagePalette={quoteBandImages.seva.palette}
           tone="maroon"
         />
-        <Festivals />
-        <SacredCurtain
-          scene={(
-            <QuoteBand
-              quote={t.quotes.festival.quote}
-              subquote={t.quotes.festival.subquote}
-              imageSrc={quoteBandImages.festival.src}
-              imageLabel={quoteBandImages.festival.label}
-              imagePalette={quoteBandImages.festival.palette}
-              tone="gold"
-            />
-          )}
-        >
-          <Gallery />
-        </SacredCurtain>
-        <SacredCurtain
-          scene={(
-            <QuoteBand
-              quote={t.quotes.darshan.quote}
-              subquote={t.quotes.darshan.subquote}
-              imageSrc={quoteBandImages.darshan.src}
-              imageLabel={quoteBandImages.darshan.label}
-              imagePalette={quoteBandImages.darshan.palette}
-              tone="maroon"
-              focusRight
-            />
-          )}
-        >
-          <VisitUs />
-        </SacredCurtain>
+        <ParallaxScene><Festivals /></ParallaxScene>
+        <QuoteBand
+          quote={t.quotes.festival.quote}
+          subquote={t.quotes.festival.subquote}
+          imageSrc={quoteBandImages.festival.src}
+          imageLabel={quoteBandImages.festival.label}
+          imagePalette={quoteBandImages.festival.palette}
+          tone="gold"
+        />
+        <ParallaxScene><Gallery /></ParallaxScene>
+        <QuoteBand
+          quote={t.quotes.darshan.quote}
+          subquote={t.quotes.darshan.subquote}
+          imageSrc={quoteBandImages.darshan.src}
+          imageLabel={quoteBandImages.darshan.label}
+          imagePalette={quoteBandImages.darshan.palette}
+          tone="maroon"
+          focusRight
+        />
+        <ParallaxScene><VisitUs /></ParallaxScene>
       </main>
       <Footer />
       <LiveDarshanPlayer />

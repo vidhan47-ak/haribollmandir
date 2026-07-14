@@ -13,7 +13,7 @@ export default function Darshan() {
   return (
     <section id="darshan" className="section-pad relative overflow-hidden bg-[#ead7ad]">
       {/* Govardhan scene — a calm, continuous Vrindavan backdrop. */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div className="parallax-section-bg pointer-events-none absolute inset-0" aria-hidden="true">
         <picture className="block h-full w-full">
           <source media="(max-width: 639px)" srcSet="/images/darshan-mobile.webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}

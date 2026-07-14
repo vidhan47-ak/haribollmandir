@@ -704,77 +704,30 @@ html[lang="hi"] h4 {
   .ambient-sound-toggle.is-playing .ambient-sound-icon i { animation: none; }
 }
 
-/* Sacred curtain: native scrolling with a pinned, scroll-linked scene reveal. */
-.sacred-curtain {
+/* Prismic-style alternating parallax scenes and normal quote content bands. */
+.parallax-main-scene {
   position: relative;
+  overflow: clip;
   isolation: isolate;
 }
-.sacred-curtain__pin {
-  position: relative;
-  z-index: 0;
-  overflow: hidden;
-}
-.sacred-curtain__scene {
-  height: 100%;
-  transform-origin: 50% 100%;
-  will-change: transform, filter;
-}
-.sacred-curtain__shade {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at center, transparent 28%, rgba(16, 9, 6, 0.38) 100%),
-    linear-gradient(to bottom, transparent 48%, rgba(18, 9, 8, 0.34));
-}
-.sacred-curtain__next {
-  --curtain-edge-opacity: 0;
-  position: relative;
-  z-index: 10;
-  transform-origin: 50% 0%;
+.parallax-main-scene .parallax-section-bg {
+  transform: translate3d(0, var(--section-parallax-y, 0px), 0) scale(1.12);
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
 
-@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
-  .sacred-curtain__pin {
-    position: sticky;
-    top: 0;
-    height: 100svh;
+@media (max-width: 767px) {
+  .parallax-main-scene .parallax-section-bg {
+    transform: translate3d(0, var(--section-parallax-y, 0px), 0) scale(1.07);
   }
-  .sacred-curtain__scene > section {
-    height: 100%;
-    min-height: 100%;
-  }
-  .sacred-curtain__next {
-    overflow: clip;
-    border-radius: clamp(1.75rem, 4vw, 4.5rem) clamp(1.75rem, 4vw, 4.5rem) 0 0;
-    box-shadow:
-      0 -1px 0 rgba(255, 226, 157, var(--curtain-edge-opacity)),
-      0 -26px 70px -34px rgba(14, 7, 5, 0.92),
-      0 -8px 30px -20px rgba(227, 199, 126, calc(var(--curtain-edge-opacity) * 0.72));
-    will-change: transform;
-  }
-  .sacred-curtain__next::before {
-    content: "";
-    pointer-events: none;
-    position: absolute;
-    z-index: 30;
-    inset: 0 0 auto;
-    height: 2px;
-    opacity: var(--curtain-edge-opacity);
-    background: linear-gradient(90deg, transparent 6%, rgba(255, 231, 169, 0.82) 50%, transparent 94%);
-    box-shadow: 0 0 22px rgba(227, 199, 126, 0.55);
+  .parallax-main-scene:first-child .parallax-section-bg {
+    transform: none;
   }
 }
 
-@media (max-width: 767px), (prefers-reduced-motion: reduce) {
-  .sacred-curtain__scene {
-    transform: none !important;
-    filter: none !important;
-  }
-  .sacred-curtain__shade {
-    display: none;
-  }
-  .sacred-curtain__next {
-    transform: none !important;
+@media (prefers-reduced-motion: reduce) {
+  .parallax-main-scene .parallax-section-bg {
+    transform: none;
+    will-change: auto;
   }
 }

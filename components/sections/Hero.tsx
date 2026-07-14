@@ -86,7 +86,7 @@ export default function Hero() {
       className="relative aspect-[9/16] h-auto min-h-0 w-full overflow-hidden bg-[#f3e6c9] sm:aspect-auto sm:min-h-[100svh]"
     >
       {!bgError && (
-        <picture className="block h-full w-full">
+        <picture className="parallax-section-bg block h-full w-full">
           <source media="(max-width: 639px)" srcSet="/images/hero-bg-mobile.webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <motion.img

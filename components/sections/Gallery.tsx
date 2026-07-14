@@ -131,7 +131,7 @@ export default function Gallery() {
 
   return (
     <section id="gallery" className="section-pad relative overflow-hidden bg-[#071d26]">
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div className="parallax-section-bg pointer-events-none absolute inset-0" aria-hidden="true">
         <picture className="block h-full w-full">
           <source media="(max-width: 639px)" srcSet="/images/gallery-bg-mobile.webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}

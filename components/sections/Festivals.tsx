@@ -21,7 +21,7 @@ export default function Festivals() {
   const { t, lang } = useLang();
   return (
     <section id="festivals" className="section-pad relative overflow-hidden bg-maroon-dark">
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div className="parallax-section-bg pointer-events-none absolute inset-0" aria-hidden="true">
         <picture className="block h-full w-full">
           <source media="(max-width: 639px)" srcSet="/images/festivals-bg-mobile.webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
