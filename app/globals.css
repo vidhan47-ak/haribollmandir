@@ -669,10 +669,6 @@ html[lang="hi"] h4 {
   overflow: clip;
   isolation: isolate;
 }
-.parallax-main-scene:not(:first-child) {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
-}
 .parallax-main-scene .parallax-section-bg {
   transform: none;
 }
