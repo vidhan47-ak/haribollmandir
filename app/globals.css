@@ -732,19 +732,25 @@ html[lang="hi"] h4 {
   }
 }
 
-/* Quote aperture: closed sections stay connected, then the quote opens from centre. */
-.quote-aperture {
+/* Quote aperture: real layout space grows and collapses around a centred quote. */
+.quote-aperture-anchor {
   position: relative;
   z-index: 30;
-  height: 100svh;
-  margin-bottom: -100svh;
+}
+.quote-aperture {
+  position: relative;
+  height: 0;
+  overflow: hidden;
   pointer-events: none;
 }
 .quote-aperture__panel {
-  height: 100svh;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
   overflow: hidden;
-  transform: translateZ(0);
-  will-change: clip-path;
+  transform: translate3d(0, -50%, 0);
+  will-change: height, opacity;
   filter:
     drop-shadow(0 -12px 22px rgba(227, 199, 126, 0.18))
     drop-shadow(0 12px 22px rgba(48, 22, 12, 0.34));
@@ -755,13 +761,19 @@ html[lang="hi"] h4 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .quote-aperture-anchor {
+    z-index: auto;
+  }
   .quote-aperture {
-    height: auto;
-    margin-bottom: 0;
+    height: auto !important;
+    overflow: visible;
   }
   .quote-aperture__panel {
+    position: relative;
+    top: auto;
     height: auto;
-    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none;
     filter: none;
     will-change: auto;
   }
