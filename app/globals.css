@@ -70,6 +70,33 @@
   border: 2px solid #f3e8d5;
 }
 
+/* Lightweight Tulsi cursor for mouse/trackpad devices only. */
+html.tulsi-cursor-active,
+html.tulsi-cursor-active * {
+  cursor: none !important;
+}
+html.tulsi-cursor-active input,
+html.tulsi-cursor-active textarea,
+html.tulsi-cursor-active [contenteditable="true"] {
+  cursor: text !important;
+}
+html.tulsi-cursor-active a,
+html.tulsi-cursor-active button,
+html.tulsi-cursor-active [role="button"],
+html.tulsi-cursor-active label,
+html.tulsi-cursor-active summary,
+html.tulsi-cursor-active select {
+  cursor: pointer !important;
+}
+.tulsi-leaf {
+  transform-origin: 6px 4px;
+  transition: opacity 120ms ease, scale 120ms ease;
+  will-change: transform;
+}
+.tulsi-leaf.is-press {
+  scale: 0.82;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Components                                                          */
 /* ------------------------------------------------------------------ */

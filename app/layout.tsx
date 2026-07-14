@@ -10,6 +10,7 @@ import {
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
+import TulsiCursor from "@/components/ui/TulsiCursor";
 import { LanguageProvider } from "@/lib/i18n";
 import PWAClient from "@/components/features/PWAClient";
 import AmbientSoundscape from "@/components/features/AmbientSoundscape";
@@ -117,6 +118,7 @@ export default function RootLayout({
             <Navbar />
             {children}
           </SmoothScroll>
+          <TulsiCursor />
           <PWAClient />
           <AmbientSoundscape />
         </LanguageProvider>
