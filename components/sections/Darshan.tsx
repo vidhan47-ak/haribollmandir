@@ -36,7 +36,7 @@ export default function Darshan() {
           {t.darshan.deities.map((deity, i) => {
             const img = IMGS[i];
             return (
-              <StaggerItem key={i}>
+              <StaggerItem key={i} y={18} scale={0.96} duration={1}>
                 <article className="card-temple group flex h-full flex-col !bg-transparent border border-white/45">
                   <div className="relative aspect-[4/5] shrink-0 overflow-hidden">
                     <FallbackImage

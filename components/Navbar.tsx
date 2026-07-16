@@ -136,12 +136,14 @@ export default function Navbar() {
   return (
     <>
       <header
-        className="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-all duration-500 ease-devotional sm:px-4 sm:pt-4 lg:px-6"
+        className={`fixed inset-x-0 top-0 z-50 px-3 transition-all duration-500 ease-devotional sm:px-4 lg:px-6 ${
+          scrolled ? "pt-2" : "pt-3 sm:pt-4"
+        }`}
       >
         <nav
           className={`mx-auto flex max-w-7xl items-center justify-between gap-2 rounded-full px-3 sm:gap-4 sm:px-6 ${
             glass
-              ? "nav-liquid-glass nav-liquid-glass--solid py-2.5 transition-all duration-500 ease-devotional"
+              ? "nav-liquid-glass nav-liquid-glass--solid py-2 transition-all duration-500 ease-devotional"
               : lightText
                 ? "py-4 transition-none [text-shadow:0_1px_8px_rgba(0,0,0,0.35)]"
                 : "py-4 transition-none"
@@ -160,7 +162,9 @@ export default function Navbar() {
                 alt="Hariboll Mandir logo"
                 draggable={false}
                 onError={() => setLogoOk(false)}
-                className="h-9 w-auto max-w-[96px] shrink-0 object-contain sm:h-11 sm:max-w-[132px]"
+                className={`h-9 w-auto max-w-[96px] shrink-0 object-contain transition-all duration-500 ease-devotional sm:max-w-[132px] ${
+                  scrolled ? "scale-95 sm:h-10" : "scale-100 sm:h-11"
+                }`}
               />
             ) : (
               <LotusMark

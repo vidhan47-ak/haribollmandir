@@ -13,6 +13,7 @@ import HashScroll from "@/components/ui/HashScroll";
 import { quoteBandImages } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
 import ParallaxScene from "@/components/ui/ParallaxScene";
+import CeremonialDivider from "@/components/ui/CeremonialDivider";
 
 export default function Home() {
   const { t } = useLang();
@@ -30,6 +31,7 @@ export default function Home() {
           imagePalette={quoteBandImages.harinam.palette}
           tone="gold"
         />
+        <CeremonialDivider />
         <ParallaxScene><About /></ParallaxScene>
         <QuoteBand
           quote={t.quotes.temple.quote}
@@ -39,6 +41,7 @@ export default function Home() {
           imagePalette={quoteBandImages.temple.palette}
           tone="forest"
         />
+        <CeremonialDivider />
         <ParallaxScene><HeritageCallout /></ParallaxScene>
         <QuoteBand
           quote={t.quotes.seva.quote}
@@ -48,6 +51,7 @@ export default function Home() {
           imagePalette={quoteBandImages.seva.palette}
           tone="maroon"
         />
+        <CeremonialDivider />
         <ParallaxScene><Festivals /></ParallaxScene>
         <QuoteBand
           quote={t.quotes.festival.quote}
@@ -57,6 +61,7 @@ export default function Home() {
           imagePalette={quoteBandImages.festival.palette}
           tone="gold"
         />
+        <CeremonialDivider />
         <ParallaxScene><Gallery /></ParallaxScene>
         <QuoteBand
           quote={t.quotes.darshan.quote}
@@ -67,6 +72,7 @@ export default function Home() {
           tone="maroon"
           focusRight
         />
+        <CeremonialDivider />
         <ParallaxScene><VisitUs /></ParallaxScene>
       </main>
       <Footer />

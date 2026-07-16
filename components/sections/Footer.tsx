@@ -5,6 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import LotusMark from "@/components/ui/LotusMark";
 import { useSmoothScrollTo } from "@/components/SmoothScroll";
 import { useLang } from "@/lib/i18n";
+import { motion, useReducedMotion } from "framer-motion";
 
 const TARGETS = ["#darshan", "#about", "#seva", "#festivals", "#gallery", "#visit"];
 
@@ -13,6 +14,7 @@ export default function Footer() {
   const pathname = usePathname();
   const router = useRouter();
   const { t } = useLang();
+  const reduce = useReducedMotion();
   const year = new Date().getFullYear();
 
   const goTo = (target: string) => {
@@ -29,7 +31,14 @@ export default function Footer() {
       className="relative overflow-hidden bg-maroon-gradient text-cream"
     >
       <div className="pattern-floral pointer-events-none absolute inset-0 opacity-25" />
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-px origin-left bg-gradient-to-r from-transparent via-gold to-transparent"
+        initial={reduce ? false : { opacity: 0, scaleX: 0 }}
+        whileInView={{ opacity: 1, scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: reduce ? 0 : 1.25, ease: [0.22, 1, 0.36, 1] }}
+      />
 
       <Reveal>
         <div className="container-temple relative py-16 lg:py-20">

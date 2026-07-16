@@ -95,20 +95,31 @@ export function StaggerItem({
   children,
   className,
   y = 30,
+  x = 0,
+  scale = 1,
   duration = 0.88,
 }: {
   children: ReactNode;
   className?: string;
   y?: number;
+  x?: number;
+  scale?: number;
   duration?: number;
 }) {
   const reduce = useReducedMotion();
 
   const item: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : y },
+    hidden: {
+      opacity: 0,
+      y: reduce ? 0 : y,
+      x: reduce ? 0 : x,
+      scale: reduce ? 1 : scale,
+    },
     show: {
       opacity: 1,
       y: 0,
+      x: 0,
+      scale: 1,
       transition: { duration: reduce ? 0 : duration, ease: EASE },
     },
   };

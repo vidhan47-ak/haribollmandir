@@ -7,6 +7,7 @@ import { festivalImages } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
 import SacredCountdown from "@/components/features/SacredCountdown";
 import DiyaOffering from "@/components/features/DiyaOffering";
+import VeilReveal from "@/components/ui/VeilReveal";
 
 const IMGS = [
   festivalImages.prakatUtsav,
@@ -48,7 +49,7 @@ export default function Festivals() {
           {t.festivals.items.map((festival, i) => {
             const img = IMGS[i];
             return (
-              <StaggerItem key={i}>
+              <StaggerItem key={i} x={i % 2 === 0 ? -28 : 28} y={10} duration={0.92}>
                 <article
                   className="festival-card group relative h-full overflow-hidden rounded-[1.5rem] shadow-card ring-1 ring-gold/15"
                   onPointerMove={(event) => {
@@ -66,6 +67,7 @@ export default function Festivals() {
                       palette={img.palette}
                       className="h-full w-full object-cover transition-transform duration-[1300ms] ease-devotional group-hover:scale-110"
                     />
+                    <VeilReveal tone="maroon" />
                     <div className="absolute inset-0 bg-gradient-to-t from-maroon-dark/90 via-maroon-dark/25 to-transparent" />
                   </div>
 

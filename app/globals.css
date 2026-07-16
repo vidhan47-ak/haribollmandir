@@ -673,31 +673,79 @@ html[lang="hi"] h4 {
   .ambient-sound-toggle.is-playing .ambient-sound-icon i { animation: none; }
 }
 
-/* Prismic-style alternating parallax scenes and normal quote content bands. */
+/* Slow, restrained depth for section artwork. Motion is driven by one shared
+   transform value per scene and is disabled on narrow screens. */
 .parallax-main-scene {
   position: relative;
   overflow: clip;
   isolation: isolate;
 }
 .parallax-main-scene .parallax-section-bg {
-  transform: none;
+  transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.08);
+  transform-origin: center;
+  will-change: transform;
 }
 
 .parallax-main-scene:first-child .hero-artwork {
-  transform: none;
+  transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.05);
 }
 
 @media (max-width: 767px) {
   .parallax-main-scene .parallax-section-bg {
-    transform: none;
+    transform: translate3d(0, var(--parallax-mobile-y, 0px), 0);
+    will-change: auto;
   }
   .parallax-main-scene:first-child .parallax-section-bg {
-    transform: none;
+    transform: translate3d(0, var(--parallax-mobile-y, 0px), 0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .parallax-main-scene .parallax-section-bg {
     transform: none;
+    will-change: auto;
   }
+}
+
+/* A soft ceremonial veil lifts once as an image enters the viewport. */
+.image-veil {
+  position: absolute;
+  inset: -2px;
+  z-index: 6;
+  pointer-events: none;
+  box-shadow: 0 18px 36px rgba(34, 19, 8, 0.2);
+}
+.image-veil--cream {
+  background:
+    radial-gradient(circle at 50% 15%, rgba(255, 255, 255, 0.62), transparent 42%),
+    linear-gradient(180deg, #fff7e7, #e5c98e);
+}
+.image-veil--maroon {
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255, 226, 175, 0.2), transparent 42%),
+    linear-gradient(180deg, #7f2934, #3e1018);
+}
+
+.ceremonial-divider {
+  background: linear-gradient(90deg, transparent, rgba(227, 199, 126, 0.88), transparent);
+  box-shadow: 0 0 16px rgba(201, 162, 75, 0.35);
+}
+.ceremonial-divider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgba(255, 231, 165, 0.9);
+  border-radius: 70% 30% 70% 30%;
+  background: #b88b31;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 12px rgba(227, 199, 126, 0.55);
+}
+
+.gallery-scroll-progress {
+  transform-origin: top;
+  background: linear-gradient(180deg, #f4d98c, #b98b31);
+  box-shadow: 0 0 14px rgba(227, 199, 126, 0.38);
 }

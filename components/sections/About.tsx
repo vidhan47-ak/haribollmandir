@@ -4,6 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import FallbackImage from "@/components/ui/FallbackImage";
 import { images } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
+import VeilReveal from "@/components/ui/VeilReveal";
 
 const ARCH_PATH =
   "M24 556 L24 200 C24 150 60 132 120 108 C175 84 194 44 200 12 C206 44 225 84 280 108 C340 132 376 150 376 200 L376 556 Z";
@@ -68,6 +69,7 @@ export default function About() {
                         palette="maroon"
                         className="h-full w-full object-cover object-center"
                       />
+                      <VeilReveal />
                       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-maroon-dark/30 via-transparent to-transparent" />
                     </div>
 

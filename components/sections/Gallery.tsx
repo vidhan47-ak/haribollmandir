@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useRef, useState } from "react";
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import FallbackImage from "@/components/ui/FallbackImage";
@@ -36,6 +36,7 @@ const ARC_SLOTS: { x: number; y: number; rot: number }[] = [
 ];
 
 export default function Gallery() {
+  const sectionRef = useRef<HTMLElement>(null);
   const [selected, setSelected] = useState(0);
   const reduce = useReducedMotion();
   const { t } = useLang();
@@ -47,6 +48,16 @@ export default function Gallery() {
   }));
   const active = items[selected];
   const total = items.length;
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    if (reduce || typeof window === "undefined" || window.innerWidth < 1024) return;
+    const next = Math.min(total - 1, Math.max(0, Math.floor(value * total)));
+    setSelected((current) => (current === next ? current : next));
+  });
 
   const arcItems = ARC_SLOTS.map((slot, i) => {
     const index = (selected + i + 1) % total;
@@ -130,7 +141,11 @@ export default function Gallery() {
   );
 
   return (
-    <section id="gallery" className="section-pad relative overflow-hidden bg-[#071d26]">
+    <section
+      ref={sectionRef}
+      id="gallery"
+      className="relative overflow-hidden bg-[#071d26] py-20 sm:py-28 lg:min-h-[175vh] lg:py-0"
+    >
       <div className="parallax-section-bg pointer-events-none absolute inset-0" aria-hidden="true">
         <picture className="block h-full w-full">
           <source media="(max-width: 639px)" srcSet="/images/gallery-bg-mobile.webp" />
@@ -154,7 +169,12 @@ export default function Gallery() {
         />
       </AnimatePresence>
 
-      <div className="container-temple relative z-10">
+      <div className="container-temple relative z-10 lg:sticky lg:top-0 lg:flex lg:min-h-screen lg:flex-col lg:justify-center lg:py-12">
+        <motion.div
+          aria-hidden="true"
+          className="gallery-scroll-progress absolute right-3 top-[35vh] z-30 hidden h-[30vh] w-px lg:block"
+          style={{ scaleY: scrollYProgress }}
+        />
         <Reveal>
           <SectionHeading
             eyebrow={t.gallery.eyebrow}

@@ -3,6 +3,7 @@
 import { Reveal } from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { useLang } from "@/lib/i18n";
+import VeilReveal from "@/components/ui/VeilReveal";
 
 const MAPS_QUERY =
   "Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir Pratap Bagh Jalandhar Punjab";
@@ -120,6 +121,7 @@ export default function VisitUs() {
                 referrerPolicy="no-referrer-when-downgrade"
                 className="absolute inset-0 h-full w-full border-0"
               />
+              <VeilReveal />
             </div>
           </div>
         </div>
