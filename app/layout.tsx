@@ -11,6 +11,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import TulsiCursor from "@/components/ui/TulsiCursor";
+import SacredParticles from "@/components/features/SacredParticles";
 import { LanguageProvider } from "@/lib/i18n";
 import PWAClient from "@/components/features/PWAClient";
 import AmbientSoundscape from "@/components/features/AmbientSoundscape";
@@ -115,6 +116,7 @@ export default function RootLayout({
       >
         <LanguageProvider>
           <SmoothScroll>
+            <SacredParticles />
             <Navbar />
             {children}
           </SmoothScroll>
