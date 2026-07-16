@@ -749,3 +749,71 @@ html[lang="hi"] h4 {
   background: linear-gradient(180deg, #f4d98c, #b98b31);
   box-shadow: 0 0 14px rgba(227, 199, 126, 0.38);
 }
+
+/* Scroll-linked section stack. Each scene gets a measured sticky stop so tall
+   sections finish scrolling before their last viewport is held. The following
+   scene overlaps that hold and stretches gently into its natural shape. */
+.scroll-stretch-stack {
+  position: relative;
+  isolation: isolate;
+}
+.scroll-stretch-scene {
+  position: relative;
+  z-index: var(--stretch-layer, 0);
+  padding-bottom: 70vh;
+}
+.scroll-stretch-scene + .scroll-stretch-scene {
+  margin-top: -70vh;
+}
+.scroll-stretch-scene:last-child {
+  padding-bottom: 0;
+}
+.scroll-stretch-surface {
+  position: sticky;
+  top: var(--stretch-pin-top, 0px);
+  overflow: clip;
+  isolation: isolate;
+  transform-origin: top center;
+  background: #ead7ad;
+  box-shadow: 0 -22px 60px -42px rgba(32, 17, 8, 0.72);
+  will-change: transform, border-radius;
+}
+
+@media (max-width: 767px) {
+  .scroll-stretch-scene,
+  .scroll-stretch-scene:last-child {
+    padding-bottom: 0;
+  }
+  .scroll-stretch-scene + .scroll-stretch-scene {
+    margin-top: 0;
+  }
+  .scroll-stretch-surface {
+    position: relative;
+    top: auto;
+    overflow: visible;
+    border-radius: 0 !important;
+    box-shadow: none;
+    transform: none !important;
+    opacity: 1 !important;
+    will-change: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-stretch-scene,
+  .scroll-stretch-scene:last-child {
+    padding-bottom: 0;
+  }
+  .scroll-stretch-scene + .scroll-stretch-scene {
+    margin-top: 0;
+  }
+  .scroll-stretch-surface {
+    position: relative;
+    top: auto;
+    overflow: visible;
+    box-shadow: none;
+    transform: none !important;
+    opacity: 1 !important;
+    will-change: auto;
+  }
+}
