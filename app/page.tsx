@@ -13,7 +13,6 @@ import HashScroll from "@/components/ui/HashScroll";
 import { quoteBandImages } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
 import ParallaxScene from "@/components/ui/ParallaxScene";
-import QuoteAperture from "@/components/ui/QuoteAperture";
 
 export default function Home() {
   const { t } = useLang();
@@ -23,61 +22,51 @@ export default function Home() {
       <main>
         <ParallaxScene amount={42} mobileAmount={0}><Hero /></ParallaxScene>
         <ParallaxScene><Darshan /></ParallaxScene>
-        <QuoteAperture>
-          <QuoteBand
-            quote={t.quotes.harinam.quote}
-            subquote={t.quotes.harinam.subquote}
-            imageSrc={quoteBandImages.harinam.src}
-            imageLabel={quoteBandImages.harinam.label}
-            imagePalette={quoteBandImages.harinam.palette}
-            tone="gold"
-          />
-        </QuoteAperture>
+        <QuoteBand
+          quote={t.quotes.harinam.quote}
+          subquote={t.quotes.harinam.subquote}
+          imageSrc={quoteBandImages.harinam.src}
+          imageLabel={quoteBandImages.harinam.label}
+          imagePalette={quoteBandImages.harinam.palette}
+          tone="gold"
+        />
         <ParallaxScene><About /></ParallaxScene>
-        <QuoteAperture>
-          <QuoteBand
-            quote={t.quotes.temple.quote}
-            subquote={t.quotes.temple.subquote}
-            imageSrc={quoteBandImages.temple.src}
-            imageLabel={quoteBandImages.temple.label}
-            imagePalette={quoteBandImages.temple.palette}
-            tone="forest"
-          />
-        </QuoteAperture>
+        <QuoteBand
+          quote={t.quotes.temple.quote}
+          subquote={t.quotes.temple.subquote}
+          imageSrc={quoteBandImages.temple.src}
+          imageLabel={quoteBandImages.temple.label}
+          imagePalette={quoteBandImages.temple.palette}
+          tone="forest"
+        />
         <ParallaxScene><HeritageCallout /></ParallaxScene>
-        <QuoteAperture>
-          <QuoteBand
-            quote={t.quotes.seva.quote}
-            subquote={t.quotes.seva.subquote}
-            imageSrc={quoteBandImages.seva.src}
-            imageLabel={quoteBandImages.seva.label}
-            imagePalette={quoteBandImages.seva.palette}
-            tone="maroon"
-          />
-        </QuoteAperture>
+        <QuoteBand
+          quote={t.quotes.seva.quote}
+          subquote={t.quotes.seva.subquote}
+          imageSrc={quoteBandImages.seva.src}
+          imageLabel={quoteBandImages.seva.label}
+          imagePalette={quoteBandImages.seva.palette}
+          tone="maroon"
+        />
         <ParallaxScene><Festivals /></ParallaxScene>
-        <QuoteAperture>
-          <QuoteBand
-            quote={t.quotes.festival.quote}
-            subquote={t.quotes.festival.subquote}
-            imageSrc={quoteBandImages.festival.src}
-            imageLabel={quoteBandImages.festival.label}
-            imagePalette={quoteBandImages.festival.palette}
-            tone="gold"
-          />
-        </QuoteAperture>
+        <QuoteBand
+          quote={t.quotes.festival.quote}
+          subquote={t.quotes.festival.subquote}
+          imageSrc={quoteBandImages.festival.src}
+          imageLabel={quoteBandImages.festival.label}
+          imagePalette={quoteBandImages.festival.palette}
+          tone="gold"
+        />
         <ParallaxScene><Gallery /></ParallaxScene>
-        <QuoteAperture>
-          <QuoteBand
-            quote={t.quotes.darshan.quote}
-            subquote={t.quotes.darshan.subquote}
-            imageSrc={quoteBandImages.darshan.src}
-            imageLabel={quoteBandImages.darshan.label}
-            imagePalette={quoteBandImages.darshan.palette}
-            tone="maroon"
-            focusRight
-          />
-        </QuoteAperture>
+        <QuoteBand
+          quote={t.quotes.darshan.quote}
+          subquote={t.quotes.darshan.subquote}
+          imageSrc={quoteBandImages.darshan.src}
+          imageLabel={quoteBandImages.darshan.label}
+          imagePalette={quoteBandImages.darshan.palette}
+          tone="maroon"
+          focusRight
+        />
         <ParallaxScene><VisitUs /></ParallaxScene>
       </main>
       <Footer />
