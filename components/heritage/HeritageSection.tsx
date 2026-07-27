@@ -1,11 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useState, type ReactNode } from "react";
 import FallbackImage from "@/components/ui/FallbackImage";
 import type { Palette } from "@/lib/images";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* Warm cream→gold surface. Kept fairly opaque (no backdrop-blur) so text stays
    readable and the page does not have to recomposite expensive blur layers. */
@@ -43,7 +40,6 @@ export default function HeritageSection({
   imagePalette,
 }: HeritageSectionProps) {
   const [open, setOpen] = useState(false);
-  const reduce = useReducedMotion();
   const isLeft = side === "left";
 
   const imageBlock = (
@@ -73,14 +69,19 @@ export default function HeritageSection({
 
   return (
     <>
-      {/* ---------------- DESKTOP (lg+) — hover-reveal slide card ---------- */}
-      <div className="group relative z-0 hidden hover:z-40 lg:block lg:min-h-[9rem]">
+      {/* ---------------- DESKTOP (lg+) — hover/focus-reveal slide card ------ */}
+      {/* `focus-within` is as important as `hover` here: the card holds the
+          actual heritage prose, so hover-only made all seven blocks
+          unreachable by keyboard. The badge is a real button so there is
+          something to tab to, and the media query keeps the motion off
+          touch devices that fire phantom hovers on tap. */}
+      <div className="heritage-block group relative z-0 hidden focus-within:z-40 hover:z-40 lg:block lg:min-h-[9rem]">
         {/* Content card — anchored to the TOP so it only grows downward, never
-            up into the hero. Slides in horizontally on hover. */}
+            up into the hero. Slides in horizontally on hover or focus. */}
         <div
-          className={`absolute top-0 z-20 w-[90%] opacity-0 transition-[transform,opacity] duration-700 ease-devotional pointer-events-none group-hover:translate-x-0 group-hover:opacity-100 group-hover:pointer-events-auto ${
-            isLeft ? "left-0 -translate-x-6" : "right-0 translate-x-6"
-          }`}
+          className={`heritage-card absolute top-0 z-20 w-[90%] ${
+            isLeft ? "left-0" : "right-0"
+          } ${isLeft ? "heritage-card--left" : "heritage-card--right"}`}
         >
           <article
             className={`${CARD_SURFACE} p-7 lg:p-9 ${
@@ -104,19 +105,26 @@ export default function HeritageSection({
           </article>
         </div>
 
-        {/* Golden number badge — top corner, always visible */}
+        {/* Golden number badge — top corner, always visible. A real <button>
+            so the card it reveals has a keyboard entry point. */}
         <div className={`absolute top-0 z-30 ${isLeft ? "left-0" : "right-0"}`}>
-          <div
-            className="flex h-20 w-20 items-center justify-center rounded-[1.25rem] border border-gold/50 shadow-[0_10px_30px_rgba(60,35,10,0.25)] transition-[transform,box-shadow] duration-500 ease-devotional group-hover:scale-105 group-hover:shadow-[0_0_44px_rgba(201,162,75,0.6)]"
+          <button
+            type="button"
+            aria-expanded={undefined}
+            aria-label={title}
+            className="heritage-badge flex h-20 w-20 items-center justify-center rounded-[1.25rem] border border-gold/50 shadow-[0_10px_30px_rgba(60,35,10,0.25)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
             style={{
               backgroundImage:
                 "linear-gradient(135deg, rgba(255,241,207,0.9), rgba(217,168,79,0.55))",
             }}
           >
-            <span className="font-display text-4xl font-bold text-gold-deep transition-colors duration-500 [text-shadow:0_2px_10px_rgba(201,162,75,0.35)] group-hover:text-gold lg:text-5xl">
+            <span
+              aria-hidden="true"
+              className="font-display text-4xl font-bold text-gold-deep transition-colors duration-200 [text-shadow:0_2px_10px_rgba(201,162,75,0.35)] group-hover:text-gold lg:text-5xl"
+            >
               {index}
             </span>
-          </div>
+          </button>
         </div>
       </div>
 
@@ -154,8 +162,15 @@ export default function HeritageSection({
             </svg>
           </button>
 
-          {reduce ? (
-            open && (
+          {/* Disclosure via a CSS grid-template-rows transition rather than a
+              Framer height:0 → "auto" animation. Two reasons: animating
+              `height` runs layout + paint + composite on every frame (seven of
+              these stack on one mobile page), and a CSS *transition* retargets
+              from wherever it currently is, so tapping the header mid-open
+              reverses smoothly instead of restarting. The content also stays
+              mounted, so it remains findable by in-page search. */}
+          <div className="heritage-disclosure" data-open={open ? "true" : "false"}>
+            <div className="heritage-disclosure__inner">
               <div className="px-5 pb-6">
                 <div className="border-t border-gold/25 pt-5">
                   <div className="mb-5">{imageBlock}</div>
@@ -164,30 +179,8 @@ export default function HeritageSection({
                   </div>
                 </div>
               </div>
-            )
-          ) : (
-            <AnimatePresence initial={false}>
-              {open && (
-                <motion.div
-                  key="content"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.5, ease: EASE }}
-                  className="overflow-hidden"
-                >
-                  <div className="px-5 pb-6">
-                    <div className="border-t border-gold/25 pt-5">
-                      <div className="mb-5">{imageBlock}</div>
-                      <div className="space-y-4 font-body leading-relaxed text-ink-soft">
-                        {children}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          )}
+            </div>
+          </div>
         </div>
       </div>
     </>

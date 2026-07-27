@@ -36,3 +36,6 @@ next-env.d.ts
 /dist/
 .vinext/
 .wrangler/
+
+# Local Netlify folder
+.netlify

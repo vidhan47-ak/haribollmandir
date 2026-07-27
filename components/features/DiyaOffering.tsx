@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { EASE_DEVOTIONAL } from "@/lib/springs";
 
 export default function DiyaOffering({ lang }: { lang: "en" | "hi" }) {
   const [open, setOpen] = useState(false);
@@ -51,7 +52,7 @@ export default function DiyaOffering({ lang }: { lang: "en" | "hi" }) {
               initial={reduce ? undefined : { opacity: 0, y: 24, scale: 0.97 }}
               animate={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
               exit={reduce ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.55, ease: EASE_DEVOTIONAL }}
               onClick={(event) => event.stopPropagation()}
               className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-gold/35 bg-[radial-gradient(circle_at_50%_15%,#7c4023_0%,#4a1219_48%,#230b10_100%)] px-6 py-10 text-center text-cream shadow-[0_30px_100px_-20px_rgba(0,0,0,0.9)] sm:px-10"
             >

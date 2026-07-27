@@ -1,0 +1,72 @@
+{
+  "slug": "bhagavat-patrika-1956-02",
+  "kind": "patrika",
+  "title": "Bhagavat Patrika · 1956 · Issue 2",
+  "subtitle": "Rath Yatra Special",
+  "description": "A festival issue glorifying Lord Jagannath and the sublime mood of separation carried in the Rath Yatra of Puri, drawn from the teachings of Sri Chaitanya Mahaprabhu.",
+  "year": "1956",
+  "issue": "Issue 2",
+  "featured": false,
+  "addedAt": "2026-07-05",
+  "pdfUrl": "https://www.purebhakti.com/resources/bhagavat-patrika",
+  "cover": "/images/grantha/patrika-1956-02.svg",
+  "articles": [
+    {
+      "slug": "the-mystery-of-jagannath",
+      "title": "The Mystery of Sri Jagannath",
+      "author": "Srila Bhaktivedanta Trivikrama Gosvami Maharaja",
+      "published": "1956 · Issue 2",
+      "category": "Jagannath",
+      "tags": ["Jagannath", "Rath Yatra", "Festivals", "Krishna"],
+      "excerpt": "Why does the Lord of the Universe appear with great round eyes and unfinished form? Within this deity lies the deepest secret of Radha's love.",
+      "cover": "/images/grantha/patrika-1956-02.svg",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Sri Jagannath is Krishna himself, absorbed in the overwhelming ecstasy of Radharani's love. When Krishna hears the gopis' songs of Vrindavan, his limbs withdraw, his eyes grow wide, and he becomes the form we worship as Jagannath."
+        },
+        {
+          "type": "verse",
+          "sanskrit": "जगन्नाथः स्वामी नयनपथगामी भवतु मे",
+          "transliteration": "jagannāthaḥ svāmī nayana-patha-gāmī bhavatu me",
+          "translation": "May that Jagannath Swami be the object of my vision.",
+          "reference": "Jagannathastakam"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "The Chariot of the Heart"
+        },
+        {
+          "type": "paragraph",
+          "text": "The Rath Yatra is the pulling of Krishna from Kurukshetra back to Vrindavan — the devotees, in the mood of the residents of Vraja, draw the Lord back into the intimacy of pure loving service."
+        }
+      ]
+    },
+    {
+      "slug": "radha-the-embodiment-of-devotion",
+      "title": "Sri Radha — The Embodiment of Devotion",
+      "author": "Srila Bhakti Prajnana Kesava Gosvami Maharaja",
+      "published": "1956 · Issue 2",
+      "category": "Radha Krishna",
+      "tags": ["Radha", "Krishna", "Rasa", "Bhakti"],
+      "excerpt": "Srimati Radharani is the personification of the pleasure potency, the very heart of devotion. To follow her is the highest attainment of the soul.",
+      "cover": "/images/grantha/patrika-1956-02.svg",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Srimati Radharani is not a created being but the eternal counter-whole of Sri Krishna — his hladini-shakti, the very essence of his bliss. Her love defines the summit of devotion that all pure devotees aspire to serve."
+        },
+        {
+          "type": "quote",
+          "text": "Radha is the full power, and Lord Krishna is the possessor of full power. The two are not different.",
+          "attribution": "Sri Chaitanya Charitamrita"
+        },
+        {
+          "type": "paragraph",
+          "text": "The residents of Vraja do not worship Radha and Krishna separately. They serve the Divine Couple together, seeking the shelter of Radha's maidservants, for it is through her mercy alone that Krishna is truly attained."
+        }
+      ]
+    }
+  ]
+}

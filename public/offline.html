@@ -8,7 +8,17 @@
     <style>
       body{margin:0;min-height:100vh;display:grid;place-items:center;background:#faf4ea;color:#3a2e26;font-family:system-ui,sans-serif;padding:24px;text-align:center}
       main{max-width:520px;padding:40px;border:1px solid #c9a24b55;border-radius:28px;background:#fffaf0;box-shadow:0 24px 70px -42px #4a1219}
-      img{width:88px;height:88px;border-radius:50%}h1{font-family:Georgia,serif;color:#6e1e2a;font-size:28px;margin:20px 0 10px}p{line-height:1.7;color:#6b5a4e}.timings{margin-top:24px;padding-top:20px;border-top:1px solid #c9a24b55;font-weight:600}.small{font-size:13px;font-weight:400}
+      img{width:88px;height:88px;border-radius:50%}
+      h1{font-family:Georgia,serif;color:#6e1e2a;font-size:28px;margin:20px 0 10px}
+      p{line-height:1.7;color:#6b5a4e}
+      .block{margin-top:24px;padding-top:20px;border-top:1px solid #c9a24b55;text-align:left}
+      .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8c6620;font-weight:700;margin:0 0 10px}
+      .row{display:flex;justify-content:space-between;gap:16px;padding:6px 0;font-size:14px}
+      .row span:last-child{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+      .aarati{margin:10px 0 0;font-size:13px;font-variant-numeric:tabular-nums}
+      a{color:#6e1e2a;font-weight:600}
+      .small{font-size:13px;font-weight:400;margin-top:22px}
+      /* Reduced motion is respected by having no motion at all here. */
     </style>
   </head>
   <body>
@@ -16,9 +26,65 @@
       <img src="/images/logo.png" alt="Hariboll Mandir" />
       <h1>Hariboll Mandir</h1>
       <p>You are currently offline. Temple essentials remain available here.</p>
-      <div class="timings">Morning Darshan: 6:00 AM – 11:00 AM<br />Evening Darshan: 5:00 PM – 9:00 PM</div>
-      <p class="small">Pratap Bagh, Jalandhar, Punjab, India</p>
+
+      <div class="block" id="essentials">
+        <p class="label">Darshan Timings</p>
+        <p class="aarati" id="fallback">
+          Temple timings will appear here after your first visit while online.
+        </p>
+      </div>
+
+      <p class="small" id="address">Pratap Bagh, Jalandhar, Punjab, India</p>
+      <p class="small">
+        <a href="mailto:haribollmandir@gmail.com">haribollmandir@gmail.com</a>
+      </p>
     </main>
+
+    <script>
+      /*
+        The timings used to be hardcoded here — a third copy that drifted from
+        lib/temple.ts. They are now read from the snapshot PWAClient writes on
+        every online visit, so this page can never show a stale time. If the
+        snapshot is missing we say so rather than inventing one.
+      */
+      (function () {
+        try {
+          var raw = window.localStorage.getItem("hariboll-temple-info");
+          if (!raw) return;
+          var info = JSON.parse(raw);
+          if (!info || !Array.isArray(info.timings) || !info.timings.length) return;
+
+          var host = document.getElementById("essentials");
+          var fallback = document.getElementById("fallback");
+          if (fallback) fallback.remove();
+
+          info.timings.forEach(function (row) {
+            var line = document.createElement("div");
+            line.className = "row";
+            var label = document.createElement("span");
+            label.textContent = row.label;
+            var value = document.createElement("span");
+            value.textContent = row.value;
+            line.appendChild(label);
+            line.appendChild(value);
+            host.appendChild(line);
+          });
+
+          if (info.aarati) {
+            var aarati = document.createElement("p");
+            aarati.className = "aarati";
+            aarati.textContent = info.aarati;
+            host.appendChild(aarati);
+          }
+
+          if (info.address) {
+            var addr = document.getElementById("address");
+            if (addr) addr.textContent = info.address;
+          }
+        } catch (e) {
+          /* A blocked store just leaves the neutral message in place. */
+        }
+      })();
+    </script>
   </body>
 </html>
-

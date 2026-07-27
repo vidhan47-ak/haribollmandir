@@ -1,0 +1,208 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Create the TypeScript scroll core": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373096775
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373110966
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373468661
+      }
+    ],
+    "2.1 Replace the `SmoothScroll` stub with the controller boundary": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373097148
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373522258
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373861634
+      }
+    ],
+    "2.2 Add policy migration, lifecycle cleanup, refresh coalescing, and fallback recovery": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373097430
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373873543
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784374665994
+      }
+    ],
+    "3.1 Replace timer/selector-based hash scrolling with controller readiness": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373097591
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784374680493
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784375107304
+      }
+    ],
+    "3.2 Connect the existing Navbar menu lock to named suspension": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373097945
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784374686382
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784375115508
+      }
+    ],
+    "4.1 Update reveal primitives to the approved motion tokens": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373098192
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784374692004
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784375121938
+      }
+    ],
+    "4.2 Enforce policy-aware decorative parallax and CSS fallbacks": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373098396
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784374697475
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784375144270
+      },
+      {
+        "executionId": "d7300805-30fb-42b7-9e18-332f0b750506",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784376260665
+      },
+      {
+        "executionId": "d7300805-30fb-42b7-9e18-332f0b750506",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784376540103
+      },
+      {
+        "executionId": "58ac7ccb-e9d4-4dfb-b643-651f76110619",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784377035642
+      }
+    ],
+    "5.1 Implement the imperative decorative progress component": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373098567
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784374703394
+      },
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784375128028
+      }
+    ],
+    "6. Final checkpoint - Ensure all selected automated checks pass": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373098718
+      },
+      {
+        "executionId": "d7300805-30fb-42b7-9e18-332f0b750506",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784376568269
+      },
+      {
+        "executionId": "d7300805-30fb-42b7-9e18-332f0b750506",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784376772753
+      }
+    ],
+    "1. Implement pure scroll policy and calculation primitives": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784373468964
+      }
+    ],
+    "2. Build the native-first Scroll Runtime and controller provider": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784374666281
+      }
+    ],
+    "3. Integrate safe route navigation and mobile-menu suspension": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784375115752
+      }
+    ],
+    "5. Add and wire the homepage Sacred Thread": [
+      {
+        "executionId": "52f192e1-f62b-4028-9873-e045efe32364",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784375128328
+      }
+    ],
+    "4. Apply bounded Lotus Breath and background-only parallax policy": [
+      {
+        "executionId": "d7300805-30fb-42b7-9e18-332f0b750506",
+        "chatSessionId": "sess_651510b0-bc2a-4827-a8e3-9960b0d13a42",
+        "timestamp": 1784376540373
+      }
+    ]
+  }
+}

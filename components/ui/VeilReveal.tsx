@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { EASE_DEVOTIONAL } from "@/lib/springs";
 
 export default function VeilReveal({ tone = "cream" }: { tone?: "cream" | "maroon" }) {
   const reduce = useReducedMotion();
@@ -13,7 +14,7 @@ export default function VeilReveal({ tone = "cream" }: { tone?: "cream" | "maroo
       initial={{ y: "0%" }}
       whileInView={{ y: "-102%" }}
       viewport={{ once: true, margin: "-12% 0px" }}
-      transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 1.05, ease: EASE_DEVOTIONAL }}
     />
   );
 }

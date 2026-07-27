@@ -4,13 +4,34 @@ import { useEffect, useRef, useState } from "react";
 
 const INTERACTIVE = "a,button,[role='button'],input,textarea,select,label,summary";
 
-/** Lightweight Tulsi cursor: pointer-driven only, with no canvas or animation loop. */
+/**
+ * Lightweight Tulsi cursor: pointer-driven only, with no canvas or animation
+ * loop.
+ *
+ * Replacing the native cursor is a motion decision, so it now honours
+ * prefers-reduced-motion the same way SacredParticles does — previously it was
+ * gated on `(pointer: fine)` alone and hid the system cursor site-wide with no
+ * way to opt out.
+ */
 export default function TulsiCursor() {
   const [enabled, setEnabled] = useState(false);
   const leafRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setEnabled(window.matchMedia("(pointer: fine)").matches);
+    const finePointer = window.matchMedia("(pointer: fine)");
+    const noPreference = window.matchMedia(
+      "(prefers-reduced-motion: no-preference)",
+    );
+
+    const update = () => setEnabled(finePointer.matches && noPreference.matches);
+    update();
+
+    finePointer.addEventListener("change", update);
+    noPreference.addEventListener("change", update);
+    return () => {
+      finePointer.removeEventListener("change", update);
+      noPreference.removeEventListener("change", update);
+    };
   }, []);
 
   useEffect(() => {

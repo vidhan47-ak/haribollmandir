@@ -4,16 +4,15 @@ import { Reveal } from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { useLang } from "@/lib/i18n";
 import VeilReveal from "@/components/ui/VeilReveal";
+import { TempleLinkRows } from "@/components/ui/TempleLinks";
+import {
+  TEMPLE_EMAIL,
+  TEMPLE_MAP_EMBED_URL,
+  aaratiScheduleLine,
+  templeLink,
+} from "@/lib/temple";
 
-const MAPS_QUERY =
-  "Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir Pratap Bagh Jalandhar Punjab";
-const DIRECTIONS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  MAPS_QUERY,
-)}`;
-const MAP_EMBED_URL = `https://maps.google.com/maps?q=${encodeURIComponent(
-  MAPS_QUERY,
-)}&z=15&output=embed`;
-const INSTAGRAM_URL = "https://instagram.com/hariboll_mandir";
+const DIRECTIONS_URL = templeLink("maps").href;
 
 function PinIcon() {
   return (
@@ -33,8 +32,17 @@ function ClockIcon() {
   );
 }
 
+function MailIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="5" width="18" height="14" rx="2.5" />
+      <path d="m3.8 7 7.4 5.4a1.4 1.4 0 0 0 1.6 0L20.2 7" />
+    </svg>
+  );
+}
+
 export default function VisitUs() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   return (
     <section id="visit" className="section-pad relative overflow-hidden bg-[#d8c28f]">
       <div className="parallax-section-bg pointer-events-none absolute inset-0" aria-hidden="true">
@@ -89,10 +97,38 @@ export default function VisitUs() {
                         className="flex items-center justify-between gap-4 font-body text-[15px] text-ink"
                       >
                         <span className="text-ink-soft">{tm.label}</span>
-                        <span className="font-medium">{tm.value}</span>
+                        <span className="font-medium tabular-nums">{tm.value}</span>
                       </li>
                     ))}
                   </ul>
+                  <p className="mt-3 border-t border-gold/20 pt-3 font-body text-[13px] text-ink-soft">
+                    <span className="font-semibold text-gold-deeper">
+                      {t.visit.aaratiLabel}
+                    </span>
+                    <span className="mt-0.5 block tabular-nums">
+                      {aaratiScheduleLine(lang)}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              <div className="my-8 h-px w-full bg-gradient-to-r from-gold/40 to-transparent" />
+
+              {/* Every way to reach the mandir — email, WhatsApp, the social
+                  channels and directions, all read from lib/temple.ts. */}
+              <div className="flex items-start gap-4">
+                <span className="mt-1 text-gold-deep">
+                  <MailIcon />
+                </span>
+                <div className="w-full min-w-0">
+                  <p className="font-body text-xs uppercase tracking-widest2 text-gold-deeper">
+                    {t.visit.reachUsLabel}
+                  </p>
+                  <TempleLinkRows
+                    lang={lang}
+                    ids={["whatsapp", "email", "instagram", "broadcast", "facebook", "youtube"]}
+                    className="mt-3"
+                  />
                 </div>
               </div>
 
@@ -100,13 +136,13 @@ export default function VisitUs() {
                 <a href={DIRECTIONS_URL} target="_blank" rel="noopener noreferrer" className="btn-gold">
                   {t.visit.getDirections}
                 </a>
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="btn-outline-dark">
+                <a href={`mailto:${TEMPLE_EMAIL}`} className="btn-outline-dark">
                   {t.visit.contactTemple}
                 </a>
               </div>
             </Reveal>
 
-            <div className="relative min-h-[320px] bg-forest/5 lg:min-h-full">
+            <div className="relative min-h-[360px] bg-forest/5 lg:min-h-full">
               <div className="pattern-peacock absolute inset-0 opacity-70" />
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-forest/50">
                 <PinIcon />
@@ -116,12 +152,16 @@ export default function VisitUs() {
               </div>
               <iframe
                 title={t.visit.addressName}
-                src={MAP_EMBED_URL}
+                src={TEMPLE_MAP_EMBED_URL}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="absolute inset-0 h-full w-full border-0"
               />
-              <VeilReveal />
+              {/* Ceremonial veil on desktop only. On mobile this cream/gold
+                  gradient (z-index 6) sits over the map and would cover it. */}
+              <div className="hidden lg:block">
+                <VeilReveal />
+              </div>
             </div>
           </div>
         </div>

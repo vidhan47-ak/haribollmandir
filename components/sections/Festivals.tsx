@@ -42,14 +42,14 @@ export default function Festivals() {
 
         <SacredCountdown />
 
-        <Stagger
-          className="mt-12 grid gap-6 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-8"
-          staggerChildren={0.1}
-        >
+        {/* These props used to ask for values the token layer silently clamps
+            (staggerChildren 0.1 -> 0.07, x ±28 -> ±18), so the code read as
+            having variety it did not have. They now state what actually runs. */}
+        <Stagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-8">
           {t.festivals.items.map((festival, i) => {
             const img = IMGS[i];
             return (
-              <StaggerItem key={i} x={i % 2 === 0 ? -28 : 28} y={10} duration={0.92}>
+              <StaggerItem key={i} x={i % 2 === 0 ? -18 : 18} y={10}>
                 <article
                   className="festival-card group relative h-full overflow-hidden rounded-[1.5rem] shadow-card ring-1 ring-gold/15"
                   onPointerMove={(event) => {
@@ -65,7 +65,7 @@ export default function Festivals() {
                       alt={festival.title}
                       label={festival.title}
                       palette={img.palette}
-                      className="h-full w-full object-cover transition-transform duration-[1300ms] ease-devotional group-hover:scale-110"
+                      className="h-full w-full object-cover transition-transform duration-[400ms] ease-devotional group-hover:scale-110"
                     />
                     <VeilReveal tone="maroon" />
                     <div className="absolute inset-0 bg-gradient-to-t from-maroon-dark/90 via-maroon-dark/25 to-transparent" />
@@ -78,7 +78,10 @@ export default function Festivals() {
                     <h3 className="mt-2 font-heading text-2xl font-semibold text-cream">
                       {festival.title}
                     </h3>
-                    <div className="mt-3 h-px w-10 origin-left scale-x-100 bg-gold/70 transition-all duration-500 ease-devotional group-hover:w-16" />
+                    {/* Only the width changes, so `transition-all` (which
+                        reaches off-GPU properties) is narrowed to it, in the
+                        sub-300ms hover budget. */}
+                    <div className="mt-3 h-px w-10 origin-left scale-x-100 bg-gold/70 transition-[width] duration-[240ms] ease-devotional group-hover:w-16" />
                     <p className="mt-3 max-w-xs font-body text-sm leading-relaxed text-cream/80">
                       {festival.blurb}
                     </p>

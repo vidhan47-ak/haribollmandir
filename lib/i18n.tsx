@@ -7,6 +7,11 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import {
+  TEMPLE_ADDRESS,
+  darshanTimings,
+  templeAddressLine,
+} from "@/lib/temple";
 
 export type Lang = "en" | "hi";
 
@@ -14,14 +19,19 @@ export type Lang = "en" | "hi";
 export type Dict = {
   nav: {
     home: string;
+    daily: string;
     about: string;
     festivals: string;
     heritage: string;
+    library: string;
     gallery: string;
     visit: string;
     contact: string;
     brand: string;
     location: string;
+    donate: string;
+    donateScan: string;
+    calendar: string;
   };
   hero: {
     title: string;
@@ -75,6 +85,9 @@ export type Dict = {
     getDirections: string;
     contactTemple: string;
     mapPin: string;
+    /** Heading above the full list of ways to reach the mandir. */
+    reachUsLabel: string;
+    aaratiLabel: string;
   };
   footer: {
     brand: string;
@@ -83,7 +96,11 @@ export type Dict = {
     address: string;
     explore: string;
     connect: string;
+    timingsLabel: string;
+    liveLabel: string;
     haribol: string;
+    /** Label above the temple email address in the footer. */
+    writeToUs: string;
     rights: string;
     made: string;
     links: string[];
@@ -102,32 +119,115 @@ export type Dict = {
     blocks: { title: string; paras: string[] }[];
     closing: string;
   };
+  /**
+   * Grantha Mandir chrome. The library was entirely English — a हिंदी reader
+   * navigated ~700 articles through English labels — which broke the brief's
+   * requirement of genuine parity on the very surface it names a recurring draw.
+   */
+  grantha: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    searchPlaceholder: string;
+    searchLabel: string;
+    clear: string;
+    scrollLeft: string;
+    scrollRight: string;
+    keptClose: string;
+    yourShelf: string;
+    saved: string;
+    continueReading: string;
+    resume: string;
+    dismiss: string;
+    featured: string;
+    featuredPatrika: string;
+    freshNectar: string;
+    recentlyAdded: string;
+    theArchive: string;
+    collections: string;
+    collectionsNote: string;
+    theLibrary: string;
+    patrikaNote: string;
+    booksNote: string;
+    openIssue: string;
+    openBook: string;
+    openCollection: string;
+    readNow: string;
+    read: string;
+    minRead: string;
+    treasure: string;
+    treasures: string;
+    found: string;
+    viewAll: string;
+    noResults: string;
+    noResultsQuery: string;
+    noResultsEmpty: string;
+    bookmark: string;
+    savedLabel: string;
+    removeBookmark: string;
+    addBookmark: string;
+    readingProgress: string;
+    minTotal: string;
+    contents: string;
+    audioVersion: string;
+    audioPending: string;
+    relatedReading: string;
+    continueJourney: string;
+    share: string;
+    linkCopied: string;
+    verseCopied: string;
+    stanzaCopied: string;
+    copyVerse: string;
+    copyStanza: string;
+    kirtanMode: string;
+    kirtanModeHint: string;
+    scriptHint: string;
+    previous: string;
+    next: string;
+    streak: string;
+    streakWeek: string;
+    streakFortnight: string;
+    streakMonth: string;
+    day: string;
+    days: string;
+    patrikaArchive: string;
+    collection: string;
+    beginReading: string;
+    tableOfContents: string;
+    originalPdf: string;
+    min: string;
+  };
 };
 
 const TRANSLATIONS: Record<Lang, Dict> = {
   en: {
     nav: {
       home: "Home",
+      daily: "Daily Bhakti",
       about: "About Temple",
       festivals: "Festivals",
       heritage: "Gaudiya Heritage",
+      library: "Grantha",
       gallery: "Gallery",
       visit: "Visit Us",
       contact: "Contact Temple",
       brand: "Hariboll Mandir",
       location: "Jalandhar, Punjab",
+      donate: "Donate",
+      donateScan: "Scan to donate",
+      calendar: "Calendar",
     },
     hero: {
       title: "Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir",
       subtitle:
-        "A sacred home of Harinam, Darshan, Seva and Devotion in Jalandhar.",
+        "A sacred home for Harinam, Darshan, Seva and Devotion in Jalandhar.",
       cta1: "View Darshan",
       cta2: "Upcoming Events",
-      cta3: "Seva & Donations",
+      cta3: "Our Heritage",
       scroll: "Scroll",
     },
     darshan: {
-      eyebrow: "Divine Darshan",
+      eyebrow: "Divine Darshans",
       title: "Behold the Lord of the Heart",
       subtitle:
         "Come before the sacred forms worshipped at Hariboll Mandir and receive their loving glance.",
@@ -141,7 +241,7 @@ const TRANSLATIONS: Record<Lang, Dict> = {
           text: "The heart of the temple, where every darshan becomes shelter and every prayer becomes seva.",
         },
         {
-          name: "Sri Radha Rani",
+          name: "Śrīmatī Radha Rani",
           text: "The merciful shelter who gently carries our prayers to Krishna.",
         },
       ],
@@ -160,8 +260,8 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       ],
     },
     seva: {
-      eyebrow: "The Path of Devotion",
-      title: "Harinam, Bhakti & Seva",
+      eyebrow: "The Heart of Devotion",
+      title: "Our Heritage",
       subtitle:
         "The living heritage of Gaudiya Vaishnavism — the path of the Holy Name, loving devotion and selfless service, flowing from Sree Chaitanya Mahaprabhu to our temple today.",
       body: "Discover the sacred lineage, the acharyas and the timeless teachings that carry this tradition of divine love — and how our mandir keeps it alive through darshan, kirtan, festivals and seva.",
@@ -189,7 +289,7 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       items: [
         { title: "Sri Sri Radha Madhav Ji", caption: "The heart of the temple, where every darshan becomes shelter." },
         { title: "Sri Chaitanya Mahaprabhu", caption: "The golden ocean of mercy, who gives Krishna through Harinam." },
-        { title: "Sri Radha Rani", caption: "The merciful shelter who carries our prayers to Krishna." },
+        { title: "Śrīmatī Radha Rani", caption: "The merciful shelter who carries our prayers to Krishna." },
         { title: "Lotus Feet", caption: "Where the restless heart finally finds peace." },
         { title: "Festival Darshan", caption: "Moments of seva, celebration, and divine grace." },
         { title: "Mango Festival", caption: "A sweet offering of joy, color, and loving devotion." },
@@ -202,29 +302,32 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       title: "Visit Hariboll Mandir",
       subtitle:
         "Devotees are warmly welcomed for darshan, kirtan and prasadam. We look forward to serving you.",
-      addressName: "Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir",
-      address: "Pratap Bagh, Jalandhar, Punjab, India",
+      addressName: TEMPLE_ADDRESS.name,
+      // Derived from lib/temple.ts so the address and timings are stated once.
+      address: templeAddressLine("en"),
       timingsLabel: "Darshan Timings",
-      timings: [
-        { label: "Morning Darshan", value: "6:00 AM – 11:00 AM" },
-        { label: "Evening Darshan", value: "5:00 PM – 9:00 PM" },
-      ],
+      timings: darshanTimings("en"),
       getDirections: "Get Directions",
       contactTemple: "Contact Temple",
       mapPin: "Pratap Bagh, Jalandhar",
+      reachUsLabel: "Reach the Mandir",
+      aaratiLabel: "Daily Ārati",
     },
     footer: {
       brand: "Hariboll Mandir",
       brandSub: "Radha Madhav · Jalandhar",
-      addressName: "Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir",
-      address: "Pratap Bagh, Jalandhar, Punjab",
+      addressName: TEMPLE_ADDRESS.name,
+      address: templeAddressLine("en"),
       explore: "Explore",
       connect: "Connect",
+      timingsLabel: "Darshan Timings",
+      liveLabel: "Live Darshan",
       haribol: "Haribol!",
+      writeToUs: "Write to us",
       rights:
         "Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir, Jalandhar.",
       made: "Made with devotion · Hare Krishna",
-      links: ["Darshan", "About Temple", "Seva & Donations", "Festivals", "Gallery", "Visit Us"],
+      links: ["Darshan", "Daily Bhakti", "About Temple", "Our Heritage", "Festivals", "Gaudiya Heritage", "Grantha Mandir", "Gallery", "Visit Us"],
     },
     quotes: {
       harinam: {
@@ -317,25 +420,107 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       closing:
         "Gaudiya Vaishnavism is a sacred path of divine love, given by Sree Chaitanya Mahaprabhu and carried forward by the Gaudiya Vaishnav acharyas. Through Harinam, darshan, seva, festivals and spiritual association, Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir continues this beautiful tradition and welcomes everyone to experience the mercy of Sree Guru, Gauranga and Sree Sree Radha Madhav.",
     },
+    grantha: {
+      eyebrow: "Hariboll Mandir · Sacred Library",
+      title: "Grantha Mandir",
+      subtitle:
+        "A timeless collection of Gaudiya Vaishnava literature, Bhagavat Patrika, sacred books, lectures and devotional wisdom.",
+      searchPlaceholder: "Search by title, topic, author or festival...",
+      searchLabel: "Search the library",
+      clear: "Clear",
+      scrollLeft: "Scroll topics left",
+      scrollRight: "Scroll topics right",
+      keptClose: "Kept Close",
+      yourShelf: "Your Shelf",
+      saved: "saved",
+      continueReading: "Continue Reading",
+      resume: "Resume",
+      dismiss: "Dismiss",
+      featured: "Featured",
+      featuredPatrika: "Featured Bhagavat Patrika",
+      freshNectar: "Fresh Nectar",
+      recentlyAdded: "Recently Added",
+      theArchive: "The Archive",
+      collections: "Collections",
+      collectionsNote:
+        "Each volume opens as a living reading experience — never a file.",
+      theLibrary: "The Library",
+      patrikaNote:
+        "Every issue of the Bhagavat Patrika, gathered as a living archive — open one to read each article within.",
+      booksNote:
+        "The sacred books and songbooks of the tradition — open a volume to read every chapter, bhajan and verse it holds.",
+      openIssue: "Open issue",
+      openBook: "Open book",
+      openCollection: "Open collection",
+      readNow: "Read Now",
+      read: "Read",
+      minRead: "min read",
+      treasure: "treasure",
+      treasures: "treasures",
+      found: "found",
+      viewAll: "View all",
+      noResults: "No articles found",
+      noResultsQuery: "Nothing in the archive matches",
+      noResultsEmpty:
+        "Nothing here yet. New treasures are added as the archive grows.",
+      bookmark: "Bookmark",
+      savedLabel: "Saved",
+      removeBookmark: "Remove bookmark",
+      addBookmark: "Save to bookmarks",
+      readingProgress: "Reading Progress",
+      minTotal: "min total",
+      contents: "Contents",
+      audioVersion: "Audio Version",
+      audioPending: "Narration for this article is being prepared with care.",
+      relatedReading: "Related Reading",
+      continueJourney: "Continue the Journey",
+      share: "Share",
+      linkCopied: "Link copied to clipboard",
+      verseCopied: "Verse copied",
+      stanzaCopied: "Stanza copied",
+      copyVerse: "Copy verse",
+      copyStanza: "Copy stanza",
+      kirtanMode: "Kirtan mode",
+      kirtanModeHint: "Kirtan mode — large, singable lyrics",
+      scriptHint: "Switch script — Devanāgarī, both, or romanised",
+      previous: "Previous",
+      next: "Next",
+      streak: "Reading Streak",
+      streakWeek: "A week of remembrance",
+      streakFortnight: "A fortnight of grace",
+      streakMonth: "A month of steady bhakti",
+      day: "day",
+      days: "days",
+      patrikaArchive: "Bhagavat Patrika Archive",
+      collection: "Collection",
+      beginReading: "Begin Reading",
+      tableOfContents: "Table of Contents",
+      originalPdf: "Original PDF",
+      min: "min",
+    },
   },
-  hi: {
-    nav: {
+  hi: {    nav: {
       home: "होम",
+      daily: "नित्य भक्ति",
       about: "मंदिर परिचय",
       festivals: "उत्सव",
       heritage: "गौड़ीय विरासत",
+      library: "ग्रंथ",
       gallery: "गैलरी",
       visit: "पधारें",
       contact: "संपर्क करें",
       brand: "हरिबोल मंदिर",
       location: "जालंधर, पंजाब",
+      donate: "दान",
+      donateScan: "दान हेतु स्कैन करें",
+      calendar: "पंचांग",
     },
     hero: {
       title: "श्री चैतन्य महाप्रभु श्री राधा माधव मंदिर",
       subtitle: "जालंधर में हरिनाम, दर्शन, सेवा और भक्ति का पावन धाम।",
       cta1: "दर्शन देखें",
       cta2: "आगामी उत्सव",
-      cta3: "सेवा एवं दान",
+      cta3: "हमारी विरासत",
       scroll: "नीचे देखें",
     },
     darshan: {
@@ -353,7 +538,7 @@ const TRANSLATIONS: Record<Lang, Dict> = {
           text: "मंदिर का हृदय, जहाँ हर दर्शन शरण बन जाता है और हर प्रार्थना सेवा।",
         },
         {
-          name: "श्री राधा रानी",
+          name: "श्रीमती राधा रानी",
           text: "करुणामयी शरणदात्री, जो हमारी प्रार्थनाओं को कोमलता से कृष्ण तक पहुँचाती हैं।",
         },
       ],
@@ -372,8 +557,8 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       ],
     },
     seva: {
-      eyebrow: "भक्ति का मार्ग",
-      title: "हरिनाम, भक्ति एवं सेवा",
+      eyebrow: "भक्ति का हृदय",
+      title: "हमारी विरासत",
       subtitle:
         "गौड़ीय वैष्णव धर्म की जीवंत विरासत — हरिनाम, प्रेममयी भक्ति और नि:स्वार्थ सेवा का मार्ग, जो श्री चैतन्य महाप्रभु से होते हुए आज हमारे मंदिर तक प्रवाहित है।",
       body: "उस पावन परंपरा, आचार्यों और कालातीत शिक्षाओं को जानिए जो इस दिव्य प्रेम की धारा को धारण करती हैं — और जानिए कि हमारा मंदिर दर्शन, कीर्तन, उत्सव और सेवा के माध्यम से इसे किस प्रकार जीवंत रखता है।",
@@ -401,7 +586,7 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       items: [
         { title: "श्री श्री राधा माधव जी", caption: "मंदिर का हृदय, जहाँ हर दर्शन शरण बन जाता है।" },
         { title: "श्री चैतन्य महाप्रभु", caption: "करुणा के स्वर्णिम सागर, जो हरिनाम के द्वारा कृष्ण देते हैं।" },
-        { title: "श्री राधा रानी", caption: "करुणामयी शरणदात्री, जो हमारी प्रार्थनाएँ कृष्ण तक पहुँचाती हैं।" },
+        { title: "श्रीमती राधा रानी", caption: "करुणामयी शरणदात्री, जो हमारी प्रार्थनाएँ कृष्ण तक पहुँचाती हैं।" },
         { title: "चरण-कमल", caption: "जहाँ चंचल हृदय को अंततः शांति मिलती है।" },
         { title: "उत्सव दर्शन", caption: "सेवा, उल्लास और दिव्य कृपा के क्षण।" },
         { title: "आम महोत्सव", caption: "आनंद, रंग और प्रेममयी भक्ति का मधुर अर्पण।" },
@@ -414,28 +599,30 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       title: "हरिबोल मंदिर पधारें",
       subtitle:
         "दर्शन, कीर्तन और प्रसाद के लिए भक्तों का हार्दिक स्वागत है। आपकी सेवा के लिए हम प्रतीक्षारत हैं।",
-      addressName: "श्री चैतन्य महाप्रभु श्री राधा माधव मंदिर",
-      address: "प्रताप बाग, जालंधर, पंजाब, भारत",
+      addressName: TEMPLE_ADDRESS.nameHi,
+      address: templeAddressLine("hi"),
       timingsLabel: "दर्शन समय",
-      timings: [
-        { label: "प्रातः दर्शन", value: "सुबह 6:00 – 11:00 बजे" },
-        { label: "सायं दर्शन", value: "शाम 5:00 – 9:00 बजे" },
-      ],
+      timings: darshanTimings("hi"),
       getDirections: "रास्ता देखें",
       contactTemple: "मंदिर से संपर्क करें",
       mapPin: "प्रताप बाग, जालंधर",
+      reachUsLabel: "मंदिर से संपर्क",
+      aaratiLabel: "नित्य आरती",
     },
     footer: {
       brand: "हरिबोल मंदिर",
       brandSub: "राधा माधव · जालंधर",
-      addressName: "श्री चैतन्य महाप्रभु श्री राधा माधव मंदिर",
-      address: "प्रताप बाग, जालंधर, पंजाब",
+      addressName: TEMPLE_ADDRESS.nameHi,
+      address: templeAddressLine("hi"),
       explore: "अन्वेषण",
       connect: "जुड़ें",
+      timingsLabel: "दर्शन समय",
+      liveLabel: "लाइव दर्शन",
       haribol: "हरिबोल!",
+      writeToUs: "हमें लिखें",
       rights: "श्री चैतन्य महाप्रभु श्री राधा माधव मंदिर, जालंधर।",
       made: "भक्ति भाव से निर्मित · हरे कृष्ण",
-      links: ["दर्शन", "मंदिर परिचय", "सेवा एवं दान", "उत्सव", "गैलरी", "पधारें"],
+      links: ["दर्शन", "नित्य भक्ति", "मंदिर परिचय", "हमारी विरासत", "उत्सव", "गौड़ीय विरासत", "ग्रंथ मंदिर", "गैलरी", "पधारें"],
     },
     quotes: {
       harinam: {
@@ -528,9 +715,86 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       closing:
         "गौड़ीय वैष्णव धर्म दिव्य प्रेम का एक पावन मार्ग है, जो श्री चैतन्य महाप्रभु द्वारा प्रदान किया गया और गौड़ीय वैष्णव आचार्यों द्वारा आगे बढ़ाया गया। हरिनाम, दर्शन, सेवा, उत्सवों और आध्यात्मिक संगति के माध्यम से श्री चैतन्य महाप्रभु श्री राधा माधव मंदिर इस सुंदर परंपरा को निरंतर आगे बढ़ाता है और सभी का स्वागत करता है कि वे श्री गुरु, गौरांग और श्री श्री राधा माधव की कृपा का अनुभव करें।",
     },
+    grantha: {
+      eyebrow: "हरिबोल मंदिर · पावन ग्रंथालय",
+      title: "ग्रंथ मंदिर",
+      subtitle:
+        "गौड़ीय वैष्णव साहित्य, भागवत पत्रिका, पावन ग्रंथ, प्रवचन एवं भक्ति-ज्ञान का कालजयी संग्रह।",
+      searchPlaceholder: "शीर्षक, विषय, लेखक अथवा उत्सव से खोजें...",
+      searchLabel: "ग्रंथालय में खोजें",
+      clear: "साफ़ करें",
+      scrollLeft: "विषय बाएँ ले जाएँ",
+      scrollRight: "विषय दाएँ ले जाएँ",
+      keptClose: "सहेजे हुए",
+      yourShelf: "आपकी अलमारी",
+      saved: "सहेजे",
+      continueReading: "पठन जारी रखें",
+      resume: "आगे पढ़ें",
+      dismiss: "हटाएँ",
+      featured: "विशेष",
+      featuredPatrika: "विशेष भागवत पत्रिका",
+      freshNectar: "नवीन अमृत",
+      recentlyAdded: "नवीन प्रविष्टियाँ",
+      theArchive: "संग्रह",
+      collections: "संकलन",
+      collectionsNote:
+        "प्रत्येक ग्रंथ एक जीवंत पठन-अनुभव के रूप में खुलता है — कभी फ़ाइल के रूप में नहीं।",
+      theLibrary: "ग्रंथालय",
+      patrikaNote:
+        "भागवत पत्रिका का प्रत्येक अंक, एक जीवंत संग्रह के रूप में — किसी अंक को खोलकर उसके सभी लेख पढ़ें।",
+      booksNote:
+        "परंपरा के पावन ग्रंथ एवं पदावली — किसी ग्रंथ को खोलकर उसका प्रत्येक अध्याय, भजन एवं श्लोक पढ़ें।",
+      openIssue: "अंक खोलें",
+      openBook: "ग्रंथ खोलें",
+      openCollection: "संकलन खोलें",
+      readNow: "अभी पढ़ें",
+      read: "पढ़ें",
+      minRead: "मिनट पठन",
+      treasure: "रत्न",
+      treasures: "रत्न",
+      found: "प्राप्त",
+      viewAll: "सभी देखें",
+      noResults: "कोई लेख नहीं मिला",
+      noResultsQuery: "संग्रह में इससे मेल खाता कुछ अभी नहीं है:",
+      noResultsEmpty:
+        "यहाँ अभी कुछ नहीं है। संग्रह के विस्तार के साथ नए रत्न जोड़े जाते रहेंगे।",
+      bookmark: "सहेजें",
+      savedLabel: "सहेजा गया",
+      removeBookmark: "सहेजा हुआ हटाएँ",
+      addBookmark: "सहेजें",
+      readingProgress: "पठन प्रगति",
+      minTotal: "मिनट कुल",
+      contents: "अनुक्रमणिका",
+      audioVersion: "श्रव्य संस्करण",
+      audioPending: "इस लेख का पाठ सादर तैयार किया जा रहा है।",
+      relatedReading: "सम्बंधित पठन",
+      continueJourney: "यात्रा जारी रखें",
+      share: "साझा करें",
+      linkCopied: "लिंक कॉपी हो गया",
+      verseCopied: "श्लोक कॉपी हुआ",
+      stanzaCopied: "पद कॉपी हुआ",
+      copyVerse: "श्लोक कॉपी करें",
+      copyStanza: "पद कॉपी करें",
+      kirtanMode: "कीर्तन मोड",
+      kirtanModeHint: "कीर्तन मोड — बड़े, गाने योग्य पद",
+      scriptHint: "लिपि बदलें — देवनागरी, दोनों, अथवा रोमन",
+      previous: "पूर्व",
+      next: "अगला",
+      streak: "पठन क्रम",
+      streakWeek: "एक सप्ताह का स्मरण",
+      streakFortnight: "एक पखवाड़े की कृपा",
+      streakMonth: "एक माह की अविरल भक्ति",
+      day: "दिन",
+      days: "दिन",
+      patrikaArchive: "भागवत पत्रिका संग्रह",
+      collection: "संकलन",
+      beginReading: "पठन आरंभ करें",
+      tableOfContents: "अनुक्रमणिका",
+      originalPdf: "मूल PDF",
+      min: "मिनट",
+    },
   },
 };
-
 interface LangCtx {
   lang: Lang;
   setLang: (l: Lang) => void;
@@ -545,7 +809,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = window.localStorage.getItem("lang");
-    if (saved === "hi" || saved === "en") setLangState(saved);
+    if (saved === "hi" || saved === "en") {
+      setLangState(saved);
+      return;
+    }
+    // First visit: follow the device language for Hindi readers.
+    if (navigator.language?.toLowerCase().startsWith("hi")) setLangState("hi");
   }, []);
 
   useEffect(() => {

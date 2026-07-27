@@ -1,0 +1,545 @@
+{
+  "slug": "bbtirtha-book-have-i-made-a-mistake",
+  "kind": "book",
+  "title": "Have I Made a Mistake?",
+  "subtitle": "Śrī Chaitanya Gauḍīya Maṭha",
+  "description": "Have I Made a Mistake? — a sacred book preserved in the library of the Śrī Chaitanya Gauḍīya Maṭha.",
+  "featured": false,
+  "addedAt": "2026-07-21",
+  "articles": [
+    {
+      "slug": "preface-01593c",
+      "title": "Preface",
+      "author": "Sreela Bhakti Dayita Madhava Goswami Maharaja",
+      "category": "Bhakti",
+      "tags": [
+        "Bhakti",
+        "Guru Tattva",
+        "Harinam",
+        "Mahaprabhu",
+        "Rasa"
+      ],
+      "excerpt": "His Divine Grace Sree Sreemad Bhakti Dayita Mādhava Goswāmī Mahārāj is the embodiment of magnanimity and a crest-jewel among Paramahaṁsas. His form, qualities, and activities were uncommon, astounding and highly captivating. The entire Gauḍīya society was astonished at witnessing his unparalleled strict adherence to righteousness, affection towards his god-brothers, and service to Sree Guru—behavior, the like of which, had never been seen or heard before.",
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Preface"
+        },
+        {
+          "type": "paragraph",
+          "text": "His Divine Grace Sree Sreemad Bhakti Dayita Mādhava Goswāmī Mahārāj is the embodiment of magnanimity and a crest-jewel among Paramahaṁsas. His form, qualities, and activities were uncommon, astounding and highly captivating. The entire Gauḍīya society was astonished at witnessing his unparalleled strict adherence to righteousness, affection towards his god-brothers, and service to Sree Guru—behavior, the like of which, had never been seen or heard before."
+        },
+        {
+          "type": "paragraph",
+          "text": "His Most Revered Gurudeva, Jagad-Guru Sreela Bhakti Siddhānta Saraswatī Ṭhākura Prabhupād, would refer to him as a person of ‘Volcanic Energy’ due to his unflagging enthusiasm, total compe-tence in a variety of services, unflinching resolve, diligence and success in all endeavors entrusted to him. Also, Sreela Bhakti Rakṣaka Śrīdhara Dev"
+        },
+        {
+          "type": "paragraph",
+          "text": "Goswāmī Mahārāj, his senior god-brother, would often say that Mādhava Mahārāj’s efforts began when everyone else had given up."
+        },
+        {
+          "type": "paragraph",
+          "text": "These statements are self-evident because, in a very short time, he had inundated the length and breadth of India with the pure devotional doctrines of Supreme Lord Sree Chaitanya Mahāprabhu. In fact, among the disciples of Sreela Prabhupād, he was foremost to pierce through the impenetrable fortress of Māyāvāda philosophy in Punjab, India, so as to raise the flag of Vaiṣṇava dharma. The Gauḍīya Vaiṣṇava community will forever remain indebted to him for his unparalleled contribution to the mission of Sree Chaitanya Mahāprabhu."
+        },
+        {
+          "type": "paragraph",
+          "text": "Like any other activity, his writing style is also uncommon, captivating and heart stirring. The reader of this book, which includes two of the many articles written by him, will readily experience this. In these writings, the way in which he presented himself as an ordinary practitioner in order to give instruction to all of us, despite being a direct associate of the Supreme Lord, is truly unfathom-able. By this unique process, he dispelled the doubts that arise in the hearts of the sincere practitioners, thereby enabling them to circumvent any and all hindrances that might occur on the path of highest perfection. In this way, he guided them towards the enthusiastic service of Hari-Guru-Vaiṣṇavas. Self-study, recitation and contemplation of this subject matter, is of the utmost necessity for the sincere aspirants to attain their eternal welfare."
+        },
+        {
+          "type": "paragraph",
+          "text": "—The Publishers"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Praṇām Mantra"
+        },
+        {
+          "type": "paragraph",
+          "text": "Sreela Bhakti Dayita Mādhava Goswāmī Mahārāj"
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "nama oṁ viṣṇupādāya rupānuga priyāya cha",
+            "srīmate bhakti dayita mādhava swāmī nāmine",
+            "kṛṣṇābhinna prakāśa srī mūrtaye dīnatāriṇe",
+            "kṣamāguṇa avatārāya gurave prabhave namaḥ",
+            "satīrtha prīti sad-dharma guru prīti pradarśine",
+            "īśodyāna prabhāvasya prakāśakāya te namaḥ",
+            "śrī kṣetre prabhupādasya sthānoddhāra sukīrtaye",
+            "sārasvata gaṇānanda samvardhanāya te namaḥ"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "I offer prostrated obeisances to Sreela Bhakti Dayita Mādhava Goswāmī Mahārāj, the representative of Lord Viṣṇu and is dear to the followers of Sree Rūpa Goswāmī. Obeisances to you, the spiritual guide, the non-different manifestation of Supreme Lord Sree Kṛṣṇa, the redeemer of the fallen souls and the personification of the quality of forgiveness."
+        },
+        {
+          "type": "paragraph",
+          "text": "Obeisances to you, who by rendering affectionate service to god-brothers exemplified in your loving attachment to Guru and who manifested the glory of Īśodyāna at Sree Māyāpur. I offer obeisances to you, who brought immense joy to those devoted to Sreela Bhakti Siddhānta Saraswatī Prabhupād by recovering his birthplace in Purī, for which you are justly renowned."
+        }
+      ],
+      "language": {
+        "code": "en",
+        "label": "English"
+      },
+      "sourceCategory": "Book",
+      "sourceUrl": "https://bbtirtha.org/EN/text/1501/4",
+      "contentAvailability": "text"
+    },
+    {
+      "slug": "have-i-made-a-mistake",
+      "title": "Have I Made a Mistake?",
+      "author": "Sreela Bhakti Dayita Madhava Goswami Maharaja",
+      "category": "Bhakti",
+      "tags": [
+        "Bhakti",
+        "Guru Tattva",
+        "Mahaprabhu"
+      ],
+      "excerpt": "Nityalila-pravista Sri Srimad Bhaktidayita Madhav Goswami Maharaj, the founder president of Sree Chaitanya Gaudiya Math, wrote these articles for the ultimate welfare of sincere devotees and was published in Sree Chaitanya Vani monthly magazine in 1966. It thoroughly gives clear understanding about the actual teachings of the Gaudiya school of thoughts. This is a must-read for sincere votaries who want to understand the real benefaction of Gaudiya Math establishment to his own life.",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A doubt occasionally arises in my heart. I think, “Have I made a mistake in accepting the shelter of the lotus feet of the Gauḍīya Vaiṣṇavas? It certainly seems so. I appear to have made a mistake in taking up bhajan, in accepting the shelter of the Gauḍīya Vaiṣṇavas and, specifically, in taking refuge of the Gauḍīya Maṭh and dedicating all my senses to serving in the Maṭh."
+        },
+        {
+          "type": "paragraph",
+          "text": "“Gauḍīya Vaiṣṇavas are not big-hearted. When we perform bhajan under their shelter, we are controlled by so many rules and regulations. If I were to take refuge of some other sampradaya there would be no such botheration and, also, no concern for offenses such as vaiṣṇava-aparādha, nāma-aparādha or dhāma-aparādha. I would not be obliged to develop exclusive devotion for a particular object of worship [such as Rādha and Kṛṣna], nor would my eating habits be curtailed. In the Maṭh, issues like vaiṣṇava-aparādha are raised, and it often impedes my unrestricted sense enjoyment, lawless gossiping, and other whimsical activities. It would, therefore, be better for me to live outside the Maṭh than be governed by such restraints.”"
+        },
+        {
+          "type": "paragraph",
+          "text": "Sometimes I even think it would be best for me to abandon the shelter of such a controlling Gurudeva, and to accept the mantra elsewhere, without having to follow all the rules and regulations. Thus, I occasionally contemplate severing my ties with the Gauḍīya Maṭh completely. What stops me, however, is the thought that if people were to find out that I had broken my connection with Sree Guru, it could jeopardize my prestige and position."
+        },
+        {
+          "type": "paragraph",
+          "text": "Discipline and Deceit"
+        },
+        {
+          "type": "paragraph",
+          "text": "The Vaiṣṇavas of the Sree Chaitanya Gauḍīya Maṭh are one-pointedly engaged in worshipping Sree Gaurāṅgadeva and Sree Sree Rādha-Kṛṣna, under the guidance of Sree Rūpa Goswāmipāda and the best among his followers, namely, Sreela Bhaktivinode Ṭhākur and Sreela Bhakti Siddhānta Saraswatī Goswāmi Prabhupād. Kṛṣna-prema is their only goal (sādhya) and their only practice (sādhana). There is no absence of affection or devotion in the sādhana of the servants of the Sree Chaitanya Gauḍīya Maṭh. Hence, they will never support any endeavor that is unfavorable to the cultivation of affection for Sree Kṛṣna."
+        },
+        {
+          "type": "paragraph",
+          "text": "What auspiciousness can that sādhana bring, if it can’t offer its practitioner any way to attain his cherished goal quickly and if it can’t even offer him any certainty that he will realize his worshipable deity at all? This type of sādhana, when propagated, tends only to attract followers. For those content to pass their lives without purpose or restriction, what use is there to accept the lotus feet of sad-guru, a transcendental teacher? But those who can see their own defects and unwanted things (anarthas), and who try to become free of them, develop an urge to become qualified to taste the bliss of prema for Bhagavān. Only they can remain in the shelter of saintly devotees endowed with this prema. They can experience the happiness of being engaged in service to Bhagavān by living under the guidance of such one-pointed devotees and following their instructions. This involves subduing their senses and abstaining from whimsical activities."
+        },
+        {
+          "type": "paragraph",
+          "text": "Those who make a show of accepting the shelter of the lotus feet of Sree Guru simply deceive themselves; they pretend to be self-controlled and reformed but internally maintain their previous bad impressions and bad tendencies. They recruit followers on the pretext of accepting the shelter of Sree Guru, with the aim of fulfilling their selfish ends through their so-called disciples. The attempts of such arrogant and duplicitous people to attain auspiciousness are endlessly frustrated."
+        },
+        {
+          "type": "paragraph",
+          "text": "To be a disciple means to be disciplined, or controlled. If a person outwardly accepts the shelter of Sree Guru but arrogantly maintains the attitude that he knows best about his spiritual life, then he is but a cheater—deceiving both himself and others. Pure Gauḍīya Vaiṣṇavas are most magnanimous and bestow the highest auspiciousness. If we can become eligible to understand even a single aspect of their exemplary lives we will become delightfully dedicated to sādhana-bhajan."
+        },
+        {
+          "type": "paragraph",
+          "text": "Bhakti Lies Beyond Renunciation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Those who possess kṛṣna-prema are neither enjoyers nor renunciants. They are not karmīs, fruitive workers; neither are they jñānīs, persons cultivating knowledge of the impersonal Brahman. Those who perform sinful activities honor karmīs who abide by scriptural injunctions; and when karmīs who are eager to enjoy the results of their endeavors see the external renunciation of jñānīs and renunciants, they may be attracted to them. However, those who hanker for kṛṣna-prema disregard both of these paths. They are attracted only by activities that nurture the cultivation of this prema."
+        },
+        {
+          "type": "paragraph",
+          "text": "Someone who is not aspiring for prema for Bhagavān will perceive only enjoyment or renunciation in the behavior of the devotees. If he takes shelter of them upon observing their external renunciation, he may for a while consider himself blessed to be in their company. Kṛṣna-prema, however, cannot be attained by external renunciation. Unless one has sincere faith and affection for the svarūpa of Sree Bhagavān, he cannot become attracted to the behavior of Bhagavān's devotees. The characteristic of such one-pointed devotees is that directly or indirectly they only cultivate love for Sree Kṛṣna:"
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "anyābhilāṣitā-śūnyaṁ",
+            "jñāna-karmādy-anāvṛtam",
+            "ānukūlyena kṛṣṇānu-",
+            "śīlanaṁ bhaktir uttamā",
+            "(Bhakti-rasāmṛta-sindhu 1.1.11)"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "[Performing activities that are favorable exclusively for the pleasure of Sree Kṛṣna or, in other words, in relation to Him, free from illicit and immoral actions that are averse to His service and, are not covered by the desires for liberation or enjoyment, is called uttama-bhakti, pure devotional service.]"
+        },
+        {
+          "type": "paragraph",
+          "text": "One must deliberate upon this verse. The activities of a devotee of Kṛṣna, such as establishing a Maṭh (spiritual institution), constructing a temple, meeting with materialistic or aristocratic people, hosting festivals with pomp and grandeur, and giving instructions to ignorant or faithless people, are all suddha-bhakti. To serve Bhagavān and the devotees one may supervise the construction of a temple or the house of a devotee, collect materials, purchase supplies and accept the undignified and lowly propensity to beg. Such activities are supremely pleasurable and nourish one’s bhakti. Those same activities, however, bind one to this material world if they are performed with the aim of gratifying one’s senses; accumulating wealth, women and fame; or attaining dharma, artha, kāma or mokṣa."
+        },
+        {
+          "type": "paragraph",
+          "text": "What Is True Renunciation?"
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "kuṣṭhī-viprera ramaṇī, pativratā-śiromaṇi,",
+            "pati lāgi’ kailā veśyāra sevā",
+            "stambhila sūryera gati, jīyāila mṛta pati,",
+            "tuṣṭa kaila mukhya tina-devā",
+            "(Chaitanya Charitāmṛta, Antya-līlā 20.57)"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "[The wife of a brāhmaṇa, who was suffering from leprosy, showed herself to be the topmost of chaste women by serving a prostitute to satisfy her husband. She halted the movement of the sun through the power of her chastity, and brought her dead husband back to life after satisfying Brahma, Viṣṇu and Maheśvara.]"
+        },
+        {
+          "type": "paragraph",
+          "text": "We should consider this account in the light of our discussion. That chaste brāhmaṇa wife’s service to a lowly prostitute in the sincere endeavor to please her husband enhanced her glory. She thus became worshipable for the entire world. What’s more, she became very dear to Sree Bhagavān. If, however, she had performed this service for her own sense pleasure, or for dharma, artha, kāma or mokṣa, it would have been reprehensible in every respect."
+        },
+        {
+          "type": "paragraph",
+          "text": "In this world, renunciation means to relinquish the objects of one’s attachment. But can ceasing to take foods that merely aggravate a disease, for instance, be considered renunciation? Abstaining from foodstuffs that destroy good health in favor of accepting foods that increase longevity can hardly be celebrated as a great act of renunciation. Thus, it is hard to see how the act of renouncing one’s father, mother, relatives, friends, wealth, occupation, business or worldly duties for one’s personal happiness and comfort, can in itself be glorious. Only when a person renounces the objects of his mundane pleasure for the pleasure of the Absolute Truth [Sree Bhagavān], expecting no sense enjoyment in return— striving for dharma, artha, kāma or mokṣa, or for wealth, women, and adoration—can his renunciation be considered actual renunciation."
+        },
+        {
+          "type": "paragraph",
+          "text": "Ordinarily, it is considered irreligious to forsake the duties that the scriptures prescribe for one’s varṇa and āśrama; but if these duties are discarded for the pleasure and satisfaction of Sree Kṛṣna, who is the Cause of all causes and the bestower of supreme bliss, then and only then is such renunciation honorable. Indeed, such renunciation, which benefits everyone, is to be revered. To renounce endeavors for sense gratification—that is, endeavors in one’s search for happiness in this world or in the next—for the pleasure of the Absolute Truth is courageous and glorious. The topmost renunciation is to abandon everything, even one’s independent will and desires, for the pleasure of Bhagavān Sree Kṛṣna and His one-pointed devotees."
+        },
+        {
+          "type": "paragraph",
+          "text": "Renouncing the mind’s propensity for independence, in other words, the sacrifice of one’s very self is far superior to renouncing inert and temporary things. The glory of one’s renunciation lies truly in the glory of the purpose of such sacrifice. Sree Bhagavān and the devotees attached to Him by love possess unlimited glories; and therefore to renounce for their pleasure is supremely noble. Such renunciation is incomparable because it increases the happiness of all living entities by reawakening their relationship with Sree Bhagavān. It does not admit even the slightest scent of distress. Such renunciation, on the other hand, bestows bliss in every respect and is highly esteemed."
+        },
+        {
+          "type": "paragraph",
+          "text": "Fruitive workers, or karmīs, make sacrifices and perform austerity with the hope of attaining increased mundane sense pleasure in the future. Such renunciation is, therefore meager and does not bestow complete happiness. Jñānīs make sacrifices and perform austerity to dispel their own suffering. Their renunciation, also, does not bestow full happiness."
+        },
+        {
+          "type": "paragraph",
+          "text": "The sacrifices and austerities of Kṛṣna’s devotees, however, are meant exclusively for the pleasure of Sree Hari. Since Sree Kṛṣna is the Cause of all causes, such renunciation bestows true welfare upon the devotee and upon others. Therefore, Gauḍīya Vaiṣṇavas greatly honor those activities that promote love of Bhagavān, and they reject activities that hinder it. In this sādhana, any possession and act of renunciation that is favorable to bhakti are highly regarded. Yet devotees are not attracted to sense enjoyment and renunciation in their own right. They are attracted to love for Bhagavān and His devotees. They have no independent or whimsical desire to enjoy or renounce. Yukta-vairāgya, renunciation for the pleasure of Sree Kṛṣna, is their only sādhana. Without understanding bhajan-rahasya, the ontological mystery of bhajan, one will become bewildered by what sense enjoyment is and what renunciation is. Both are impediments in the sadhaka’s cultivation of prema for Bhagavān."
+        },
+        {
+          "type": "paragraph",
+          "text": "Don’t Waste a Moment"
+        },
+        {
+          "type": "paragraph",
+          "text": "Those who have realized that this human life offers an invaluable opportunity to work towards attaining the supreme goal, prize every moment of it. They are unwilling to waste even an instant in any other endeavor. They know that living entities in other species of life do not have the facility or good fortune to make progress towards the supreme goal and, accordingly, they see no value in living their lives in the manner of the lower species. Hence, upon attaining this extremely rare human life and, on top of that, attaining the fortune to associate with sadhus and developing faith for the supreme goal, they cannot quietly squander a single moment of their lives. Rather, they will accept only what is favorable to the cultivation of affection for Sree Kṛṣna and will reject all activities that are unfavorable to it."
+        },
+        {
+          "type": "paragraph",
+          "text": "As such, the devotees of the Gauḍīya Maṭh instruct the world to engage only in those practices that are righteous and favorable to the cultivation of kṛṣna-prema and to reject unrighteous activities that impede it. Moreover, they never indulge in violence or envy, as this hinders the cultivation of prema."
+        },
+        {
+          "type": "paragraph",
+          "text": "My Doubt Resolved"
+        },
+        {
+          "type": "paragraph",
+          "text": "Thus, if I am genuinely searching for kṛṣna-prema, I have not after all made any mistake in accepting the shelter of the lotus feet of pure Gauḍīya Vaiṣṇavas. Such Vaiṣṇavas will not fuel our desire for dharma, artha, kāma and mokṣa or our hankering for wealth, women, and adoration. The purpose of the Maṭh is to help us become free from these anarthas and attain kṛṣna-prema. By taking shelter of the Sree Chaitanya Gauḍīya Maṭh or the lotus feet of pure Gauḍīya Vaiṣṇavas, beggars for kṛṣna-prema become qualified to attain their greatest welfare. Moreover, they receive the opportunity to achieve the highest ideal of magnanimity and to ascend to the topmost level of pure vairāgya, renunciation. This is my unshakable conviction. One cannot be deviated from attaining kṛṣna-prema in due course unless one becomes a severe offender."
+        },
+        {
+          "type": "paragraph",
+          "text": "One day, by the mercy of Sreela Prabhupād, the world will profusely glorify and worship the Sree Sāraswata Gauḍīya Vaiṣṇavas (that is, Sreela Prabhupād’s followers). They alone are able to establish the highest ideal of benevolence in the world. Victory will certainly belong to the devotees of the Sree Chaitanya Gauḍīya Maṭh or those who have taken shelter of the lotus feet of Gauḍīya Vaiṣṇavas. I have not, therefore, made a mistake in accepting the shelter of the lotus feet of pure Gauḍīya Vaiṣṇavas. Rather, I have whole-heartedly embraced the good fortune of attaining my highest welfare, and thus I am truly blessed."
+        }
+      ],
+      "language": {
+        "code": "en",
+        "label": "English"
+      },
+      "sourceCategory": "Book",
+      "sourceUrl": "https://bbtirtha.org/EN/text/363/4",
+      "contentAvailability": "text"
+    },
+    {
+      "slug": "amara-bhajan-my-devotional-practices",
+      "title": "Amara Bhajan (My Devotional Practices)",
+      "author": "Sreela Bhakti Dayita Madhava Goswami Maharaja",
+      "category": "Krishna",
+      "tags": [
+        "Krishna",
+        "Bhakti",
+        "Guru Tattva",
+        "Vaisnava Etiquette",
+        "Mahaprabhu",
+        "Rasa"
+      ],
+      "excerpt": "Although I used to sing the glories of Sree Hari, Guru and Vaiṣṇavas daily, now within my mind I consider myself non-different from them, i.e. equal to them. I am gradually trying to assume their position and I cherish the desire to attain the world, Vaiṣṇavas and Sree Bhagavān as my servants. My object of worship is my whimsical nature rather than Sree Krishna. In public gatherings, I never fail to collect fame as a great Vaiṣṇava by openly declaring myself the servant of the servant of Sree Hari, Guru and Vaiṣṇavas.",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Have long left worldly life. Why did I leave it? I did it simply to engage in bhajana, devotional service. Bhajana of whom? Sree Krishna! Why bhajana of Sree Krishna? Sree Krishna is the sole Cause of all causes and I have an eternal relationship with Him only. Who is Sree Krishna? Sree Krishna is that Being Whose existence is saturated with complete bliss. By attracting all other living entities, He personally experiences bliss and bestows bliss upon them. He is replete with unlimited knowledge. The seers of the truth know Him in His three-fold aspect of eternal existence, complete knowledge and bliss. Tattwa-vastu, the Absolute Reality, Who is fully sat-chit-ānanda, is indeed Sree Krishna."
+        },
+        {
+          "type": "paragraph",
+          "text": "Who am I? As a part of His potency, I too am composed of eternal existence, knowledge and bliss. I am not vastu-tattwa, the Absolute Reality, but, as part of His potency, I also possess the features of eternal existence, knowledge, and bliss. Therefore, I have an eternal relationship with Him. What type of relationship do I have with Him? I have a relationship in every respect with Sree Krishna only. Sree Krishna has two energies: spiritual (parā) and material (aparā). As an eternally existent conscious entity (soul), a part of Sree Krishna’s parā energy, I am the cause, whereas my existence in the form of the effect (material body) is part of His aparā energy."
+        },
+        {
+          "type": "paragraph",
+          "text": "Knowing that I belong to Him in every respect, I renounced worldly life to eternally dedicate myself to His bhajana. My gross, subtle and spiritual bodies are forever related to Sree Krishna. Thus, with all my senses, at all times and all circumstances I will attempt to engage myself in His service alone. This is my devotional practice."
+        },
+        {
+          "type": "paragraph",
+          "text": "Now a question arises: was it not possible for me to stay in my normal worldly life to practice such devotion? Of course, I certainly could have remained there, but I would have had to cater to the tastes of others. This was the main obstruction I faced in living among those who were antagonistic to Sree Krishna’s service—it was most unpleasant. I never wanted to render my valuable life unsuccessful by spending even a moment of it in activities other than serving Sree Krishna."
+        },
+        {
+          "type": "paragraph",
+          "text": "To attain the opportunity to constantly engage my different senses in loving service to Sree Krishna, I, by great fortune, obtained the association of a most compassionate person who is the abode of affection and the dear-most servant of Mahāprabhu. With loving compassion, he overlooked my disqualifications and, to enrich my greed for bhajana, he accepted me as his own. Upon receiving a touch of his mercy, I enthusiastically resolved to engage all my senses exclusively and continuously in the bhajana of Sree Krishna. Consequently, I set out with determination to follow all the primary injunctions of the scriptures regarding the cultivation of knowledge of the soul, rather than this temporary material body."
+        },
+        {
+          "type": "paragraph",
+          "text": "Spiritually inclined persons, upon observing my cultivation of spiritual practices and indifference to material affairs, started to honor me, considering me to be a sādhu, a saintly person. Thus, I became respected everywhere. I had resolved to one-pointedly cultivate spiritual life by submitting myself for rectification as a disciple. Unfortunately, however, I once again started to hanker for the luxuries of this body and for worldly prestige, impelled by my previous bad saṁskāras (impressions)."
+        },
+        {
+          "type": "paragraph",
+          "text": "I had always greatly revered and loved my Sree Gurudeva. Now, however, due to this burning urge to satisfy my senses, many a time I think of him as an obstacle to my devious ends, and have started to view him with a different attitude. I no longer consider him my well-wisher. I have some reverence for him, so I cannot control him. Nor can I accept his discipline, because it would hinder my whimsical nature. Thus, I find myself stuck in these two crises."
+        },
+        {
+          "type": "paragraph",
+          "text": "Although I had originally resolved to perform bhajana of Sree Krishna, gradually I have forgotten this aspiration. My endeavor now externally exists in name only. In fact, other than desiring to satisfy my senses, nothing brings any substantial delight to my heart. I used to consider myself fortunate upon gaining any opportunity to serve Sree Krishna, but now I see such opportunities as troublesome."
+        },
+        {
+          "type": "paragraph",
+          "text": "I used to feel blessed upon attaining service to Sreela Gurudeva, but now that very same service seems burdensome. I used to be enthusiastic to serve devotees, i.e.Vaiṣṇavas and saintly people, but now I am apathetic to the very suggestion of such service."
+        },
+        {
+          "type": "paragraph",
+          "text": "My mind becomes perturbed if I am not always praised and honored in every way by being offered an elevated seat, costly clothes, and palatable dishes. Fearing public opinion, I often feel too shy to openly express such expectations, but I wonder how long I would continue to be counted as a devotee if I did not receive all this."
+        },
+        {
+          "type": "paragraph",
+          "text": "The sole pleasure of my senses has become prominent, taking the place of Sree Krishna’s bhajana. Now my priority is to serve my senses. After or during the course of my selfish pursuits, if by chance some service to Sree Krishna or Sree Guru and Vaiṣṇavas is performed automatically, then and only then am I able to perform bhajana."
+        },
+        {
+          "type": "paragraph",
+          "text": "Although I used to sing the glories of Sree Hari, Guru and Vaiṣṇavas daily, now within my mind I consider myself non-different from them, i.e. equal to them. I am gradually trying to assume their position and I cherish the desire to attain the world, Vaiṣṇavas and Sree Bhagavān as my servants. My object of worship is my whimsical nature rather than Sree Krishna. In public gatherings, I never fail to collect fame as a great Vaiṣṇava by openly declaring myself the servant of the servant of Sree Hari, Guru and Vaiṣṇavas. However, the truth is that, within my heart, I refuse to consider myself inferior to them at any cost. The external respect I give to Sree Guru and Vaiṣṇavas is only a device to establish myself in society as a saintly man and thus earn prestige."
+        },
+        {
+          "type": "paragraph",
+          "text": "It is not that I have not reflected time and time again that I have become immersed in this sorry plight. I consider that knowingly or unknowingly I must have committed some vaiṣṇava-aparādha. Offenses to devotees inevitably lead to the waning of bhakti. Gradually, such offenders end up being victims of sensual urges and entrapped by kapaṭatā, or self-deception. I am sometimes able to detect my faults but, because I fear public opinion and the loss of my false pride, I am reluctant to please the devotees by humbly asking their forgiveness. I am more involved in satisfying the worldly-minded people to win their false adoration, thus becoming neglectful to the endeavors that please Sree Hari, Guru and Vaiṣṇavas."
+        },
+        {
+          "type": "paragraph",
+          "text": "Sometimes, to impress the ignorant, being eager for their adoration, I pretentiously take up the practice of solitary bhajana. Also, sometimes I take up the occupation of a mendicant, engaging in begging for my subsistence. However, none of these attempts satisfy my restless mind, and because I am unable to fulfill expectations of adoration, my unrestricted mind finds substitutes to satisfy it. In this way, my bhajana of Sree Krishna now culminates in attempts to secure wealth, please women in the hope of attaining their merciful glance (and make them do my bidding), or to secure fame. Seeing my wretched condition, my true well-wishers and friends on the spiritual path repeatedly counsel me to refrain from these whimsical activities, advising me to regulate my behavior according to the instructions of Guru, Vaiṣṇavas and śāstra. Previously, when I considered their instructions to be nectarean, I bade farewell to worldly pleasures and took up the performance of bhajana, spiritual practices. However, my extreme misfortune now keeps me in the guise of a saint, directly or indirectly impelling me to become mad in the pursuit of wealth, women, and false prestige. Instructions for my welfare no longer seem beneficial."
+        },
+        {
+          "type": "paragraph",
+          "text": "I had earlier heard about two paths: śreyaḥ, the superior spiritual path, and preyaḥ, the way of natural tendencies. I left preyaḥ to pursue śreyaḥ, but my misfortune has dragged me back to my old ways."
+        },
+        {
+          "type": "paragraph",
+          "text": "I am no longer eager to hear holy recitations of Sreemad Bhāgavatam or anything about Sree Bhagavān. How many times will I have to hear the same old stories? Drowsiness usually overcomes me as soon as I give my attention to such narrations. But sleep does not disturb me at all when I am engaged in common worldly gossip; I could remain wide awake the entire night. I have forgotten the words of Sreemad Bhāgavatam (2.8.4):"
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "śṛṇvataḥ śraddhayā nityaṁ",
+            "gṛṇataś ca sva-cheṣṭitam",
+            "nātidīrgheṇa kālena",
+            "bhagavān viśate hṛdi"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "[For one who hears and discusses the all-auspicious topics of Sree Hari regularly with utmost faith, Supreme Lord Sree Krishna will manifest in his heart immediately without any of his personal endeavors.]"
+        },
+        {
+          "type": "paragraph",
+          "text": "I have become forgetful of the message of Sree Krishna in Sree Gītā regarding abhyāsa-yoga, constant devotional practice. Having heard a few words about bhakti, I started considering myself as having professed it. I am convinced that with my senses, which are full of lusty desires, I have understood what a devotee is meant to be, and now only Sree Bhagavān remains to be known by me. I have forgotten that the transcendental aspects of bhakti and the bhakta cannot be understood with my mind, which is full of sensual desires. Similarly, I have forgotten the glories of surrender to the Supreme Lord and the spiritual master."
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "nāyam ātmā pravachanena labhyo",
+            "na medhayā na bahudhā śrutena",
+            "yam evaiṣa vṛṇute tena labhyas",
+            "tasyaiṣa ātmā vivṛṇute tanuṁ svām",
+            "(Muṇḍaka Upaniṣad 3.2.3)"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "[The Supreme Lord is not attained by giving discourses, by vast intelligence, or by possessing great knowledge of the scriptures. He is attained only by one chosen by He Himself, and He manifests His own form to that person.]"
+        },
+        {
+          "type": "paragraph",
+          "text": "Even after repeatedly hearing these words of the Śrutis, I do not remember them. I have forgotten that by the ascending process one can never attain the association of the devotees and Bhagavān. Sometimes, my mind is inclined to perform austerities and, at other times, is inclined to perform pious activities. In spite of fully being aware that neither of these processes can bring one to the association of the devotees and Sree Bhagavān, I have now forgotten this."
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "rahūgaṇaitat tapasā na yāti",
+            "na chejyayā nirvapaṇād gṛhād vā"
+          ]
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "na cchandasā naiva jalāgni-sūryair",
+            "vinā mahat-pāda-rajo-’bhiṣekam",
+            "(Sreemad Bhāgavatam 5.12.12)"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "[My dear King Rahūgaṇa, unless one smears his entire body with the dust of the lotus feet of great devotees, one cannot realize the Absolute Truth. He cannot be realized by observing celibacy (brahmacharya), by strictly following the rules and regulations of householder life, by leaving home as a vānaprastha, by accepting sannyāsa, or by undergoing severe penances in winter such as keeping oneself submerged in water or surrounding oneself in summer by fire and the scorching heat of the sun.]"
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "naiṣāṁ matis tāvad urukramāṅghriṁ",
+            "spṛśaty anarthāpagamo yad-arthaḥ",
+            "mahīyasāṁ pāda-rajo-’bhiṣekaṁ",
+            "niṣkiṣchanānāṁ na vṛṇīta yāvat",
+            "(Sreemad Bhāgavatam 7.5.32)"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "[Unless they smear upon their bodies the dust of the lotus feet of a Vaiṣṇava who is completely freed from material contamination, persons strongly inclined toward material life cannot be attached to the lotus feet of the Lord, who is glorified for His uncommon activities. Their intelligence cannot be fixed at the feet of the Lord unless they are freed from material contamination, which is possible only by smearing the foot dust of a Vaiṣṇava.]"
+        },
+        {
+          "type": "paragraph",
+          "text": "I have forgotten the earlier vows in pursuit of devotion that I took in the presence of my spiritual master. Those vows were based upon thinking myself to be the servant of the servants of Sree Krishna and the process of service to Sree Krishna along with His associates, while not allowing any selfish ambition to remain within me. I started to perform bhajana with the highest objectives to be had within the realm of this universe. Why have I then rejected it all to take up the insignificant and temporary pursuits of trivial sense enjoyments, which are generally misery-bound? I do not reflect upon the cause of this with a sober frame of mind."
+        },
+        {
+          "type": "paragraph",
+          "text": "Sometimes I think that to maintain my life ample wealth is necessary, that a woman who can submissively cater to my whims is necessary for the satisfaction of my senses, and that material name and fame are required in society. Even though I earlier understood these to be hindrances to my devotional practice, due to my misfortune and immersion in the pretense of yukta-vairāgya, I read such verses as:"
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "jāta-śraddho mat-kathāsunirviṇṇaḥ sarva-karmasu",
+            "veda duḥkhātmakān kāmānparityāge ’py anīśvaraḥ",
+            "tato bhajeta māṁ prītaḥśraddhālur dṛḍha-niśchayaḥ",
+            "juṣamāṇaś cha tān kāmānduḥkhodarkāṁś cha garhayan",
+            "(Sreemad Bhāgavatam 11.20.27-8)"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "[Having awakened faith in the narrations of My glories, being disgusted with all material activities, knowing that all sense gratification leads to misery but still being unable to renounce all sense enjoyment, My devotee is engaged in My worship with great faith and conviction that only by performing devotion to Me can he become successful. Even though he is sometimes engaged in sense enjoyment, My devotee knows that all sense gratification leads to a miserable result, and he sincerely repents such activities.]"
+        },
+        {
+          "type": "paragraph",
+          "text": "I reflect that, after all, in my stage of sādhana, which is full of anarthas, bad habits are bound to exist. I, therefore think that these statements have given eternal license to my passions. But these statements actually mean that gradually one must control these inferior habits and selflessly endeavor for bhajana."
+        },
+        {
+          "type": "paragraph",
+          "text": "I support my anarthas on the strength of another fault by thinking that for a sādhaka these anarthas are bound to exist. This fault is known as vipralipsā, the tendency to cheat. There is no scriptural support for such unrestricted indulgence of the senses. This too, I have forgotten. Until I become eligible to relish śuddha-bhakti-rasa and absorb myself in the service of the bhaktas and Sree Bhagavān, śāstra has cautioned me not to give up bhajana but to perform it while accepting those sense enjoyments that are necessary, all the while condemning them. If I do not condemn such sense enjoyments but fondly accept them, I will have no way of ridding my heart of them. I have forgotten all these statements."
+        },
+        {
+          "type": "paragraph",
+          "text": "In fact, meditating upon the glories of lust, sense enjoyment, the association of women, the accumulation of wealth and worldly fame, will surely lead me to eventually become attached to them. I came to perform exclusive bhajana of Sree Krishna, but have been allured by the glories of associating with women. I have rejected celibacy to yearn for marriage; I have neglected consideration of the type of fate that awaits me."
+        },
+        {
+          "type": "paragraph",
+          "text": "Previously, I affirmatively renounced this world but, by contemplating momentary pleasures afforded by wealth while forgetting the grief that accrues by such ventures, I have become enamored by this endeavor to accumulate it. I am eager to win the fickle adoration of worldly people who are blinded by their madness for sense gratification, and I do not reflect upon the anarthas that accompany such deeds. I have therefore disregarded the instructions of Sree Hari, Guru and Vaiṣṇavas, and have displeased them. At times, in my mad pursuit of distinction and prestige, I have not only neglected and offended them but have become opposed to them."
+        },
+        {
+          "type": "paragraph",
+          "text": "It is not that my dismal state of affairs has not disturbed me. Many a time I have analyzed my unrestricted life, and how, by leading it, I have spoiled my chances of attaining the lotus feet of Sree Krishna, Who is supreme auspiciousness and full of bliss. Therefore, I have committed the greatest harm to myself."
+        },
+        {
+          "type": "paragraph",
+          "text": "Within my mind I sometimes become determined to lead a righteous life in every respect, but impelled by the results of my previous actions, sometimes, unknowingly, I become unrighteous. In this state, I ask, “Is there any hope for my ultimate welfare?” I definitely think so."
+        },
+        {
+          "type": "paragraph",
+          "text": "I may fail any test in any circumstances but I will not be discouraged. I will continue to traverse the path of sādhana-bhajana. My master, who is eternally worshipable for me, and who is most compassionate and the deliverer of the fallen, will definitely shower his blessings upon me. Krishna kṛpā karibena’ dṛḍha kari’ jāne: “A fully surrendered devotee knows for certain that Sree Krishna will be kind to him.” (Sree Chaitanya Charitāmṛta, Madhya-līlā, 23.25)"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dublo yadi nā to dube dube vā: “Even if my boat has sunk and I am drowning, I will not give up my efforts.” This principle will give me strength. I will not become bereft of hope at any time. No tendency other than bestowing bliss can remain in Bhagavān, Who is the embodiment of complete bliss. He is the controller of everyone, and therefore in His dispensation, there must be an arrangement to bestow bliss, and only bliss, upon me. I am His servant, so He will surely protect and maintain me. Of this, there is no doubt:"
+        },
+        {
+          "type": "poem",
+          "lines": [
+            "bhūmau skhalita pādānāṁ",
+            "bhūmir evāvalambanam",
+            "tvayi jātāparādhānāṁ",
+            "tvaṁ eva śaraṇaṁ prabho",
+            "(Vijñaptipanchaka 3)"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "[Just as the ground is the only support for those whose feet have slipped, You are the only shelter even for those who have offended You.]"
+        },
+        {
+          "type": "paragraph",
+          "text": "Remembering this statement, again and again, begging everyone forgiveness for my offenses, and fully dedicating myself with determination to the service of Bhagavān and His dear associates, I will continue to offer prayers to the devotees and the Lord with a service attitude. It is only by their merciful blessings that I can overcome all my tendencies other than to perform bhakti and attain bliss by rendering service unto them. Service to the devotees and the Supreme Lord is indeed my bhajana, my devotional practice."
+        }
+      ],
+      "language": {
+        "code": "en",
+        "label": "English"
+      },
+      "sourceCategory": "Book",
+      "sourceUrl": "https://bbtirtha.org/EN/text/724/4",
+      "contentAvailability": "text"
+    },
+    {
+      "slug": "author",
+      "title": "Author",
+      "author": "Sreela Bhakti Dayita Madhava Goswami Maharaja",
+      "category": "Guru Tattva",
+      "tags": [
+        "Guru Tattva",
+        "Bhakti",
+        "Mahaprabhu",
+        "Harinam"
+      ],
+      "excerpt": "Tenth in line from Sree Chaitanya Mahāprabhu, Paramahaṁsa Parivrājaka-āchārya Oṁ 108 Sree Sreemad Bhakti Dayita Mādhava Goswāmī Mahārāj Viṣṇupād, one of the dearest associates of Sree Sreemad Bhakti Siddhānta Saraswatī…",
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Author"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tenth in line from Sree Chaitanya Mahāprabhu, Paramahaṁsa Parivrājaka-āchārya Oṁ 108 Sree Sreemad Bhakti Dayita Mādhava Goswāmī Mahārāj Viṣṇupād, one of the dearest associates of Sree Sreemad Bhakti Siddhānta Saraswatī Goswāmī Ṭhākura Prabhupād, the founder of the Chaitanya Maṭh and the Gauḍīya Maṭhs throughout the world, was himself the founder of the Chaitanya Gauḍīya Maṭh throughout India. He appeared in this world on November 18, 1904, Utthāna Ekādaśī, in the village of Kāñchana-pāṛā in the Mādārīpur subdivision of Faridpur district in East Bengal."
+        },
+        {
+          "type": "paragraph",
+          "text": "Utthāna Ekādaśī is the tithi which marks the end of the Chāturmāsya period, when Lord Viṣṇu wakes up from his four-month long sleep. It thus brings joy and auspiciousness to the world. Similarly, the appearance of the most compassionate dear associate of Lord Hari, our most worshipable Sreela Bhakti Dayita Mādhava Goswāmī Mahārāj (herein referred as Sreela Gurudeva), on that tithi had the effect of bringing joy and good fortune to the world’s conditioned souls who are suffering from the three-fold miseries."
+        },
+        {
+          "type": "paragraph",
+          "text": "From a very early age, Sreela Gurudeva began to display extraordinary qualities. He would never, under any circumstances, tell a lie. He showed little interest in materialistic enjoyments. He distinguished himself from the other children in his desire to lead an orderly and disciplined life. Not only did he himself act in this way, but he encouraged the other children to do the same. He always tried to alleviate the sufferings of others and bring them happiness, even if it meant undergoing difficulty himself."
+        },
+        {
+          "type": "paragraph",
+          "text": "People who observed the extent of his generosity and wisdom were convinced that he would grow up to be a great personality of extraordinary character."
+        },
+        {
+          "type": "paragraph",
+          "text": "He finished his primary and secondary education in Kāñchanapāṛā and Bhaṭāgrāma. Then for higher education he went to Calcutta. While in Calcutta, he began to feel great separation from the Supreme Lord. Sreela Gurudeva would often call out the names of the Lord and cried in the middle of the night. He would eat only haviṣyānna (an unspiced khichuri) once a day. In this state of absorption in the Lord, he one day had a dream in which Nārada Muni came and reassured him. Nārada Muni gave him a mantra and told him that by chanting it he would achieve all perfection. However, upon awakening, try as he might, Sreela Gurudeva was unable to recall the mantra he had been given in its entirety. The loss of the mantra bewildered and distressed him immeasurably. His irritation with life in the household reached an intolerable degree and he became determined to abandon it. With an intense desire to have a vision of the Supreme Lord, Sreela Gurudeva set off for the Himālayas. Just as iron filings attracted by a magnetic force cannot be thwarted, the individual soul who has been attracted to the Supreme Soul allows nothing of this world, whether friends or family, to interfere with his calling."
+        },
+        {
+          "type": "paragraph",
+          "text": "Sreela Gurudeva’s passionate desire for the Lord brought him first to Haridwāra and from there into the mountains. High up in the Himālayan jungle, he fasted for three days from food and water, all the time anxiously calling out to the Lord. When he had practically lost all awareness of the external world, he was given a divine order to seek out a spiritual master. He was also told that his guru would appear to him in the very place he had left."
+        },
+        {
+          "type": "paragraph",
+          "text": "In the same year, Sreela Gurudeva came to visit Māyāpur for the first time. There he saw Sreela Bhakti Siddhānta Saraswatī Goswāmī Ṭhākura Prabhupād and was attracted by his superhuman personality. After hearing the Vaiṣṇava doctrines from Sreela Prabhupād, he became convinced of their reasonableness and superiority over other religious dogmas. He took shelter of Sreela Prabhupād and on September 4, 1927, on Rādhāṣṭamī, received initiation in the Holy Name and mantra at the Ultadanga Maṭh. After initiation he was known as Hayagrīva Dās Brahmachāri."
+        },
+        {
+          "type": "paragraph",
+          "text": "On Sreela Prabhupād’s order, Sreela Gurudeva spent a long time at the Madras Gauḍīya Maṭh, where he was chiefly responsible for the purchase of land, the construction of the temple, nāṭa-mandira and residences. Sreela Prabhupād generally sent Sreela Gurudeva as the advance man to do the groundwork for these events. He had complete faith that whatever task he gave him would be carried out to completion. Sreela Gurudeva was one of the principle devotees charged with purchasing land in Andhra Pradesh, near Goṣpada Tīrtha in Rajahmundry district, and the construction of the Rāmānanda Gauḍīya Maṭh in memory of Mahāprabhu’s intimate associate Rāmānanda Rāya, whose meeting with Lord Chaitanya took place there."
+        },
+        {
+          "type": "paragraph",
+          "text": "No matter how important a personality, whenever anyone met Sreela Gurudeva with his handsome features and imposing physique, his pleasant manner, his extraordinary personality, his facility with modern reasoning and his ability to convince by means of irrefutable scriptural evidence, he would become enchanted and be quite happy to do anything requested of him. Sreela Gurudeva’s entire being—his meditation, his consciousness, his japa, everything—was fully devoted to fulfilling Sreela Prabhupād’s desires. The volunteer workers of today could not even imagine the extent of his commitment to service, through which he gave up eating and sleeping, working through the night if necessary to achieve his goals. Sreela Gurudeva’s single-minded, sincere allegiance to his spiritual master is an example to be followed by everyone. He never undertook any task without the express direction of his spiritual master. As a result of his full surrender to Sreela Prabhupād’s lotus feet, he came to inherit his divine potency for spreading Lord Chaitanya’s mission in its entirety."
+        },
+        {
+          "type": "paragraph",
+          "text": "Sreela Prabhupād was eager to preach Mahāprabhu’s message in the western world and had decided to send Sreela Gurudeva, as he was competent for the mission. Sreela Gurudeva and two others had their photos taken and passports made in preparation for the trip. When everything was ready, Rājarṣi Śaradindu Nārāyaṇa Rāy said to Sreela Prabhupād, “Overseas is a land full of heavenly nymphs. I don’t think it is a good idea to send handsome young men there to preach. You should rather send a more aged disciple.” Sreela Prabhupād thought that the suggestion of Rājarṣi Śaradindu Nārāyaṇa was not without foundation and decided to send Sree Sreemad Bhakti Pradīpa Tīrtha Mahārāj in Sreela Gurudeva’s place."
+        },
+        {
+          "type": "paragraph",
+          "text": "On the 457th anniversary of Mahāprabhu’s appearance, on the Phālguni Pūrṇimā of 1944, at the age of 40, he took sannyās on the grounds of the Ṭoṭā Gopīnātha temple from Sree Sreemad Bhakti Gaurava Vaikhānasa Mahārāj according to the Vaiṣṇava rituals."
+        },
+        {
+          "type": "paragraph",
+          "text": "Of all of Sreela Gurudeva’s virtues, his attachment to his spiritual master and his affection for his god-brothers were exemplary. After Sreela Prabhupād’s disappearance, whenever any of his god-brothers were faced with hardship, he would immediately step forward without considering his own happiness or distress in order to give them a helping hand. Many of Prabhupād’s worthiest disciples were unable to come to terms with the turmoil in which the Maṭh found itself after his disappearance and either returned to householder life or considered doing so. Sreela Gurudeva took a lot of trouble to find them at their home and to persuade them to return to the Maṭh and a life of service to the Lord. Some of those he brought back subsequently took the role of āchārya. Devotees are the worldly manifestation of Kṛṣṇa; affection for them accurately demonstrates the extent of one’s affection for Kṛṣṇa. Similarly, the guru’s disciples are the manifestations of the guru himself and affectionate behavior to them demonstrates the depth of one’s love for the guru. Sreela Gurudeva’s exemplary love for his god-brothers was evident to the very last days of his presence in this world."
+        }
+      ],
+      "language": {
+        "code": "en",
+        "label": "English"
+      },
+      "sourceCategory": "Book",
+      "sourceUrl": "https://bbtirtha.org/EN/text/1502/4",
+      "contentAvailability": "text"
+    }
+  ]
+}

@@ -37,8 +37,8 @@ export const images = {
   },
   radhaRani: {
     src: "/images/radha-rani.webp",
-    alt: "Sri Radha Rani",
-    label: "Sri Radha Rani",
+    alt: "Śrīmatī Radha Rani",
+    label: "Śrīmatī Radha Rani",
     palette: "forest",
   },
   temple: {
@@ -133,8 +133,8 @@ export const darshanGallery: DarshanImage[] = [
   },
   {
     src: "/images/radha-rani.webp",
-    alt: "Sri Radha Rani",
-    title: "Sri Radha Rani",
+    alt: "Śrīmatī Radha Rani",
+    title: "Śrīmatī Radha Rani",
     caption: "The merciful shelter who carries our prayers to Krishna.",
     palette: "forest",
   },
@@ -160,7 +160,7 @@ export const darshanGallery: DarshanImage[] = [
     palette: "gold",
   },
   {
-    src: "",
+    src: "/images/festival-ekadashi.webp",
     alt: "Ekadashi",
     title: "Ekadashi",
     caption: "A day of simplicity, surrender, and inner remembrance.",
@@ -173,22 +173,100 @@ export const darshanGallery: DarshanImage[] = [
     caption: "Where devotion becomes movement, melody, and service.",
     palette: "forest",
   },
+  {
+    src: "/images/divinecouple.webp",
+    alt: "Śrī Śrī Rādhā Kṛṣṇa",
+    title: "Śrī Śrī Rādhā Kṛṣṇa",
+    caption: "The eternal Divine Couple — the sweetness the soul was made for.",
+    palette: "maroon",
+  },
+  {
+    src: "/images/rathyatra.webp",
+    alt: "Ratha Yātrā",
+    title: "Ratha Yātrā",
+    caption: "Lord Jagannath rides forth — the festival of the world's joy.",
+    palette: "gold",
+  },
+  {
+    src: "/images/janamashtmi.webp",
+    alt: "Janmāṣṭamī",
+    title: "Janmāṣṭamī",
+    caption: "The midnight advent of Śrī Kṛṣṇa, awaited by all creation.",
+    palette: "sky",
+  },
+  {
+    src: "/images/madhavmaharaj.webp",
+    alt: "Śrīla Bhakti Dayita Mādhava Gosvāmī Mahārāja",
+    title: "Śrīla Bhakti Dayita Mādhava Gosvāmī Mahārāja",
+    caption: "The causeless mercy of Śrī Gurudeva, shelter of surrendered souls.",
+    palette: "gold",
+  },
+  {
+    src: "/images/tirthmaharaj.webp",
+    alt: "Śrīla Bhakti Ballabh Tīrtha Gosvāmī Mahārāja",
+    title: "Śrīla Bhakti Ballabh Tīrtha Gosvāmī Mahārāja",
+    caption: "The ācārya whose life was a river of Harinām and compassion.",
+    palette: "maroon",
+  },
 ];
 
 // ------------------------------------------------------------------
 //  Hero background image.
 //
-//  The home-page hero renders ONE composed background image (16:9) that
-//  already contains the full artwork — two inward-facing peacocks, the
-//  central cusped cream arch panel (left EMPTY for text), floral vines,
-//  lotus crests, the gold divider ornament and the bottom lotus, all on a
-//  light cream ground. The hero overlays ONLY the heading text + CTA
-//  buttons into that empty central arch.
+//  The home-page hero renders a composed background image that already
+//  contains the full artwork — two inward-facing peacocks, the central cusped
+//  cream arch panel (left EMPTY for text), floral vines, lotus crests, the gold
+//  divider ornament and the bottom lotus, all on a light cream ground. The hero
+//  overlays ONLY the heading text + CTA buttons into that empty central arch.
 //
-//    hero-bg.webp -> composed hero artwork (1024x576 or larger, 16:9)
-//
-//  If the file is missing, the hero falls back to the hand-authored
-//  ornamental SVG composition (see components/ui/*).
+//  There is no single `hero-bg.webp` any more — the artwork is per-daypart
+//  (see heroBackgrounds below). If every candidate is missing, the hero falls
+//  back to the hand-authored ornamental SVG composition (components/ui/*).
 // ------------------------------------------------------------------
 
-export const heroDecor = { bg: "/images/hero-bg.webp" } as const;
+// ------------------------------------------------------------------
+//  Time-of-day hero backgrounds.
+//
+//  The home hero swaps between three compositions based on the current
+//  Jalandhar time (see lib/daypart.ts): "day" (morning, 04:00–12:00),
+//  "evening" (12:00–18:00) and "night" (18:00–04:00). Drop optimized files
+//  into /public/images with these exact names:
+//
+//    hero-morning.webp         -> day artwork,     desktop 16:9 (>=1024x576)
+//    hero-morning-mobile.webp  -> day artwork,     mobile portrait 9:16
+//    hero-evening.webp         -> evening artwork, desktop 16:9
+//    hero-evening-mobile.webp  -> evening artwork, mobile portrait 9:16
+//    hero-night.webp           -> night artwork,   desktop 16:9
+//    hero-night-mobile.webp    -> night artwork,   mobile portrait 9:16
+//
+//  If any file is missing, that layer gracefully falls back to the existing
+//  hero-bg.webp / hero-bg-mobile.webp (heroFallback), and if THAT is missing
+//  too the hand-authored ornamental SVG hero is shown.
+// ------------------------------------------------------------------
+
+export const heroBackgrounds = {
+  day: {
+    desktop: "/images/hero-morning.webp",
+    mobile: "/images/hero-morning-mobile.webp",
+  },
+  evening: {
+    desktop: "/images/hero-evening.webp",
+    mobile: "/images/hero-evening-mobile.webp",
+  },
+  night: {
+    desktop: "/images/hero-night.webp",
+    mobile: "/images/hero-night-mobile.webp",
+  },
+} as const;
+
+/**
+ * Intermediate rung of the hero fallback chain: daypart artwork → this →
+ * ornamental SVG. It previously pointed at /images/hero-bg.webp and
+ * /images/hero-bg-mobile.webp, neither of which exists, so the rung was dead
+ * and a missing daypart image skipped straight to the SVG. Pointing it at the
+ * morning artwork (which does ship) makes the chain real again.
+ */
+export const heroFallback = {
+  desktop: "/images/hero-morning.webp",
+  mobile: "/images/hero-morning-mobile.webp",
+} as const;

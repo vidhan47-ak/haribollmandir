@@ -6,22 +6,25 @@ import About from "@/components/sections/About";
 import HeritageCallout from "@/components/sections/HeritageCallout";
 import Festivals from "@/components/sections/Festivals";
 import QuoteBand from "@/components/sections/QuoteBand";
-import Gallery from "@/components/sections/Gallery";
+import MagneticGallery from "@/components/sections/MagneticGallery";
 import VisitUs from "@/components/sections/VisitUs";
 import Footer from "@/components/sections/Footer";
 import HashScroll from "@/components/ui/HashScroll";
+import DailyBhaktiCompanion from "@/components/features/DailyBhaktiCompanion";
 import { quoteBandImages } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
 import ParallaxScene from "@/components/ui/ParallaxScene";
 import CeremonialDivider from "@/components/ui/CeremonialDivider";
+import SectionMoods from "@/components/features/SectionMoods";
 
 export default function Home() {
   const { t } = useLang();
   return (
     <>
       <HashScroll />
+      <SectionMoods />
       <main>
-        <ParallaxScene amount={42} mobileAmount={0}><Hero /></ParallaxScene>
+        <Hero />
         <ParallaxScene><Darshan /></ParallaxScene>
         <QuoteBand
           quote={t.quotes.harinam.quote}
@@ -31,6 +34,8 @@ export default function Home() {
           imagePalette={quoteBandImages.harinam.palette}
           tone="gold"
         />
+        <CeremonialDivider />
+        <DailyBhaktiCompanion />
         <CeremonialDivider />
         <ParallaxScene><About /></ParallaxScene>
         <QuoteBand
@@ -62,7 +67,7 @@ export default function Home() {
           tone="gold"
         />
         <CeremonialDivider />
-        <ParallaxScene><Gallery /></ParallaxScene>
+        <ParallaxScene><MagneticGallery /></ParallaxScene>
         <QuoteBand
           quote={t.quotes.darshan.quote}
           subquote={t.quotes.darshan.subquote}

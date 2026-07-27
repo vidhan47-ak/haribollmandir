@@ -50,8 +50,9 @@ export default function RippleHeading({
     const AMP = 4; // max rise in px
     const SIGMA = 50; // wave spread (how many nearby letters react)
     const RING = 46; // ripple ring thickness
+    // Reads the shared curve from the CSS token instead of retyping it.
     const TRANS =
-      "transform 280ms cubic-bezier(0.22,1,0.36,1), text-shadow 280ms ease";
+      "transform 280ms var(--ease-devotional), text-shadow 280ms var(--ease-devotional)";
     const glow = (f: number) =>
       f > 0.02
         ? `0 0 ${(15 * f).toFixed(1)}px rgba(240,216,150,${(0.6 * f).toFixed(3)})`

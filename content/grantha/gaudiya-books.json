@@ -1,0 +1,69 @@
+{
+  "slug": "gaudiya-books",
+  "kind": "book",
+  "title": "Gaudiya Books",
+  "subtitle": "Foundational Scriptures",
+  "description": "The timeless literary treasures of the Gaudiya Vaishnava tradition — from the Bhagavad Gita to the Nectar of Devotion, presented as a living reading experience.",
+  "featured": false,
+  "addedAt": "2026-06-20",
+  "articles": [
+    {
+      "slug": "bhagavad-gita-the-song-divine",
+      "title": "Bhagavad Gita — The Song Divine",
+      "author": "Compiled from the Gaudiya commentaries",
+      "published": "Sacred Books",
+      "category": "Bhagavad Gita",
+      "tags": ["Bhagavad Gita", "Krishna", "Bhakti"],
+      "excerpt": "Spoken by Krishna to Arjuna on the field of Kurukshetra, the Gita is the essence of all Vedic wisdom — a call to surrender and loving devotion.",
+      "cover": "/images/grantha/book-gita.svg",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The Bhagavad Gita is spoken by the Supreme Lord Sri Krishna to his devotee and friend Arjuna. In seven hundred verses, the entire path of yoga, knowledge, and above all devotion is revealed."
+        },
+        {
+          "type": "verse",
+          "sanskrit": "सर्वधर्मान्परित्यज्य मामेकं शरणं व्रज",
+          "transliteration": "sarva-dharmān parityajya mām ekaṁ śaraṇaṁ vraja",
+          "translation": "Abandon all varieties of religion and just surrender unto Me.",
+          "reference": "Bhagavad Gita 18.66"
+        },
+        {
+          "type": "paragraph",
+          "text": "This final instruction is the crest-jewel of the Gita. Krishna asks Arjuna — and every soul — to give up all self-made conceptions of duty and take exclusive shelter of him."
+        }
+      ]
+    },
+    {
+      "slug": "nectar-of-devotion-the-ocean-of-rasa",
+      "title": "Nectar of Devotion — The Ocean of Rasa",
+      "author": "After Srila Rupa Gosvami's Bhakti-rasamrta-sindhu",
+      "published": "Sacred Books",
+      "category": "Bhakti",
+      "tags": ["Bhakti", "Rasa", "Krishna"],
+      "excerpt": "Srila Rupa Gosvami maps the entire science of devotional mellows — how pure love for Krishna awakens, matures, and blossoms into the highest rasa.",
+      "cover": "/images/grantha/book-nod.svg",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The Bhakti-rasamrta-sindhu, presented in English as the Nectar of Devotion, is the lawbook of devotional service. It describes the stages by which a fortunate soul rises from faith to the perfection of divine love."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "The Definition of Pure Bhakti"
+        },
+        {
+          "type": "verse",
+          "transliteration": "anyābhilāṣitā-śūnyaṁ jñāna-karmādy-anāvṛtam",
+          "translation": "Favorable devotional service, uncovered by knowledge and fruitive action, and free from all other desires.",
+          "reference": "Bhakti-rasamrta-sindhu 1.1.11"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pure devotion is service rendered to Krishna with a favorable attitude, free from the desire for anything other than his pleasure. This is the standard by which all practice is measured."
+        }
+      ]
+    }
+  ]
+}

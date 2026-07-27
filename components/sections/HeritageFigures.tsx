@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { EASE_DEVOTIONAL } from "@/lib/springs";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const EASE = EASE_DEVOTIONAL;
 
 const BASE =
-  "pointer-events-none absolute bottom-0 z-[1] hidden w-72 select-none drop-shadow-[0_18px_34px_rgba(60,35,10,0.28)] sm:block lg:w-96 xl:w-[26rem]";
+  "pointer-events-none absolute bottom-0 z-[1] hidden w-56 select-none drop-shadow-[0_18px_34px_rgba(60,35,10,0.28)] lg:block lg:w-64 xl:w-72 2xl:w-80";
 
 /**
  * Two devotional figures that flank the "Harinam, Bhakti & Seva" section and
@@ -33,7 +34,7 @@ export default function HeritageFigures() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: reduce ? 0.4 : 1.1, ease: EASE }}
-          className={`${BASE} left-0`}
+          className={`${BASE} -left-4 lg:-left-6`}
         />
       )}
       {rightOk && (
@@ -48,7 +49,7 @@ export default function HeritageFigures() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: reduce ? 0.4 : 1.1, ease: EASE, delay: reduce ? 0 : 0.12 }}
-          className={`${BASE} right-0`}
+          className={`${BASE} -right-4 lg:-right-6`}
         />
       )}
     </>

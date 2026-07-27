@@ -3,13 +3,14 @@
 import SectionHeading from "@/components/ui/SectionHeading";
 import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import FallbackImage from "@/components/ui/FallbackImage";
+import PushpanjaliOffering from "@/components/features/PushpanjaliOffering";
 import { images } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
 
 const IMGS = [images.mahaprabhu, images.radhaMadhav, images.radhaRani];
 
 export default function Darshan() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   return (
     <section id="darshan" className="section-pad relative overflow-hidden bg-[#ead7ad]">
       {/* Govardhan scene — a calm, continuous Vrindavan backdrop. */}
@@ -37,17 +38,27 @@ export default function Darshan() {
             const img = IMGS[i];
             return (
               <StaggerItem key={i} y={18} scale={0.96} duration={1}>
-                <article className="card-temple group flex h-full flex-col !bg-transparent border border-white/45">
-                  <div className="relative aspect-[4/5] shrink-0 overflow-hidden">
+                {/* Asymmetric altar rhythm: Sri Sri Radha Madhav Ji, the heart
+                    of the temple, sits slightly raised between Their devotees. */}
+                <article
+                  className={`card-temple group flex h-full flex-col !bg-transparent border border-white/45 transition-transform duration-[240ms] ease-devotional ${
+                    i === 1 ? "lg:-translate-y-6" : "lg:translate-y-2"
+                  }`}
+                >
+                  <div className="relative aspect-[4/5] shrink-0 overflow-hidden darshan-twilight-backlight">
                     <FallbackImage
                       src={img.src}
                       alt={deity.name}
                       label={deity.name}
                       palette={img.palette}
-                      className="h-full w-full object-cover object-top transition-transform duration-[1200ms] ease-devotional group-hover:scale-105"
+                      className="h-full w-full object-cover object-top transition-transform duration-[400ms] ease-devotional group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-maroon-dark/45 via-transparent to-transparent opacity-70" />
                     <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
+                    <PushpanjaliOffering
+                      hint={lang === "hi" ? "पुष्पांजलि अर्पित करें" : "Tap to offer flowers"}
+                      offeredNote={lang === "hi" ? "पुष्पांजलि स्वीकृत हो" : "May your offering be accepted"}
+                    />
                   </div>
 
                   <div className="darshan-glass-panel flex-1 px-7 pb-9 pt-7 text-center">

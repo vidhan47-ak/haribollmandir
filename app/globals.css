@@ -21,9 +21,85 @@
     --peacock-green: #0b4a3f;
     --dark-temple: #1b1208;
     --lotus-pink: #e8b7a0;
+
+    /* ---------------------------------------------------------------- */
+    /*  Liquid Glass — one canonical "Regular" material (WWDC25),         */
+    /*  translated to the web. Every glass surface shares this exact      */
+    /*  recipe: a translucent tint + real backdrop blur/saturate, a       */
+    /*  specular top rim (light catching the material's edge) and a soft  */
+    /*  adaptive shadow. Two tonal contexts only — light chrome over the  */
+    /*  warm scene, and maroon chrome that carries light text — never a   */
+    /*  second variant, never glass stacked on glass.                     */
+    /* ---------------------------------------------------------------- */
+    --lg-filter: blur(24px) saturate(180%);
+    --lg-filter-strong: blur(30px) saturate(185%);
+    /* Frosted warm-white fill for light chrome (nav, hero controls). */
+    --lg-fill-light: linear-gradient(
+      180deg,
+      rgba(255, 252, 246, 0.66) 0%,
+      rgba(255, 247, 235, 0.44) 100%
+    );
+    /* Maroon fill for chrome that floats over both light and dark scenes. */
+    --lg-fill-warm: linear-gradient(
+      180deg,
+      rgba(122, 42, 54, 0.46) 0%,
+      rgba(74, 18, 25, 0.56) 100%
+    );
+    /* Specular rim — a bright top edge + faint lower highlight. */
+    --lg-rim-light:
+      inset 0 1px 0 rgba(255, 255, 255, 0.85),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.2);
+    --lg-rim-warm:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 1px rgba(255, 231, 165, 0.14);
+    --lg-border-light: rgba(255, 255, 255, 0.6);
+    --lg-border-warm: rgba(255, 231, 165, 0.44);
+    /* Soft, slightly cool ambient shadow so the material reads as lifted. */
+    --lg-shadow-light:
+      0 18px 44px -20px rgba(32, 18, 28, 0.42),
+      0 2px 10px rgba(42, 28, 10, 0.08);
+    --lg-shadow-warm:
+      0 18px 40px -20px rgba(25, 8, 12, 0.6),
+      0 0 22px -12px rgba(227, 199, 126, 0.4);
+    /* The single tinted (prominent) accent — reserved for a primary action. */
+    --lg-tint-prominent: linear-gradient(
+      180deg,
+      #e8cd82 0%,
+      #c9a24b 55%,
+      #a8842f 100%
+    );
+
+    /* ---------------------------------------------------------------- */
+    /*  Motion tokens.                                                   */
+    /*                                                                   */
+    /*  The signature curve was hand-retyped as a literal                */
+    /*  cubic-bezier(0.22, 1, 0.36, 1) at fifteen-plus sites, despite     */
+    /*  already having three homes (tailwind `ease-devotional`,           */
+    /*  EASE_DEVOTIONAL and LOTUS_BREATH_EASE). This is the CSS one; the  */
+    /*  TS side re-exports from lib/springs.ts.                          */
+    /* ---------------------------------------------------------------- */
+    --ease-devotional: cubic-bezier(0.22, 1, 0.36, 1);
+    /* Strong ease-out for anything entering or leaving. */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    /* Strong ease-in-out for something moving across the screen. */
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+    /* Duration scale. Interactive chrome stays under 300ms; the longer
+       steps are for ceremonial, once-per-scroll reveals only. */
+    --dur-press: 160ms;
+    --dur-hover: 200ms;
+    --dur-control: 240ms;
+    --dur-panel: 300ms;
+    --dur-ceremony: 900ms;
+  }
+
+  html.has-intro-splash body {
+    overflow: hidden !important;
   }
 
   html {
+    max-width: 100%;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
@@ -32,6 +108,11 @@
 
   body {
     @apply text-ink font-body;
+    /* Let variable faces (Cormorant, Playfair) pick their size-tuned optical
+       masters — Apple ships optical sizing; we opt every face into it. */
+    font-optical-sizing: auto;
+    max-width: 100%;
+    overflow-x: clip;
     background-color: #efd9a6; /* warm gold fallback */
     background-image:
       radial-gradient(1200px circle at 50% -6%, rgba(255, 240, 190, 0.9), transparent 42%),
@@ -61,6 +142,10 @@
 ::-webkit-scrollbar {
   width: 10px;
 }
+::-webkit-scrollbar:horizontal {
+  width: 0;
+  height: 0;
+}
 ::-webkit-scrollbar-track {
   background: #f3e8d5;
 }
@@ -68,6 +153,135 @@
   background: linear-gradient(180deg, #d9bb70, #a8842f);
   border-radius: 999px;
   border: 2px solid #f3e8d5;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Shared press feedback.                                             */
+/*                                                                     */
+/*  Asymmetric on purpose: the transition lives on `:active`, so the     */
+/*  press eases in over 160ms (a deliberate act) while the release       */
+/*  SNAPS back (the system answering). Putting the transition on the      */
+/*  base rule instead — as .japa-tap used to — makes both halves take    */
+/*  the same 160ms and the control feels spongy.                          */
+/*                                                                     */
+/*  Gated to precise pointers so a tap on touch never leaves an          */
+/*  element stuck in its pressed state.                                  */
+/* ------------------------------------------------------------------ */
+/* `:active` is safe on touch (unlike `:hover`, it clears on touchend), so this
+   one is not pointer-gated — press feedback matters most on a phone. */
+.press-nudge:active {
+  transform: scale(0.97);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Ways to reach the mandir (components/ui/TempleLinks.tsx)            */
+/* ------------------------------------------------------------------ */
+.temple-link-row {
+  transition: border-color var(--dur-hover) ease,
+    background-color var(--dur-hover) ease,
+    box-shadow var(--dur-hover) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .temple-link-row:hover {
+    border-color: rgba(201, 162, 75, 0.6);
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 12px 28px -20px rgba(74, 40, 10, 0.45);
+  }
+}
+.temple-link-row:active {
+  transform: scale(0.985);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+
+.temple-social-icon {
+  transition: color var(--dur-hover) ease, border-color var(--dur-hover) ease,
+    background-color var(--dur-hover) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .temple-social-icon:hover {
+    color: #fff4dc;
+    border-color: rgba(227, 199, 126, 0.9);
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+}
+.temple-social-icon:active {
+  transform: scale(0.94);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Gaudiya heritage blocks                                            */
+/*                                                                     */
+/*  The content card reveals on hover OR keyboard focus — it was        */
+/*  hover-only, which made all seven blocks' prose unreachable by       */
+/*  keyboard on desktop. Motion is gated to precise pointers; touch     */
+/*  and reduced-motion visitors get the card shown without travel.      */
+/* ------------------------------------------------------------------ */
+.heritage-card {
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--dur-panel) var(--ease-out),
+    opacity var(--dur-panel) var(--ease-out);
+}
+.heritage-card--left {
+  transform: translateX(-1.5rem);
+}
+.heritage-card--right {
+  transform: translateX(1.5rem);
+}
+.heritage-block:hover .heritage-card,
+.heritage-block:focus-within .heritage-card {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .heritage-card--left,
+  .heritage-card--right {
+    transform: none;
+  }
+}
+
+.heritage-badge {
+  transition: transform var(--dur-control) var(--ease-out),
+    box-shadow var(--dur-control) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .heritage-block:hover .heritage-badge,
+  .heritage-block:focus-within .heritage-badge {
+    transform: scale(1.05);
+    box-shadow: 0 0 44px rgba(201, 162, 75, 0.6);
+  }
+}
+.heritage-badge:active {
+  transform: scale(0.97);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+
+/* Mobile disclosure. `grid-template-rows: 0fr → 1fr` is a CSS transition, so
+   it retargets from its current position when tapped mid-open (Framer's
+   height:0 → "auto" keyframe restarted from zero), and the content stays in
+   the DOM so in-page search still finds it. */
+.heritage-disclosure {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-panel) var(--ease-out),
+    opacity var(--dur-panel) var(--ease-out);
+  opacity: 0;
+}
+.heritage-disclosure[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.heritage-disclosure__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+/* Collapsed content must not be reachable by tab or screen reader. */
+.heritage-disclosure[data-open="false"] .heritage-disclosure__inner {
+  visibility: hidden;
+  transition: visibility 0s linear var(--dur-panel);
 }
 
 /* Lightweight Tulsi cursor for mouse/trackpad devices only. */
@@ -90,59 +304,57 @@ html.tulsi-cursor-active select {
 }
 .tulsi-leaf {
   transform-origin: 6px 4px;
-  transition: opacity 120ms ease, scale 120ms ease;
-  will-change: transform;
+  /* `will-change` listed only `transform`, which does NOT cover the
+     independent `scale` property this element actually animates. */
+  transition: opacity var(--dur-hover) ease;
+  will-change: transform, scale;
 }
+/* Asymmetric: the press eases, the release snaps. 0.82 was also well outside
+   the 0.95–0.98 press band — at that depth the leaf reads as collapsing. */
 .tulsi-leaf.is-press {
-  scale: 0.82;
+  scale: 0.96;
+  transition: scale var(--dur-press) var(--ease-out);
 }
 
 /* ------------------------------------------------------------------ */
 /*  Components                                                          */
 /* ------------------------------------------------------------------ */
 @layer components {
-  /* Liquid-glass navigation: consistent across the hero and content scenes. */
+  /* Liquid Glass navigation — the navbar IS a glass card: one Regular material
+     (real backdrop blur + specular rim + adaptive shadow), isolated so it never
+     samples other glass. Controls that sit on it use fills/vibrancy, not a
+     second blur (never glass on glass). */
   .nav-liquid-glass {
     isolation: isolate;
-    border: 1px solid rgba(255, 255, 255, 0.46);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.72),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.16),
-      0 14px 42px -22px rgba(20, 18, 12, 0.6),
-      0 2px 10px rgba(42, 28, 10, 0.08);
+    -webkit-backdrop-filter: var(--lg-filter);
+    backdrop-filter: var(--lg-filter);
+    border: 1px solid var(--lg-border-light);
+    box-shadow: var(--lg-rim-light), var(--lg-shadow-light);
   }
 
+  /* Over the photographic hero: a lighter, clearer glass so the scene reads
+     through while the brand text still rides a card. */
   .nav-liquid-glass--hero {
     background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 244, 218, 0.018)
+      180deg,
+      rgba(255, 252, 246, 0.3) 0%,
+      rgba(255, 247, 235, 0.14) 100%
     );
-    border-color: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.42);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.34),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.05),
-      0 8px 30px -24px rgba(10, 12, 8, 0.42);
+      inset 0 1px 0 rgba(255, 255, 255, 0.62),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.14),
+      0 12px 34px -22px rgba(10, 12, 8, 0.5);
   }
 
+  /* Over cream/light content: the full Regular material with a faint
+     top-left sheen for the lensing highlight. */
   .nav-liquid-glass--solid {
     background:
-      radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.72), transparent 34%),
-      radial-gradient(circle at 88% 115%, rgba(201, 162, 75, 0.34), transparent 44%),
-      linear-gradient(
-        112deg,
-        rgba(255, 249, 235, 0.94) 0%,
-        rgba(242, 220, 220, 0.92) 48%,
-        rgba(226, 216, 232, 0.92) 100%
-      );
-    border-color: rgba(255, 255, 255, 0.76);
-    box-shadow:
-      inset 0 1.5px 0 rgba(255, 255, 255, 0.92),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.24),
-      inset 10px 0 28px -24px rgba(255, 255, 255, 0.95),
-      inset -12px 0 30px -26px rgba(110, 30, 42, 0.34),
-      0 18px 46px -24px rgba(32, 18, 28, 0.58),
-      0 3px 12px rgba(45, 27, 18, 0.10);
+      radial-gradient(120% 150% at 12% 0%, rgba(255, 255, 255, 0.5), transparent 46%),
+      var(--lg-fill-light);
+    border-color: var(--lg-border-light);
+    box-shadow: var(--lg-rim-light), var(--lg-shadow-light);
   }
 
   .darshan-glass-panel {
@@ -222,35 +434,42 @@ html.tulsi-cursor-active select {
     @apply bg-gold-gradient bg-clip-text text-transparent;
   }
 
-  /* Primary devotional button */
+  /* Primary devotional button.
+     Buttons are interactive chrome, so they sit in the sub-300ms budget — these
+     were all at 500ms, which reads as lag on something you click constantly.
+     The press stays deliberately faster than the hover (160ms vs 240ms). */
   .btn-gold {
     @apply inline-flex items-center justify-center gap-2 rounded-full bg-gold-gradient px-7 py-3.5
            text-sm font-body font-semibold uppercase tracking-wider text-maroon-dark
-           shadow-soft transition-all duration-500 ease-devotional
-           hover:-translate-y-0.5 hover:shadow-glow focus:outline-none focus-visible:ring-2
+           shadow-soft transition-[transform,box-shadow,background-color,border-color] duration-[240ms] ease-devotional
+           hover:-translate-y-0.5 hover:shadow-glow active:scale-[0.98] active:duration-[160ms]
+           focus:outline-none focus-visible:ring-2
            focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream;
   }
 
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/60 bg-white/5
            px-7 py-3.5 text-sm font-body font-semibold uppercase tracking-wider text-cream
-           transition-all duration-500 ease-devotional
-           hover:border-gold hover:bg-white/10 hover:-translate-y-0.5 focus:outline-none
+           transition-[transform,box-shadow,background-color,border-color] duration-[240ms] ease-devotional
+           hover:border-gold hover:bg-white/10 hover:-translate-y-0.5
+           active:scale-[0.98] active:duration-[160ms] focus:outline-none
            focus-visible:ring-2 focus-visible:ring-gold;
   }
 
   .btn-outline-dark {
     @apply inline-flex items-center justify-center gap-2 rounded-full border border-maroon/30 bg-transparent
            px-7 py-3.5 text-sm font-body font-semibold uppercase tracking-wider text-maroon
-           transition-all duration-500 ease-devotional
+           transition-[transform,box-shadow,background-color,border-color,color] duration-[240ms] ease-devotional
            hover:border-maroon hover:bg-maroon hover:text-cream hover:-translate-y-0.5
+           active:scale-[0.98] active:duration-[160ms]
            focus:outline-none focus-visible:ring-2 focus-visible:ring-maroon/40;
   }
 
-  /* Elegant card */
+  /* Elegant card. 700ms on a hover lift is far past the budget; a card is not
+     a ceremonial reveal. */
   .card-temple {
     @apply relative overflow-hidden rounded-[1.75rem] bg-cream-50 shadow-card
-           ring-1 ring-gold/15 transition-all duration-700 ease-devotional;
+           ring-1 ring-gold/15 transition-[transform,box-shadow] duration-[240ms] ease-devotional;
   }
 
   /* Temple arch (top) mask */
@@ -300,13 +519,48 @@ html.tulsi-cursor-active select {
     mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
   }
 
-  /* Respect reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-    }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reduced motion — fewer and gentler, not zero.                      */
+/*                                                                     */
+/*  This block used to be a blanket                                     */
+/*      * { animation-duration: .001ms !important;                       */
+/*          transition-duration: .001ms !important }                     */
+/*  which caused three problems:                                         */
+/*                                                                       */
+/*   1. it removed comprehension-aiding motion, not just decoration —    */
+/*      crossfades, colour and opacity changes all became instant jumps, */
+/*      so state changes stopped being legible;                          */
+/*   2. `!important` overrode the file's OWN considered reduced-motion    */
+/*      rules further down (e.g. the .link-underline crossfade, which     */
+/*      deliberately keeps a 200ms opacity fade);                        */
+/*   3. it only reached CSS. Framer Motion animates inline styles, so     */
+/*      JS-driven movement survived — producing an inconsistent result    */
+/*      where CSS motion vanished but components still slid around.      */
+/*                                                                       */
+/*  The policy now: kill MOVEMENT (transforms, offsets, decorative       */
+/*  loops), keep opacity/colour/shadow transitions so the interface       */
+/*  still explains itself. Components branch on useReducedMotion() for    */
+/*  the JS half.                                                          */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    /* Decorative loops run once instead of forever. */
+    animation-iteration-count: 1 !important;
+    /* Cap, don't erase: a 1.1s ceremonial reveal becomes a brief crossfade. */
+    animation-duration: 200ms !important;
+    transition-duration: 200ms !important;
+    /* The allow-list is the whole point — `transform` is absent, so nothing
+       slides, scales or rotates, while every state change stays legible. */
+    transition-property: opacity, color, background-color, border-color,
+      box-shadow, fill, stroke, filter, backdrop-filter !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
   }
 }
 
@@ -318,24 +572,37 @@ html.tulsi-cursor-active select {
   .btn-glass {
     @apply inline-flex items-center justify-center gap-3 rounded-full px-7 py-3.5
            font-body text-sm font-semibold tracking-wide
-           transition-all duration-500 ease-devotional
+           transition-[transform,box-shadow,background-color,border-color] duration-[240ms] ease-devotional
            focus:outline-none focus-visible:ring-2 focus-visible:ring-gold
            focus-visible:ring-offset-2 focus-visible:ring-offset-transparent;
-    color: #123531; /* teal-dark — reads on the light cream hero */
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(201, 162, 75, 0.7);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
-      0 8px 22px -14px rgba(74, 40, 10, 0.4);
+    color: #123531; /* teal-dark — vibrant, reads on the light glass */
+    isolation: isolate;
+    background: var(--lg-fill-light);
+    -webkit-backdrop-filter: var(--lg-filter);
+    backdrop-filter: var(--lg-filter);
+    border: 1px solid var(--lg-border-light);
+    box-shadow: var(--lg-rim-light), var(--lg-shadow-light);
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.55);
   }
 
-  .btn-glass:hover {
-    background: rgba(255, 255, 255, 0.14);
-    transform: translateY(-2px);
-    border-color: rgba(201, 162, 75, 0.95);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
-      0 16px 32px -14px rgba(74, 40, 10, 0.5),
-      0 0 26px -6px rgba(201, 162, 75, 0.5);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-glass:hover {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 253, 248, 0.8) 0%,
+        rgba(255, 248, 236, 0.58) 100%
+      );
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--lg-rim-light),
+        0 20px 38px -16px rgba(74, 40, 10, 0.5),
+        0 0 26px -8px rgba(201, 162, 75, 0.45);
+    }
+  }
+
+  .btn-glass:active {
+    transform: translateY(0) scale(0.97);
+    transition-duration: 150ms;
   }
 
   .btn-glass svg {
@@ -345,20 +612,26 @@ html.tulsi-cursor-active select {
   /* Tint modifiers — gentle color washes over the frosted-white base so the
      dark teal text stays clearly legible on the light hero. */
   .btn-glass--teal {
-    background: rgba(46, 106, 99, 0.1);
+    background:
+      linear-gradient(0deg, rgba(46, 106, 99, 0.14), rgba(46, 106, 99, 0.14)),
+      var(--lg-fill-light);
   }
   .btn-glass--amber {
-    background: rgba(201, 162, 75, 0.12);
+    background:
+      linear-gradient(0deg, rgba(201, 162, 75, 0.16), rgba(201, 162, 75, 0.16)),
+      var(--lg-fill-light);
   }
   .btn-glass--green {
-    background: rgba(53, 97, 80, 0.1);
+    background:
+      linear-gradient(0deg, rgba(53, 97, 80, 0.14), rgba(53, 97, 80, 0.14)),
+      var(--lg-fill-light);
   }
 
   /* Smaller glass pill for the navbar "Contact Temple" action */
   .nav-glass-btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2
            font-body text-xs font-semibold tracking-wide
-           transition-all duration-500 ease-devotional focus:outline-none
+           transition-[transform,box-shadow,background-color,border-color] duration-[240ms] ease-devotional focus:outline-none
            focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2
            focus-visible:ring-offset-transparent;
     background: rgba(255, 255, 255, 0.06);
@@ -366,13 +639,22 @@ html.tulsi-cursor-active select {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
       0 8px 22px -14px rgba(74, 40, 10, 0.4);
   }
-  .nav-glass-btn:hover {
-    background: rgba(255, 255, 255, 0.14);
-    transform: translateY(-1px);
-    border-color: rgba(201, 162, 75, 0.95);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
-      0 14px 30px -14px rgba(74, 40, 10, 0.5),
-      0 0 20px -6px rgba(201, 162, 75, 0.5);
+  /* Hand-written `:hover` is NOT covered by Tailwind's
+     future.hoverOnlyWhenSupported, so the lift has to be gated here or a tap on
+     touch leaves the button hovering. Same pattern for every rule below. */
+  @media (hover: hover) and (pointer: fine) {
+    .nav-glass-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-1px);
+      border-color: rgba(201, 162, 75, 0.95);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        0 14px 30px -14px rgba(74, 40, 10, 0.5),
+        0 0 20px -6px rgba(201, 162, 75, 0.5);
+    }
+  }
+  .nav-glass-btn:active {
+    transform: translateY(0) scale(0.97);
+    transition-duration: 150ms;
   }
 }
 
@@ -405,9 +687,12 @@ html.tulsi-cursor-active select {
   }
 }
 
+/* Reduced motion: the underline still fades, it just does not wipe across.
+   The global allow-list already drops `transform`, so only the reset of
+   scaleX needs stating here. */
 @media (prefers-reduced-motion: reduce) {
   .link-underline::after {
-    transition: opacity 0.2s ease;
+    transform: scaleX(1);
   }
 }
 
@@ -416,8 +701,8 @@ html.tulsi-cursor-active select {
   --glow-x: 50%;
   --glow-y: 50%;
   isolation: isolate;
-  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--dur-control) var(--ease-devotional),
+    box-shadow var(--dur-control) var(--ease-devotional);
 }
 .festival-card::before {
   content: "";
@@ -434,7 +719,7 @@ html.tulsi-cursor-active select {
     transparent 68%
   );
   box-shadow: inset 0 0 0 1px rgba(239, 207, 126, 0.62);
-  transition: opacity 450ms ease;
+  transition: opacity var(--dur-hover) ease;
 }
 @media (hover: hover) and (pointer: fine) {
   .festival-card:hover {
@@ -453,10 +738,16 @@ html.tulsi-cursor-active select {
   height: 145px;
   border-radius: 999px;
   outline: none;
-  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--dur-control) var(--ease-devotional);
 }
-.diya-scene:not(:disabled):hover {
-  transform: translateY(-2px) scale(1.025);
+@media (hover: hover) and (pointer: fine) {
+  .diya-scene:not(:disabled):hover {
+    transform: translateY(-2px) scale(1.025);
+  }
+}
+.diya-scene:not(:disabled):active {
+  transform: scale(0.98);
+  transition: transform var(--dur-press) var(--ease-out);
 }
 .diya-scene:not(:disabled):focus-visible {
   box-shadow: 0 0 0 2px rgba(227, 199, 126, 0.9), 0 0 0 6px rgba(227, 199, 126, 0.2);
@@ -471,7 +762,9 @@ html.tulsi-cursor-active select {
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 214, 105, 0.32), transparent 68%);
   opacity: 0.55;
-  transition: opacity 700ms ease, transform 900ms ease;
+  /* Bare `ease` on a ceremonial entrance; the devotional curve is the point. */
+  transition: opacity var(--dur-ceremony) var(--ease-devotional),
+    transform var(--dur-ceremony) var(--ease-devotional);
 }
 .diya-flame {
   position: absolute;
@@ -486,7 +779,9 @@ html.tulsi-cursor-active select {
   background: linear-gradient(180deg, #4d4039, #1d1715 76%, transparent 78%);
   filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45));
   opacity: 0.72;
-  transition: opacity 500ms ease, filter 700ms ease, background 500ms ease;
+  transition: opacity var(--dur-panel) var(--ease-out),
+    filter var(--dur-ceremony) var(--ease-out),
+    background var(--dur-panel) var(--ease-out);
 }
 .diya-wick {
   position: absolute;
@@ -564,7 +859,20 @@ html[lang="hi"] h1,
 html[lang="hi"] h2,
 html[lang="hi"] h3,
 html[lang="hi"] h4 {
-  font-family: var(--font-hi-heading), "Noto Serif Devanagari", serif;
+  /* Laila is the Devanagari heading face (loaded via --font-hi-heading). */
+  font-family: var(--font-hi-heading), "Laila", "Noto Serif Devanagari", serif;
+}
+
+/* Devanagari must never take Latin optical tracking: negative letter-spacing
+   (e.g. Tailwind's `tracking-tight` on shared headings) crushes matras and
+   conjuncts. This unlayered rule neutralises any tracking utility while Hindi
+   is active, so headings that read tight-and-crisp in English stay legible in
+   हिंदी. Tracking is size-specific by design — never one value for both scripts. */
+html[lang="hi"] :is(h1, h2, h3, h4),
+html[lang="hi"] .font-heading,
+html[lang="hi"] .font-display,
+html[lang="hi"] .eyebrow {
+  letter-spacing: normal;
 }
 
 /* Warm glass treatment for the permanent home-page Live Darshan pill. */
@@ -578,8 +886,8 @@ html[lang="hi"] h4 {
     inset 0 -1px 0 rgba(255, 255, 255, 0.12),
     0 14px 34px -18px rgba(35, 12, 18, 0.72),
     0 0 22px -10px rgba(227, 199, 126, 0.45);
-  -webkit-backdrop-filter: blur(18px) saturate(135%);
-  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: var(--lg-filter-strong);
+  backdrop-filter: var(--lg-filter-strong);
   text-shadow: 0 1px 8px rgba(25, 8, 12, 0.48);
   transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
@@ -609,8 +917,8 @@ html[lang="hi"] h4 {
 /* User-activated Mahamantra player; opaque material avoids scroll-time repainting. */
 .ambient-sound-toggle {
   position: fixed;
-  right: 1rem;
-  bottom: 1rem;
+  right: calc(1rem + env(safe-area-inset-right, 0px));
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
   z-index: 75;
   display: inline-flex;
   min-width: 3rem;
@@ -631,13 +939,19 @@ html[lang="hi"] h4 {
     0 0 20px -12px rgba(227, 199, 126, 0.65);
   transition: border-color 220ms ease, background 220ms ease, box-shadow 220ms ease, transform 220ms ease;
 }
-.ambient-sound-toggle:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 225, 153, 0.82);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.65),
-    0 18px 38px -18px rgba(25, 8, 12, 0.9),
-    0 0 28px -10px rgba(227, 199, 126, 0.72);
+@media (hover: hover) and (pointer: fine) {
+  .ambient-sound-toggle:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 225, 153, 0.82);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      0 18px 38px -18px rgba(25, 8, 12, 0.9),
+      0 0 28px -10px rgba(227, 199, 126, 0.72);
+  }
+}
+.ambient-sound-toggle:active {
+  transform: scale(0.97);
+  transition: transform var(--dur-press) var(--ease-out);
 }
 .ambient-sound-toggle:focus-visible {
   outline: 2px solid rgba(255, 224, 150, 0.92);
@@ -673,35 +987,56 @@ html[lang="hi"] h4 {
   .ambient-sound-toggle.is-playing .ambient-sound-icon i { animation: none; }
 }
 
-/* Slow, restrained depth for section artwork. Motion is driven by one shared
-   transform value per scene and is disabled on narrow screens. */
+/* Slow, restrained depth for decorative section artwork only. The scene
+   wrapper is never transformed, preserving fixed/sticky descendants and native
+   horizontal scrolling. Static scale retains the existing photography crop. */
 .parallax-main-scene {
   position: relative;
   overflow: clip;
   isolation: isolate;
 }
 .parallax-main-scene .parallax-section-bg {
-  transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.08);
+  --parallax-static-scale: 1.08;
+  transform: scale(var(--parallax-static-scale));
   transform-origin: center;
-  will-change: transform;
+  will-change: auto;
+}
+.parallax-main-scene .hero-artwork {
+  --parallax-static-scale: 1.05;
 }
 
-.parallax-main-scene:first-child .hero-artwork {
-  transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.05);
+/* MotionValue updates are compositor-only and promoted only while policy
+   permits desktop parallax. No layout or backdrop-filter property changes. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .parallax-main-scene[data-parallax-enabled="true"] .parallax-section-bg {
+    transform: translate3d(0, var(--parallax-y, 0px), 0)
+      scale(var(--parallax-static-scale));
+    will-change: transform;
+  }
+  .parallax-main-scene[data-parallax-enabled="true"] .hero-artwork {
+    transform: translate3d(0, var(--parallax-hero-y, 0px), 0)
+      scale(var(--parallax-static-scale));
+  }
 }
 
-@media (max-width: 767px) {
-  .parallax-main-scene .parallax-section-bg {
-    transform: translate3d(0, var(--parallax-mobile-y, 0px), 0);
+/* CSS remains the final safety net if policy media changes before React
+   commits. Coarse-pointer desktops keep the existing static photography crop
+   but receive zero parallax travel and no layer-promotion hint. */
+@media (pointer: coarse) {
+  .parallax-main-scene .parallax-section-bg,
+  .parallax-main-scene[data-parallax-enabled="true"] .parallax-section-bg,
+  .parallax-main-scene[data-parallax-enabled="true"] .hero-artwork {
+    transform: scale(var(--parallax-static-scale));
     will-change: auto;
   }
-  .parallax-main-scene:first-child .parallax-section-bg {
-    transform: translate3d(0, var(--parallax-mobile-y, 0px), 0);
-  }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .parallax-main-scene .parallax-section-bg {
+/* Existing narrow/reduced-motion photography is unscaled by the parallax
+   layer; image object-fit/object-position crop rules remain authoritative. */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .parallax-main-scene .parallax-section-bg,
+  .parallax-main-scene[data-parallax-enabled="true"] .parallax-section-bg,
+  .parallax-main-scene[data-parallax-enabled="true"] .hero-artwork {
     transform: none;
     will-change: auto;
   }
@@ -726,8 +1061,10 @@ html[lang="hi"] h4 {
     linear-gradient(180deg, #7f2934, #3e1018);
 }
 
+/* The mood-tinted gradient for this element is declared once, in the
+   per-section moods block below; only the static glow belongs here. */
 .ceremonial-divider {
-  background: linear-gradient(90deg, transparent, rgba(227, 199, 126, 0.88), transparent);
+  background: linear-gradient(90deg, transparent, var(--mood), transparent);
   box-shadow: 0 0 16px rgba(201, 162, 75, 0.35);
 }
 .ceremonial-divider::after {
@@ -748,4 +1085,909 @@ html[lang="hi"] h4 {
   transform-origin: top;
   background: linear-gradient(180deg, #f4d98c, #b98b31);
   box-shadow: 0 0 14px rgba(227, 199, 126, 0.38);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Devotional text treatments                                         */
+/* ------------------------------------------------------------------ */
+
+/* Gold-foil sheen sweeping across a heading. The base ink is kept as a
+   CSS var so the same class serves light and dark sections. */
+.heading-shimmer {
+  --shimmer-base: #4a1219;
+  color: var(--shimmer-base);
+  /* The gradient is 3x the text width and the base ink fills the outer thirds,
+     so the glyphs are ALWAYS painted solid. Only a single highlight sits in the
+     middle third; sliding the position within 0%-100% moves that highlight
+     through the text while the base ink keeps full coverage — the text can
+     never turn transparent (which was the earlier invisible-heading bug). */
+  background-image: linear-gradient(
+    100deg,
+    var(--shimmer-base) 0%,
+    var(--shimmer-base) 40%,
+    #e6cd92 46%,
+    #fdf1d0 50%,
+    #e6cd92 54%,
+    var(--shimmer-base) 60%,
+    var(--shimmer-base) 100%
+  );
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  will-change: background-position;
+  animation: heading-shimmer-sweep 6.5s linear infinite;
+  padding-block: 0.3em 0.22em;
+}
+.heading-shimmer--light {
+  --shimmer-base: #faf4ea;
+}
+/* Static heading: the highlight glides across once (0%-42%, constant speed)
+   then rests fully off the text (42%-100%) so the sheen reappears at a calm,
+   regular interval. At both 100% and 0% the highlight sits just past opposite
+   edges, so the loop wrap is invisible — no snap, no flash. */
+@keyframes heading-shimmer-sweep {
+  0% { background-position: 100% 0; }
+  42% { background-position: 0% 0; }
+  100% { background-position: 0% 0; }
+}
+
+/* Slowly-breathing rose-gold <-> saffron gradient for sacred words. */
+.text-living {
+  background-image: linear-gradient(
+    115deg,
+    #e3c77e 0%,
+    #e7a3b0 30%,
+    #f0b25a 55%,
+    #c87e8e 80%,
+    #e3c77e 100%
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #e3c77e;
+  will-change: background-position;
+  animation: living-gradient-breathe 9s ease-in-out infinite;
+}
+@keyframes living-gradient-breathe {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heading-shimmer,
+  .text-living {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Hero time-of-day backdrop                                          */
+/*  Three stacked hero layers crossfade based on <html data-daypart>,   */
+/*  which the layout init script + HeroBackground keep synced to        */
+/*  Jalandhar time. Defaults to the day layer when the attribute is      */
+/*  absent, so it degrades gracefully if the script never runs.          */
+/* ------------------------------------------------------------------ */
+.hero-daypart-layer {
+  opacity: 0;
+  transition: opacity 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-daypart-layer--day {
+  opacity: 1;
+}
+html[data-daypart="day"] .hero-daypart-layer--evening,
+html[data-daypart="day"] .hero-daypart-layer--night {
+  opacity: 0;
+}
+html[data-daypart="evening"] .hero-daypart-layer--day,
+html[data-daypart="evening"] .hero-daypart-layer--night {
+  opacity: 0;
+}
+html[data-daypart="evening"] .hero-daypart-layer--evening {
+  opacity: 1;
+}
+html[data-daypart="night"] .hero-daypart-layer--day,
+html[data-daypart="night"] .hero-daypart-layer--evening {
+  opacity: 0;
+}
+html[data-daypart="night"] .hero-daypart-layer--night {
+  opacity: 1;
+}
+/* Reduced motion keeps the daypart crossfade — it is pure opacity and it
+   explains that the backdrop changed. PRODUCT.md asks for exactly this: "calm
+   crossfade or instant fallbacks". The global 200ms cap applies. */
+
+/* ------------------------------------------------------------------ */
+/*  Darshan card twilight backlight                                    */
+/*  A subtle warm radial glow on darshan imagery during evening hours. */
+/* ------------------------------------------------------------------ */
+.darshan-twilight-backlight {
+  position: relative;
+}
+.darshan-twilight-backlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 20%, rgba(255, 180, 100, 0.28) 0%, rgba(201, 162, 75, 0.12) 40%, transparent 72%);
+  z-index: 2;
+}
+html[data-daypart="evening"] .darshan-twilight-backlight::after {
+  opacity: 1;
+}
+
+.hero-twilight-backdrop {
+  position: relative;
+}
+.hero-twilight-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 35%, rgba(255, 180, 100, 0.22) 0%, rgba(201, 162, 75, 0.08) 45%, transparent 75%);
+  z-index: 1;
+}
+html[data-daypart="evening"] .hero-twilight-backdrop::before {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Lotus-petal page transition (View Transitions API)                 */
+/*  Home <-> Gaudiya Heritage. A restrained bloom on the root snapshot: */
+/*  the outgoing view dissolves while the incoming one softly opens and */
+/*  settles, like a lotus. Only runs where the browser supports it;     */
+/*  reduced-motion visitors get an instant swap (the provider skips the */
+/*  transition entirely), and this block is gated to no-preference.     */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: lotus-page-out 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  ::view-transition-new(root) {
+    animation: lotus-page-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+@keyframes lotus-page-out {
+  to {
+    opacity: 0;
+    transform: scale(0.996);
+  }
+}
+@keyframes lotus-page-in {
+  from {
+    opacity: 0;
+    transform: scale(1.006);
+    clip-path: inset(0 0 7% 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Per-section colour moods                                           */
+/* ------------------------------------------------------------------ */
+
+/* SectionMoods writes --mood-target / --mood-soft-target on <html>. Those are
+   PLAIN inherited variables carrying the destination colour — changing one
+   costs a single style recalculation. The animated pair (--mood / --mood-soft)
+   is registered `inherits: false` and declared on the consumers below, so the
+   1.4s crossfade is scoped to the two elements that paint it instead of being
+   transitioned on :root, where an inherited registered property re-resolved
+   the entire document on every frame of every section change. */
+.mood-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    radial-gradient(900px circle at 50% -8%, var(--mood-soft), transparent 55%),
+    radial-gradient(700px circle at 100% 110%, var(--mood-soft), transparent 60%);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Temple bell (ghanti)                                               */
+/* ------------------------------------------------------------------ */
+.temple-bell {
+  position: absolute;
+  top: 0;
+  right: clamp(0.75rem, 5vw, 4.5rem);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0.6rem 0.6rem;
+  cursor: pointer;
+  border: 0;
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.temple-bell:focus-visible {
+  outline: 2px solid rgba(255, 224, 150, 0.92);
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+.temple-bell-rope {
+  width: 3px;
+  /* Long enough that the bell clears the floating navbar pill. */
+  height: clamp(5rem, 11vh, 7.5rem);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #6e4a1d, #a8842f);
+  box-shadow: 0 0 6px rgba(60, 38, 10, 0.4);
+}
+.temple-bell-body {
+  transform-origin: 50% 0%;
+  filter: drop-shadow(0 10px 18px rgba(60, 34, 6, 0.45));
+  transition: filter 300ms ease;
+}
+.temple-bell:hover .temple-bell-body {
+  filter: drop-shadow(0 10px 22px rgba(227, 199, 126, 0.65));
+}
+.temple-bell:active .temple-bell-body {
+  transform: scale(0.93);
+  transition: transform 100ms ease-out;
+}
+.temple-bell.is-ringing .temple-bell-body {
+  animation: bell-swing 2.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+@keyframes bell-swing {
+  0% { rotate: 0deg; }
+  12% { rotate: 13deg; }
+  28% { rotate: -11deg; }
+  44% { rotate: 8deg; }
+  60% { rotate: -5.5deg; }
+  74% { rotate: 3deg; }
+  86% { rotate: -1.5deg; }
+  100% { rotate: 0deg; }
+}
+.bell-ripple {
+  position: absolute;
+  bottom: -0.4rem;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(232, 207, 143, 0.9);
+  translate: -50% 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.temple-bell.is-ringing .bell-ripple {
+  animation: bell-ripple-out 1.6s ease-out;
+}
+.temple-bell.is-ringing .bell-ripple:nth-child(2) { animation-delay: 0.35s; }
+.temple-bell.is-ringing .bell-ripple:nth-child(3) { animation-delay: 0.7s; }
+@keyframes bell-ripple-out {
+  0% { opacity: 0.9; scale: 0.4; }
+  100% { opacity: 0; scale: 5; }
+}
+.bell-spark {
+  position: absolute;
+  bottom: 0.2rem;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #f3d78e;
+  box-shadow: 0 0 8px rgba(243, 215, 142, 0.95);
+  opacity: 0;
+  pointer-events: none;
+}
+.temple-bell.is-ringing .bell-spark {
+  animation: bell-spark-fly 1.3s ease-out forwards;
+}
+@keyframes bell-spark-fly {
+  0% { opacity: 1; translate: -50% 0; scale: 1; }
+  100% { opacity: 0; translate: calc(-50% + var(--spark-x, 0px)) var(--spark-y, -40px); scale: 0.4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .temple-bell.is-ringing .temple-bell-body,
+  .temple-bell.is-ringing .bell-ripple,
+  .temple-bell.is-ringing .bell-spark {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Sadhana dock (japa + aarti launchers)                              */
+/* ------------------------------------------------------------------ */
+.sadhana-dock {
+  position: fixed;
+  /* Clear notches, rounded corners and the iOS home indicator. */
+  left: calc(1rem + env(safe-area-inset-left, 0px));
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 75;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.sadhana-hint {
+  position: absolute;
+  left: calc(100% + 0.75rem);
+  bottom: 0.55rem;
+  width: max-content;
+  max-width: 13rem;
+  border: 1px solid rgba(227, 199, 126, 0.55);
+  border-radius: 1rem;
+  border-bottom-left-radius: 0.25rem;
+  padding: 0.55rem 0.85rem;
+  font-size: 11px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: #fff4dc;
+  background: linear-gradient(135deg, rgba(255, 250, 240, 0.16), rgba(90, 30, 40, 0.16));
+  backdrop-filter: var(--lg-filter);
+  -webkit-backdrop-filter: var(--lg-filter);
+  text-shadow: 0 1px 6px rgba(24, 8, 12, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 14px 34px -18px rgba(25, 8, 12, 0.82),
+    0 0 24px -8px rgba(227, 199, 126, 0.6);
+  animation: sadhana-hint-pulse 2.4s ease-in-out infinite;
+}
+@keyframes sadhana-hint-pulse {
+  0%, 100% { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 14px 34px -18px rgba(25, 8, 12, 0.82), 0 0 18px -8px rgba(227, 199, 126, 0.45); }
+  50% { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 14px 34px -18px rgba(25, 8, 12, 0.82), 0 0 30px -6px rgba(227, 199, 126, 0.85); }
+}
+.sadhana-event-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(227, 199, 126, 0.45);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f3d78e;
+  background: linear-gradient(135deg, rgba(255, 250, 240, 0.14), rgba(58, 16, 24, 0.28));
+  backdrop-filter: var(--lg-filter);
+  -webkit-backdrop-filter: var(--lg-filter);
+  text-shadow: 0 1px 5px rgba(24, 8, 12, 0.5);
+  box-shadow: 0 10px 26px -16px rgba(25, 8, 12, 0.85);
+  transition: border-color 220ms ease, color 220ms ease;
+}
+.sadhana-event-chip:hover {
+  border-color: rgba(255, 225, 153, 0.85);
+  color: #fff4dc;
+}
+.sadhana-event-chip:focus-visible {
+  outline: 2px solid rgba(255, 224, 150, 0.92);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sadhana-hint { animation: none; }
+}
+/* Thumb-sized targets on touch devices. */
+@media (pointer: coarse) {
+  .sadhana-dock-btn,
+  .ambient-sound-toggle {
+    min-width: 3.4rem;
+    min-height: 3.4rem;
+  }
+}
+.sadhana-dock-btn {
+  display: inline-flex;
+  min-width: 3rem;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border: 1px solid rgba(255, 231, 165, 0.42);
+  border-radius: 999px;
+  padding: 0.7rem 0.9rem;
+  color: #fff4dc;
+  /* Frosted translucent glass — a light blur keeps it cheap while letting the
+     scene glow through. Gold hairline + inner highlight read over both the
+     light and dark sections; the text-shadow keeps the label legible. */
+  isolation: isolate;
+  background:
+    radial-gradient(120% 140% at 18% 0%, rgba(255, 255, 255, 0.22), transparent 48%),
+    var(--lg-fill-warm);
+  backdrop-filter: var(--lg-filter);
+  -webkit-backdrop-filter: var(--lg-filter);
+  text-shadow: 0 1px 6px rgba(24, 8, 12, 0.55);
+  box-shadow: var(--lg-rim-warm), var(--lg-shadow-warm);
+  transition: transform var(--dur-control) var(--ease-devotional),
+    border-color var(--dur-hover) ease, background var(--dur-hover) ease,
+    box-shadow var(--dur-hover) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .sadhana-dock-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 225, 153, 0.85);
+    background:
+      radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.34), transparent 48%),
+      linear-gradient(135deg, rgba(255, 250, 240, 0.22), rgba(90, 30, 40, 0.18));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.14),
+      0 18px 38px -18px rgba(25, 8, 12, 0.7),
+      0 0 30px -8px rgba(227, 199, 126, 0.62);
+  }
+}
+/* The dock is persistent chrome that launches japa and aarti, and it had no
+   press state at all — the two most-used devotional entry points answered a tap
+   with nothing. */
+.sadhana-dock-btn:active {
+  transform: scale(0.97);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+.sadhana-dock-btn:focus-visible {
+  outline: 2px solid rgba(255, 224, 150, 0.92);
+  outline-offset: 3px;
+}
+
+/* A slow gold breath keeps the collapsed dock quietly alive — never while it
+   is expanded, being dragged, or hovered, and never under reduced motion. */
+.sadhana-dock:not([data-dragging="true"]) .sadhana-dock-toggle {
+  animation: sadhana-breath 4.8s ease-in-out infinite;
+}
+.sadhana-dock-toggle:hover,
+.sadhana-dock-toggle:focus-visible {
+  animation: none;
+}
+@keyframes sadhana-breath {
+  0%, 100% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+      0 14px 34px -18px rgba(25, 8, 12, 0.6),
+      0 0 18px -12px rgba(227, 199, 126, 0.4);
+  }
+  50% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+      0 14px 34px -18px rgba(25, 8, 12, 0.6),
+      0 0 30px -6px rgba(227, 199, 126, 0.8);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sadhana-dock .sadhana-dock-toggle { animation: none; }
+}
+
+/* Drag grip — a slim frosted handle that starts the dock drag. */
+.sadhana-dock-grip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.85rem;
+  min-height: 3rem;
+  padding: 0 0.35rem;
+  border: 1px solid rgba(255, 231, 165, 0.3);
+  border-radius: 999px;
+  color: rgba(243, 215, 142, 0.72);
+  background: linear-gradient(135deg, rgba(255, 250, 240, 0.14), rgba(90, 30, 40, 0.12));
+  backdrop-filter: var(--lg-filter);
+  -webkit-backdrop-filter: var(--lg-filter);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  cursor: grab;
+  touch-action: none;
+  transition: color 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+.sadhana-dock-grip:hover {
+  color: #f8e6b0;
+  border-color: rgba(255, 225, 153, 0.7);
+}
+.sadhana-dock-grip:active {
+  cursor: grabbing;
+  transform: scale(0.96);
+}
+.sadhana-dock-grip:focus-visible {
+  outline: 2px solid rgba(255, 224, 150, 0.92);
+  outline-offset: 3px;
+}
+.sadhana-dock[data-dragging="true"] {
+  cursor: grabbing;
+}
+
+/* One-time discoverability nudge: a gentle gold pulse on the grips for
+   first-time visitors, so the drag affordance is findable, not accidental.
+   Applied via a data-hint attribute the components remove after it plays. */
+.sadhana-dock-grip[data-drag-hint="true"],
+.nav-grip[data-drag-hint="true"] {
+  animation: drag-hint-pulse 1.5s ease-in-out 3;
+}
+@keyframes drag-hint-pulse {
+  0%, 100% { transform: none; color: rgba(243, 215, 142, 0.72); }
+  50% {
+    transform: translateY(1px) scale(1.12);
+    color: #ffe6a0;
+    filter: drop-shadow(0 0 6px rgba(243, 215, 142, 0.7));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sadhana-dock-grip[data-drag-hint="true"],
+  .nav-grip[data-drag-hint="true"] { animation: none; }
+}
+
+/* Navbar drag grip mirrors the dock: grabbing cursor while the bar is moving. */
+.nav-grip:active {
+  cursor: grabbing;
+}
+nav[data-dragging="true"] {
+  cursor: grabbing;
+}
+
+/* Mahamantra equalizer bars reuse the ambient icon; keep them gold on glass. */
+.mahamantra-btn .ambient-sound-icon i {
+  background: #f3d78e;
+}
+.mahamantra-btn.is-playing .ambient-sound-icon i {
+  animation: ambient-wave 1.15s ease-in-out infinite;
+}
+.mahamantra-btn.is-playing .ambient-sound-icon i:nth-child(2) { animation-delay: -0.38s; }
+.mahamantra-btn.is-playing .ambient-sound-icon i:nth-child(3) { animation-delay: -0.72s; }
+@media (prefers-reduced-motion: reduce) {
+  .mahamantra-btn.is-playing .ambient-sound-icon i { animation: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Japa mala                                                          */
+/* ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------ */
+/*  Japa mala — the highest-frequency surface on the site.              */
+/*                                                                     */
+/*  A round is 108 bead advances. Every millisecond of transition here   */
+/*  is paid 108 times, so per AUDIT.md's frequency table this tier gets  */
+/*  NO animation: the bead colour changes instantly, and the glow is a    */
+/*  separate opacity-only layer instead of a per-tap drop-shadow          */
+/*  re-rasterisation on two SVG circles.                                 */
+/* ------------------------------------------------------------------ */
+.japa-bead {
+  fill: #7c4a2a;
+  stroke: rgba(255, 231, 165, 0.25);
+  stroke-width: 0.5;
+}
+.japa-bead.is-done {
+  fill: #c9a24b;
+}
+.japa-bead.is-current {
+  fill: #f3d78e;
+}
+/* The current-bead halo: a sibling circle whose opacity is toggled, so no
+   filter is rasterised on the bead itself as the count advances. */
+.japa-bead-halo {
+  fill: rgba(243, 215, 142, 0.5);
+  opacity: 0;
+}
+.japa-bead-halo.is-current {
+  opacity: 1;
+}
+
+/* Asymmetric press: the transition sits on `:active` so pressing eases over
+   160ms while releasing snaps. It used to be declared on the base rule, which
+   made both halves 160ms — the reason the bead felt spongy under a fast japa. */
+.japa-tap:active {
+  transform: scale(0.96);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+/* Round-completion flash. Animating box-shadow spread out to 60px repainted a
+   large area every frame for 1.6s; a scaling, fading ring on a pseudo-element
+   is transform + opacity only, and it leaves the panel itself untransformed. */
+.japa-round-flash {
+  position: relative;
+}
+.japa-round-flash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  border: 2px solid rgba(243, 215, 142, 0.85);
+  animation: japa-round-glow 1.6s var(--ease-out);
+  pointer-events: none;
+}
+@keyframes japa-round-glow {
+  0% { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Pushpanjali petals                                                 */
+/* ------------------------------------------------------------------ */
+.petal-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 7;
+}
+.petal {
+  position: absolute;
+  top: -8%;
+  will-change: transform, opacity;
+  animation: petal-fall var(--petal-dur, 3s) cubic-bezier(0.35, 0.1, 0.55, 0.95) var(--petal-delay, 0s) forwards;
+  opacity: 0;
+}
+@keyframes petal-fall {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(var(--petal-rot0, 0deg));
+  }
+  8% { opacity: 1; }
+  55% {
+    transform: translateY(calc(var(--petal-travel, 320px) * 0.55)) translateX(var(--petal-sway, 14px)) rotate(var(--petal-rot1, 160deg));
+  }
+  82% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--petal-travel, 320px)) translateX(calc(var(--petal-sway, 14px) * -0.6)) rotate(var(--petal-rot2, 300deg));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .petal { animation-duration: 0.9s; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Aarti mode                                                         */
+/* ------------------------------------------------------------------ */
+.aarti-stage {
+  cursor: none;
+  touch-action: none;
+}
+.aarti-flame {
+  position: fixed;
+  z-index: 130;
+  pointer-events: none;
+  translate: -50% -85%;
+}
+.aarti-flame-glow {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 180px;
+  height: 180px;
+  translate: -50% -50%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 190, 92, 0.4) 0%, rgba(255, 140, 40, 0.16) 42%, transparent 70%);
+  mix-blend-mode: screen;
+}
+.aarti-flame-tongue {
+  position: relative;
+  margin: 0 auto;
+  width: 22px;
+  height: 34px;
+  border-radius: 50% 50% 46% 54% / 62% 62% 38% 38%;
+  background: radial-gradient(circle at 50% 78%, #fff7d9 0%, #ffd166 34%, #f3902c 66%, rgba(198, 78, 16, 0.55) 100%);
+  box-shadow: 0 0 22px 6px rgba(255, 170, 60, 0.55);
+  transform-origin: 50% 100%;
+  /* Was borrowing `diya-flicker`, which bakes in `translateX(-50%)` for the
+     absolutely-positioned Kartik diya. This element is margin-centred, so the
+     borrowed keyframe shoved the flame ~11px to the left for the whole
+     animation. Its own keyframes carry no positional offset. */
+  animation: aarti-flame-flicker 340ms ease-in-out infinite alternate;
+}
+@keyframes aarti-flame-flicker {
+  0% { transform: rotate(-2deg) scale(1); }
+  45% { transform: rotate(2deg) scale(0.96, 1.05); }
+  100% { transform: rotate(-1deg) scale(1.03, 0.98); }
+}
+.aarti-wick-cup {
+  margin: -3px auto 0;
+  width: 34px;
+  height: 12px;
+  border-radius: 0 0 999px 999px;
+  background: linear-gradient(180deg, #e3c77e, #8a5a1f);
+  box-shadow: 0 4px 10px rgba(30, 12, 4, 0.6);
+}
+@media (prefers-reduced-motion: reduce) {
+  .aarti-flame-tongue { animation: none; }
+}
+
+/* Typed mood colours let gradient surfaces crossfade smoothly instead of
+   jumping — `background-image` is not animatable, so registering the colour as
+   a typed custom property is the only way to interpolate inside a gradient.
+   `inherits: false` is the important part: it keeps each animation local to the
+   element that declares it. */
+@property --mood {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #146b7c;
+}
+@property --mood-soft {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: rgba(20, 107, 124, 0.12);
+}
+
+/* Destination colours — inherited, untyped, never transitioned. */
+:root {
+  --mood-target: #146b7c;
+  --mood-soft-target: rgba(20, 107, 124, 0.12);
+}
+
+/* The two surfaces that actually paint a mood pull the target in and animate
+   toward it themselves. */
+.mood-veil,
+.ceremonial-divider {
+  --mood: var(--mood-target);
+  --mood-soft: var(--mood-soft-target);
+  transition: --mood 1.4s var(--ease-devotional),
+    --mood-soft 1.4s var(--ease-devotional);
+}
+
+/* The rope and SVG are the first two children, so the three ripples are
+   children 3–5. Explicit delays keep each wave visually distinct. */
+.temple-bell.is-ringing .bell-ripple:nth-child(3) { animation-delay: 0s; }
+.temple-bell.is-ringing .bell-ripple:nth-child(4) { animation-delay: 0.35s; }
+.temple-bell.is-ringing .bell-ripple:nth-child(5) { animation-delay: 0.7s; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { transition: none; }
+  .japa-round-flash,
+  .petal {
+    animation: none;
+  }
+  .petal { opacity: 0; }
+}
+
+@media (forced-colors: active) {
+  .heading-shimmer,
+  .text-living {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
+
+/* ------------------------------------------------------------------ */
+/*  Material accessibility — reduced transparency & increased contrast  */
+/*                                                                     */
+/*  Apple treats translucency and contrast as user preferences, not     */
+/*  fixed style. These unlayered rules answer the two OS signals the     */
+/*  site did not yet honour (it already covers prefers-reduced-motion):  */
+/*    • reduced transparency → drop the blur, make the material solid    */
+/*      so text never fights a busy background showing through;          */
+/*    • more contrast        → add a defined, contrasting border.        */
+/*  Light-on-glass surfaces resolve to solid cream; the sadhana / live   */
+/*  chrome (light text) resolves to solid maroon so its text stays legible. */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-transparency: reduce) {
+  /* Drop the navbar's blur and make its card opaque. */
+  .nav-liquid-glass {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .nav-liquid-glass--solid,
+  .nav-liquid-glass--hero,
+  .darshan-glass-panel {
+    background: #f6ead8;
+    box-shadow: 0 12px 30px -20px rgba(32, 18, 28, 0.5);
+  }
+  .btn-glass,
+  .nav-glass-btn {
+    background: #f2e5cd;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .btn-glass--teal {
+    background: #dde9e6;
+  }
+  .btn-glass--amber {
+    background: #f1e2c1;
+  }
+  .btn-glass--green {
+    background: #e0eae0;
+  }
+  .live-darshan-glass,
+  .sadhana-dock-btn,
+  .sadhana-dock-grip,
+  .sadhana-hint,
+  .sadhana-event-chip,
+  .ambient-sound-toggle {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: linear-gradient(135deg, #6b2130 0%, #4a1219 100%);
+  }
+}
+
+@media (prefers-contrast: more) {
+  .nav-liquid-glass--solid,
+  .nav-liquid-glass--hero,
+  .btn-glass,
+  .nav-glass-btn,
+  .darshan-glass-panel {
+    border: 1px solid rgba(74, 18, 25, 0.6);
+  }
+  .live-darshan-glass,
+  .sadhana-dock-btn,
+  .sadhana-dock-grip,
+  .sadhana-event-chip,
+  .ambient-sound-toggle {
+    border: 1px solid rgba(255, 231, 165, 0.92);
+  }
+  /* Deepen the gold eyebrow so it holds its own against a stronger contrast. */
+  .eyebrow {
+    color: #6f4d16;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Grantha Mandir — library floor                                     */
+/* ------------------------------------------------------------------ */
+
+/* Search field focus.
+   This was an ANIMATED Framer boxShadow that was skipped entirely under
+   reduced motion, and the input carries `focus:outline-none` — so a
+   reduced-motion keyboard user got no visible focus state at all, failing
+   WCAG 2.4.7. A plain focus-within ring is always present and costs nothing. */
+.grantha-search {
+  box-shadow: 0 0 0 1px rgba(201, 162, 75, 0.2),
+    0 10px 30px -20px rgba(74, 18, 25, 0.25);
+  transition: box-shadow var(--dur-hover) ease;
+}
+.grantha-search:focus-within {
+  box-shadow: 0 0 0 2px rgba(201, 162, 75, 0.75),
+    0 18px 40px -22px rgba(74, 18, 25, 0.4);
+}
+
+/* Drifting hero motes. Nine infinite Framer Motion `y` animations — nine
+   main-thread rAF loops alive for the whole session on every Grantha route —
+   became one compositor-owned CSS animation. Predetermined, never interrupted,
+   so `linear` is the correct easing for constant motion. */
+.grantha-mote {
+  animation: grantha-mote-drift var(--mote-duration, 12s) linear
+    var(--mote-delay, 0s) infinite;
+  will-change: transform, opacity;
+}
+@keyframes grantha-mote-drift {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-18px);
+  }
+}
+
+/* Slow-falling petals on the reading background — same reasoning as the motes:
+   five infinite Framer loops replaced by one CSS animation. */
+.grantha-petal {
+  animation: grantha-petal-fall var(--petal-duration, 30s) linear
+    var(--petal-delay, 0s) infinite;
+  will-change: transform, opacity;
+}
+@keyframes grantha-petal-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  10% {
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(var(--petal-drift, 20px), 50vh, 0) rotate(180deg);
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 110vh, 0) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grantha-mote,
+  .grantha-petal {
+    animation: none;
+  }
+  .grantha-petal {
+    opacity: 0;
+  }
 }

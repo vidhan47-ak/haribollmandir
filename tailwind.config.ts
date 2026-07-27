@@ -1,6 +1,9 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -22,7 +25,10 @@ const config: Config = {
           DEFAULT: "#C9A24B",
           light: "#E3C77E",
           soft: "#D9BB70",
-          deep: "#A8842F",
+          // Darkened from #A8842F so gold text labels clear WCAG AA (4.5:1) on
+          // cream; the old value read at ~3.4:1 (fails) as small text. Icons and
+          // large numerals that use this token gain contrast and stay on-brand.
+          deep: "#8C6620",
           deeper: "#8A5A1F",
         },
         // Devotional maroon
@@ -47,7 +53,9 @@ const config: Config = {
         ink: {
           DEFAULT: "#3A2E26",
           soft: "#6B5A4E",
-          muted: "#9A8A7C",
+          // Darkened from #9A8A7C so muted labels/meta clear WCAG AA (4.5:1) on
+          // the cream surfaces; the old value read at ~3.2:1 (fails).
+          muted: "#77664F",
         },
         // Deep teal-green (illuminated-manuscript text on parchment)
         teal: {
@@ -74,6 +82,9 @@ const config: Config = {
         display: ["var(--font-cinzel)", "Georgia", "serif"],
         body: ["var(--font-inter)", "system-ui", "sans-serif"],
         script: ["var(--font-handlee)", "cursive"],
+        // Grantha Mandir library typography
+        cormorant: ["var(--font-cormorant)", "Georgia", "serif"],
+        jakarta: ["var(--font-jakarta)", "system-ui", "sans-serif"],
       },
       backgroundImage: {
         "gold-gradient":
@@ -93,14 +104,14 @@ const config: Config = {
       },
       boxShadow: {
         soft: "0 10px 40px -15px rgba(58,46,38,0.25)",
-        card: "0 20px 50px -20px rgba(74,18,25,0.28)",
+        card: "0 22px 55px -30px rgba(74,18,25,0.14)",
         glow: "0 0 60px -10px rgba(227,199,126,0.55)",
         "gold-ring": "0 0 0 1px rgba(201,162,75,0.35)",
         // Frosted glass pill depth
         glass:
           "inset 0 1px 0 rgba(255,255,255,0.45),inset 0 -10px 26px rgba(0,0,0,0.10),0 14px 34px -14px rgba(0,0,0,0.45)",
         // Ornate arch panel lift
-        arch: "0 30px 80px -30px rgba(74,18,25,0.35)",
+        arch: "0 30px 80px -34px rgba(74,18,25,0.20)",
       },
       letterSpacing: {
         widest2: "0.28em",

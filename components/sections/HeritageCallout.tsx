@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { TransitionLink } from "@/components/ui/ViewTransitions";
 import HeritageFigures from "@/components/sections/HeritageFigures";
 import { useLang } from "@/lib/i18n";
 
@@ -26,7 +26,7 @@ export default function HeritageCallout() {
 
       <HeritageFigures />
 
-      <div className="container-temple relative z-10">
+      <div className="container-temple relative z-10 lg:px-56 xl:px-72">
         <SectionHeading
           eyebrow={t.seva.eyebrow}
           title={t.seva.title}
@@ -38,12 +38,12 @@ export default function HeritageCallout() {
             <p className="max-w-2xl font-body text-[15px] leading-relaxed text-ink-soft">
               {t.seva.body}
             </p>
-            <Link href="/gaudiya-heritage" className="btn-gold">
+            <TransitionLink href="/gaudiya-heritage" className="btn-gold">
               {t.seva.cta}
               <span aria-hidden="true" className="text-lg leading-none">
                 →
               </span>
-            </Link>
+            </TransitionLink>
           </div>
         </Reveal>
       </div>

@@ -32,15 +32,15 @@ export default function SectionHeading({
         </Reveal>
       )}
 
-      <Reveal delay={0.08}>
-        <h2
-          className={`mt-5 font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem] ${
-            light ? "text-cream" : "text-maroon-dark"
-          }`}
-        >
-          {title}
-        </h2>
-      </Reveal>
+      {/* Shimmer headings render immediately with no enter/exit transition —
+          the gold sweep is their only motion. */}
+      <h2
+        className={`heading-shimmer mt-5 font-heading text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem] ${
+          light ? "heading-shimmer--light text-cream" : "text-maroon-dark"
+        }`}
+      >
+        {title}
+      </h2>
 
       {isCenter && (
         <Reveal delay={0.16}>

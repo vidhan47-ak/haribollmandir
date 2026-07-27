@@ -1,0 +1,123 @@
+{
+  "slug": "bhagavat-patrika-1955-01",
+  "kind": "patrika",
+  "title": "Bhagavat Patrika · 1955 · Issue 1",
+  "subtitle": "The Inaugural Issue",
+  "description": "The very first issue of the Bhagavat Patrika, carrying the pure message of Sri Chaitanya Mahaprabhu and the Gaudiya Vaishnava acharyas into the modern age.",
+  "year": "1955",
+  "issue": "Issue 1",
+  "featured": true,
+  "addedAt": "2026-07-12",
+  "pdfUrl": "https://www.purebhakti.com/resources/bhagavat-patrika",
+  "cover": "/images/grantha/patrika-1955-01.svg",
+  "articles": [
+    {
+      "slug": "the-glory-of-sri-guru",
+      "title": "The Glory of Sri Guru",
+      "author": "Srila Bhaktivedanta Vamana Gosvami Maharaja",
+      "published": "1955 · Issue 1",
+      "category": "Guru Tattva",
+      "tags": ["Guru Tattva", "Bhakti"],
+      "excerpt": "Without the mercy of Sri Guru, the door to devotion remains unopened. Here the position of the spiritual master is revealed as the transparent medium of Krishna's compassion.",
+      "cover": "/images/grantha/patrika-1955-01.svg",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The spiritual master is the mercy incarnate of Sri Krishna. Descending into this world of forgetfulness, he takes upon himself the task of awakening the sleeping soul and turning its gaze back towards its eternal beloved."
+        },
+        {
+          "type": "verse",
+          "sanskrit": "अज्ञानतिमिरान्धस्य ज्ञानाञ्जनशलाकया ।\nचक्षुरुन्मीलितं येन तस्मै श्रीगुरवे नमः ॥",
+          "transliteration": "ajñāna-timirāndhasya jñānāñjana-śalākayā\ncakṣur unmīlitaṁ yena tasmai śrī-gurave namaḥ",
+          "translation": "I was born in the darkest ignorance, and my guru opened my eyes with the torch of knowledge. I offer my respectful obeisances unto him.",
+          "reference": "Gautamiya Tantra"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "The Transparent Medium"
+        },
+        {
+          "type": "paragraph",
+          "text": "As a clean pane of glass allows sunlight to pass undistorted, so the bona fide guru transmits the will and mercy of the Lord without the slightest tinge of personal motive. To serve him is to serve Krishna directly."
+        },
+        {
+          "type": "quote",
+          "text": "One who has genuine faith in both Krishna and Guru — to such a great soul, all the imports of the scriptures are revealed.",
+          "attribution": "Svetasvatara Upanishad"
+        },
+        { "type": "divider" },
+        {
+          "type": "paragraph",
+          "text": "Therefore, with straw between our teeth, we pray only for a single drop of the ocean of mercy that flows eternally from the lotus feet of Sri Guru."
+        }
+      ]
+    },
+    {
+      "slug": "harinam-the-sweetest-treasure",
+      "title": "Harinam — The Sweetest Treasure",
+      "author": "Srila Bhakti Prajnana Kesava Gosvami Maharaja",
+      "published": "1955 · Issue 1",
+      "category": "Harinam",
+      "tags": ["Harinam", "Bhakti", "Mahaprabhu"],
+      "excerpt": "In this age of quarrel, the holy name alone is the shelter. Sri Chaitanya Mahaprabhu distributed it freely, hiding within it the fullness of divine love.",
+      "cover": "/images/grantha/patrika-1955-01.svg",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The holy name of Krishna is not different from Krishna himself. It is the complete Absolute Truth descended in the form of transcendental sound, accessible to every soul regardless of birth, wealth, or learning."
+        },
+        {
+          "type": "verse",
+          "sanskrit": "हरेर्नाम हरेर्नाम हरेर्नामैव केवलम् ।\nकलौ नास्त्येव नास्त्येव नास्त्येव गतिरन्यथा ॥",
+          "transliteration": "harer nāma harer nāma harer nāmaiva kevalam\nkalau nāsty eva nāsty eva nāsty eva gatir anyathā",
+          "translation": "In this Age of Kali there is no other way, no other way, no other way to attain the supreme destination than the holy name, the holy name, the holy name of Lord Hari.",
+          "reference": "Brihan-naradiya Purana"
+        },
+        {
+          "type": "paragraph",
+          "text": "Sri Chaitanya Mahaprabhu, who is Krishna himself appearing as his own devotee, flooded the world with this treasure. He asked for nothing in return — only that we chant, and in chanting, remember."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Chanting Without Offense"
+        },
+        {
+          "type": "paragraph",
+          "text": "The name reveals its sweetness gradually to the sincere chanter. Freed from offenses, the heart softens, tears flow, and the living entity tastes the nectar for which it has wandered lifetime after lifetime."
+        }
+      ]
+    },
+    {
+      "slug": "questions-and-answers-on-bhakti",
+      "title": "Questions & Answers on Bhakti",
+      "author": "Editorial",
+      "published": "1955 · Issue 1",
+      "category": "Questions & Answers",
+      "tags": ["Questions & Answers", "Bhakti"],
+      "excerpt": "Sincere enquiries from readers, answered in the mood of the acharyas — on faith, association, and the beginning of the devotional path.",
+      "cover": "/images/grantha/patrika-1955-01.svg",
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "How does one begin the path of bhakti?"
+        },
+        {
+          "type": "paragraph",
+          "text": "The path begins with sadhu-sanga — the association of pure devotees. From this association, faith arises; from faith, the desire to hear and chant; and from hearing and chanting, all anarthas are gradually washed away."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Is renunciation necessary at the start?"
+        },
+        {
+          "type": "paragraph",
+          "text": "Artificial renunciation is discouraged. Rather, one should engage everything in the service of Krishna. Detachment then follows naturally, as hunger departs with each morsel eaten."
+        }
+      ]
+    }
+  ]
+}

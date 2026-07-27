@@ -72,7 +72,7 @@ exact names below:
 | ------------------- | ----------------------------------------------- |
 | `mahaprabhu.jpg`    | Sri Chaitanya Mahaprabhu (Darshan card)         |
 | `radha-madhav.jpg`  | Sri Sri Radha Madhav Ji (Darshan, hero, quote)  |
-| `radha-rani.jpg`    | Sri Radha Rani (Darshan card)                   |
+| `radha-rani.jpg`    | Śrīmatī Radha Rani (Darshan card)               |
 | `temple.jpg`        | Temple / main darshan (Hero background + About) |
 | `festivals.jpg`     | Festival celebration (Festival cards)           |
 | `gallery-1.jpg`     | Gallery photo                                   |
@@ -101,8 +101,8 @@ All wording lives in clearly named section components under
 | About the temple            | `components/sections/About.tsx`       |
 | Harinam / Darshan / Seva    | `components/sections/HarinamSeva.tsx` |
 | Festivals                   | `components/sections/Festivals.tsx`   |
-| Devotional quotes           | `components/sections/Quote.tsx`       |
-| Gallery                     | `components/sections/Gallery.tsx`     |
+| Devotional quotes           | `components/sections/QuoteBand.tsx`   |
+| Gallery                     | `components/sections/MagneticGallery.tsx` |
 | Visit Us (address, timings) | `components/sections/VisitUs.tsx`     |
 | Footer                      | `components/sections/Footer.tsx`      |
 
@@ -157,6 +157,43 @@ public/
 ```
 
 ---
+
+## Temple facts live in one place
+
+Darshan timings, ārati times, the postal address, the temple email and every
+social link are declared **once** in `lib/temple.ts` and derived everywhere
+else (Visit Us, the footer, the Daily Bhakti countdown, the live-darshan
+windows, the offline page). Before this, the same facts were restated in five
+places and disagreed with each other.
+
+To correct a time or add a link, edit `lib/temple.ts` only.
+
+> The Sandhyā Ārati time is currently **7:30 PM**. Please confirm it with the
+> temple — the codebase previously held both 6:30 PM and 7:30 PM.
+
+## Larger subsystems
+
+| Area | Entry point |
+| ---- | ----------- |
+| Grantha Mandir (scripture + bhajan library) | `app/grantha-mandir/`, `components/grantha/`, `lib/grantha.ts` |
+| Vaiṣṇava calendar | `app/vaishnava-calendar/`, `lib/sacred-calendar.ts` |
+| Gauḍīya heritage | `app/gaudiya-heritage/`, `components/heritage/` |
+| Daily devotional features | `components/features/` |
+| Content ingestion | `scripts/ingest/`, `content-sources/` -> `content/` |
+| PWA / offline | `components/features/PWAClient.tsx`, `public/sw.js`, `public/offline.html` |
+
+## Motion system
+
+One curve and one duration scale, stated once per language:
+
+- `lib/springs.ts` — `EASE_DEVOTIONAL` plus the Apple-calibrated `spring.*` presets
+- `app/globals.css` — `--ease-devotional` / `--ease-out` and `--dur-press` ... `--dur-ceremony`
+- `tailwind.config.ts` — the `ease-devotional` utility
+- `components/ui/Reveal.tsx` — scroll-reveal tokens (`LOTUS_BREATH_TOKENS`)
+
+Interactive chrome stays under 300ms; the longer durations are for
+once-per-scroll ceremonial reveals only. Reduced motion drops movement but
+keeps opacity and colour transitions, so state changes stay legible.
 
 ## Deployment
 

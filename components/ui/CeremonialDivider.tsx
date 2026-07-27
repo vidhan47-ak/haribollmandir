@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { EASE_DEVOTIONAL } from "@/lib/springs";
 
 export default function CeremonialDivider() {
   const reduce = useReducedMotion();
@@ -11,7 +12,7 @@ export default function CeremonialDivider() {
         initial={reduce ? false : { opacity: 0, scaleX: 0 }}
         whileInView={{ opacity: 1, scaleX: 1 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: reduce ? 0 : 1.1, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: reduce ? 0 : 1.1, ease: EASE_DEVOTIONAL }}
       />
     </div>
   );
