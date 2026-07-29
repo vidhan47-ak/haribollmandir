@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { LotusLink } from "@/components/ui/ViewTransitions";
 import { motion, useReducedMotion } from "framer-motion";
 import { EASE_DEVOTIONAL } from "@/lib/springs";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -467,13 +468,13 @@ export default function VaishnavaCalendar() {
           <p className="font-body text-[11px] leading-relaxed text-cream/45">
             {t.note}
           </p>
-          <Link
+          <LotusLink
             href="/#bhakti"
             className="mt-5 inline-flex items-center gap-2 rounded-full border border-gold/45 bg-white/[0.05] px-5 py-2.5 font-body text-xs font-semibold text-gold-light transition hover:border-gold-light hover:text-cream"
           >
             <span aria-hidden="true">❁</span>
             {t.dailyLink}
-          </Link>
+          </LotusLink>
         </div>
       </div>
     </section>

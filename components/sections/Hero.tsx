@@ -91,7 +91,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="hero-twilight-backdrop relative aspect-[9/16] h-auto min-h-0 w-full overflow-hidden bg-hero-warm sm:aspect-auto sm:min-h-screen sm:min-h-[100svh]"
+      className="hero-twilight-backdrop relative min-h-[100dvh] w-full overflow-hidden bg-hero-warm flex flex-col items-center justify-center sm:min-h-screen sm:min-h-[100svh]"
     >
       <div className="absolute inset-0 bg-hero-warm" aria-hidden="true" />
 
@@ -117,10 +117,10 @@ export default function Hero() {
         variants={container}
         initial={false}
         animate="show"
-        className="absolute inset-x-0 bottom-0 top-[24%] z-10 flex flex-col items-center justify-start px-4 pb-16 text-center sm:inset-0 sm:-translate-y-[3vh] sm:justify-center sm:pb-[4vh]"
+        className="relative z-10 flex w-full flex-col items-center justify-center px-4 pb-20 pt-24 text-center sm:absolute sm:inset-0 sm:-translate-y-[3vh] sm:pb-[4vh] sm:pt-0"
       >
         <motion.div className="flex w-full flex-col items-center">
-          <motion.div variants={item} className={`w-full max-w-[19rem] sm:w-[62%] ${lang === "hi" ? "sm:max-w-2xl lg:w-[54%]" : "sm:max-w-xl lg:w-[42%]"}`}>
+          <motion.div variants={item} className={`w-full max-w-[20rem] sm:w-[62%] ${lang === "hi" ? "sm:max-w-2xl lg:w-[54%]" : "sm:max-w-xl lg:w-[42%]"}`}>
             <h1
               aria-label={t.hero.title}
               className="font-display text-[1.5rem] font-semibold uppercase leading-[1.16] tracking-[0.045em] text-teal-dark sm:hidden"

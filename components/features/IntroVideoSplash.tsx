@@ -102,16 +102,17 @@ export default function IntroVideoSplash() {
     startFadeOut();
   };
 
+  // Handle video loading and playing whenever visible or isMobile changes
+  useEffect(() => {
+    if (isVisible && videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(() => {
+        // Autoplay may be deferred by browser policies
+      });
+    }
+  }, [isMobile, isVisible]);
+
   if (!isVisible) return null;
-
-  // Paths for PC and Phone videos with fallbacks
-  const videoSrc = isMobile
-    ? "/video/starting animation phone.mp4"
-    : "/video/starting animation pc.mp4";
-
-  const fallbackSrc = isMobile
-    ? "/videos/starting animation phone.mp4"
-    : "/videos/starting animation pc.mp4";
 
   return (
     <AnimatePresence>
@@ -136,12 +137,11 @@ export default function IntroVideoSplash() {
             duration: isFading ? FADE_DURATION_MS / 1000 : 0.3,
             ease: [0.22, 1, 0.36, 1], // devotional ease
           }}
-          className="fixed inset-0 z-[99999] flex items-center justify-center bg-[#0a0607] overflow-hidden select-none pointer-events-auto"
+          className="fixed inset-0 h-[100dvh] w-screen z-[99999] flex items-center justify-center bg-[#0a0607] overflow-hidden select-none pointer-events-auto"
           aria-label="Temple intro animation"
         >
-          {/* Fullscreen Video Player with preload auto */}
+          {/* Fullscreen Video Player with preload auto and native media query sources */}
           <video
-            key={videoSrc}
             ref={videoRef}
             autoPlay
             muted
@@ -150,8 +150,35 @@ export default function IntroVideoSplash() {
             onEnded={startFadeOut}
             className="w-full h-full object-cover pointer-events-none"
           >
-            <source src={videoSrc} type="video/mp4" />
-            <source src={fallbackSrc} type="video/mp4" />
+            <source
+              src="/video/starting animation phone.mp4"
+              type="video/mp4"
+              media="(max-width: 767px)"
+            />
+            <source
+              src="/video/starting animation pc.mp4"
+              type="video/mp4"
+              media="(min-width: 768px)"
+            />
+            <source
+              src="/videos/starting animation phone.mp4"
+              type="video/mp4"
+              media="(max-width: 767px)"
+            />
+            <source
+              src="/videos/starting animation pc.mp4"
+              type="video/mp4"
+              media="(min-width: 768px)"
+            />
+            {/* Default fallback for older browsers */}
+            <source
+              src={
+                isMobile
+                  ? "/video/starting animation phone.mp4"
+                  : "/video/starting animation pc.mp4"
+              }
+              type="video/mp4"
+            />
           </video>
 
           {/* Golden Ambient Vignette & Mask Overlay */}

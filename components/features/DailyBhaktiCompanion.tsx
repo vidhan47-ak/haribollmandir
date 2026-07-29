@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { LotusLink } from "@/components/ui/ViewTransitions";
 import { motion, useReducedMotion } from "framer-motion";
 import { EASE_DEVOTIONAL } from "@/lib/springs";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -506,13 +507,13 @@ function CalendarCard({ lang, dayNumber }: { lang: Lang; dayNumber: number | nul
             })}
           </ul>
           <div className="mt-auto pt-5">
-            <Link
+            <LotusLink
               href="/vaishnava-calendar"
               className="inline-flex items-center gap-1.5 font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-gold-light transition hover:text-cream"
             >
               {t.viewFull}
               <span aria-hidden="true">→</span>
-            </Link>
+            </LotusLink>
             <p className="mt-3 font-body text-[10px] leading-relaxed text-cream/40">
               {t.calendarNote}
             </p>

@@ -304,7 +304,11 @@ export default function Navbar() {
     // Wait a tick so the menu-close scroll unlock applies first.
     setTimeout(() => {
       if (link.href) {
-        navigate(link.href);
+        if (pathname === link.href) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          navigate(link.href);
+        }
         return;
       }
       if (!link.target) return;

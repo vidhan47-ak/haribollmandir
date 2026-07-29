@@ -22,6 +22,7 @@ import {
   spring,
 } from "@/lib/springs";
 import { useLang } from "@/lib/i18n";
+import { LotusLink } from "@/components/ui/ViewTransitions";
 
 /**
  * Bottom-left cluster of sadhana tools: Mahamantra, Aarti and Japa launchers.
@@ -268,7 +269,7 @@ export default function SadhanaDock() {
               className="flex flex-col items-start gap-2.5"
             >
               {nextEvent && (
-                <a href="/#festivals" className="sadhana-event-chip" onClick={dismissHint}>
+                <LotusLink href="/#festivals" className="sadhana-event-chip" onClick={dismissHint}>
                   <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12"/></svg>
                   <span>
                     {lang === "hi" ? nextEvent.nameHi : nextEvent.name}
@@ -279,7 +280,7 @@ export default function SadhanaDock() {
                         ? `${nextEvent.days} दिन`
                         : `in ${nextEvent.days}d`}
                   </span>
-                </a>
+                </LotusLink>
               )}
               <MahamantraToggle />
               <AartiMode />
