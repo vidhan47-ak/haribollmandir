@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
-import { useSmoothScrollTo } from "@/components/SmoothScroll";
+import { scrollToElement } from "@/lib/scroll-helper";
 import OrnateFrame from "@/components/ui/OrnateFrame";
 import PeacockOrnament from "@/components/ui/PeacockOrnament";
 import {
@@ -15,7 +15,6 @@ import HeroBackground from "@/components/sections/HeroBackground";
 import { useLang } from "@/lib/i18n";
 import RippleHeading from "@/components/ui/RippleHeading";
 import LiveDarshanPlayer from "@/components/features/LiveDarshanPlayer";
-import TempleBell from "@/components/features/TempleBell";
 
 function LotusIcon() {
   return (
@@ -43,7 +42,6 @@ const CTAS = [
 ] as const;
 
 export default function Hero() {
-  const scrollTo = useSmoothScrollTo();
   const motionProfile = useLotusBreathProfile();
   const reduce = motionProfile.reducedMotion;
   const { t, lang } = useLang();
@@ -111,8 +109,6 @@ export default function Hero() {
 
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-32 bg-gradient-to-b from-black/45 via-black/10 to-transparent" />
 
-      <TempleBell />
-
       <motion.div
         variants={container}
         initial={false}
@@ -163,7 +159,7 @@ export default function Hero() {
               <motion.button
                 key={target}
                 type="button"
-                onClick={() => scrollTo(target)}
+                onClick={() => scrollToElement(target)}
                 whileHover={reduce ? undefined : { y: -2, scale: 1.02 }}
                 whileTap={reduce ? undefined : { scale: 0.97 }}
                 // A single 250ms duration covered both hover AND press; the

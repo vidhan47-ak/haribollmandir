@@ -20,6 +20,7 @@ import {
   type VaishnavaMasa,
 } from "@/lib/sacred-calendar";
 import { getIstMoment } from "@/lib/bhakti";
+import { requestSacredNotifications } from "@/components/features/PWAClient";
 
 // ------------------------------------------------------------------
 //  Bilingual UI strings, kept local to this feature.
@@ -274,6 +275,15 @@ export default function VaishnavaCalendar() {
                     return `${parts.weekday}, ${parts.day} ${parts.month}`;
                   })()}
                 </span>
+
+                <button
+                  type="button"
+                  onClick={() => requestSacredNotifications(lang)}
+                  className="mt-2 sm:mt-0 sm:ml-2 inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/15 px-3 py-1 text-xs font-semibold text-gold-light transition hover:bg-gold/25"
+                  title={lang === "hi" ? "पावन तिथियों के स्मरण पत्र सक्षम करें" : "Enable sacred day reminders"}
+                >
+                  🔔 {lang === "hi" ? "स्मरण पत्र लें" : "Get Reminders"}
+                </button>
               </div>
             </Reveal>
           )}

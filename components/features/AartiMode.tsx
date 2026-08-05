@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   AnimatePresence,
   motion,
@@ -133,6 +134,9 @@ export default function AartiMode() {
     ? "दीपक को भगवान के समक्ष गोलाकार घुमाएँ। कीबोर्ड पर तीर कुंजियों का उपयोग करें।"
     : "Move the lamp in slow circles before the Lord, or use the arrow keys.";
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   return (
     <>
       <button
@@ -156,92 +160,98 @@ export default function AartiMode() {
         </span>
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            ref={dialogRef}
-            id="aarti-dialog"
-            className="aarti-stage fixed inset-0 z-[120] overflow-hidden bg-[radial-gradient(circle_at_50%_30%,#2a1208_0%,#160707_55%,#090304_100%)]"
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduce ? undefined : { opacity: 0 }}
-            transition={reduce ? { duration: 0 } : spring.gentle}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="aarti-title"
-            aria-describedby="aarti-instructions"
-            tabIndex={-1}
-            onPointerMove={onPointerMove}
-            onPointerDown={onPointerMove}
-          >
-            <p id="aarti-instructions" className="sr-only">
-              {instructions}
-            </p>
-
-            {/* Deity, softly lit from below by the moving flame's glow */}
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-6 pb-24 pt-16">
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
               <motion.div
-                initial={reduce ? false : { opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: reduce ? 0 : 1.1, ease: EASE_DEVOTIONAL }}
-                className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-t-[10rem] rounded-b-3xl border border-gold/30 shadow-[0_0_120px_-30px_rgba(255,170,60,0.55)]"
+                ref={dialogRef}
+                id="aarti-dialog"
+                className="aarti-stage fixed inset-0 z-[99999] flex flex-col overflow-hidden bg-[radial-gradient(circle_at_50%_30%,#2a1208_0%,#160707_55%,#090304_100%)] p-4 sm:p-6"
+                initial={reduce ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={reduce ? undefined : { opacity: 0 }}
+                transition={reduce ? { duration: 0 } : spring.gentle}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="aarti-title"
+                aria-describedby="aarti-instructions"
+                tabIndex={-1}
+                onPointerMove={onPointerMove}
+                onPointerDown={onPointerMove}
               >
-                <FallbackImage
-                  src={images.radhaMadhav.src}
-                  alt={images.radhaMadhav.alt}
-                  label={images.radhaMadhav.label}
-                  palette={images.radhaMadhav.palette}
-                  className="h-full w-full object-cover object-top"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#160707]/70 via-transparent to-[#160707]/35" />
-              </motion.div>
-            </div>
+                <p id="aarti-instructions" className="sr-only">
+                  {instructions}
+                </p>
 
-            {/* Title + hint */}
-            <div className="pointer-events-none absolute inset-x-0 top-6 text-center sm:top-10">
-              <p id="aarti-title" className="font-body text-[10px] font-medium uppercase tracking-widest2 text-gold-light">
-                {lang === "hi" ? "श्री श्री राधा माधव आरती" : "Sri Sri Radha Madhav Aarti"}
-              </p>
-              <AnimatePresence>
-                {!moved && (
-                  <motion.p
-                    initial={reduce ? false : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={reduce ? undefined : { opacity: 0 }}
-                    transition={{ delay: reduce ? 0 : 0.8, duration: reduce ? 0 : 0.8 }}
-                    className="mx-auto mt-3 max-w-sm px-4 font-body text-sm leading-relaxed text-cream/75"
-                    aria-hidden="true"
+                {/* 1. Header Bar (Flex shrink-0, stays at the top above image) */}
+                <header className="relative z-20 flex shrink-0 items-start justify-between gap-4 pb-2">
+                  <div className="min-w-0 flex-1">
+                    <p id="aarti-title" className="font-body text-xs font-semibold uppercase tracking-widest2 text-gold-light sm:text-sm">
+                      {lang === "hi" ? "श्री श्री राधा माधव आरती" : "Sri Sri Radha Madhav Aarti"}
+                    </p>
+                    <AnimatePresence>
+                      {!moved && (
+                        <motion.p
+                          initial={reduce ? false : { opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={reduce ? undefined : { opacity: 0 }}
+                          transition={{ delay: reduce ? 0 : 0.8, duration: reduce ? 0 : 0.8 }}
+                          className="mt-1 font-body text-xs leading-relaxed text-cream/85 sm:text-sm"
+                          aria-hidden="true"
+                        >
+                          {instructions}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  <button
+                    ref={closeRef}
+                    type="button"
+                    onClick={() => setOpen(false)}
+                    className="shrink-0 rounded-full border border-cream/35 bg-black/50 px-3.5 py-1.5 font-body text-xs font-semibold uppercase tracking-[0.14em] text-cream transition hover:bg-black/80 hover:border-cream/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-light backdrop-blur-md"
+                    style={{ cursor: "pointer" }}
+                    aria-label={lang === "hi" ? "आरती मोड बंद करें" : "Close aarti mode"}
                   >
-                    {instructions}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </div>
+                    {lang === "hi" ? "समापन" : "Close"}
+                  </button>
+                </header>
 
-            {/* The offered flame, carried by the devotee */}
-            <motion.div
-              className="aarti-flame"
-              style={{ x: reduce ? rawX : x, y: reduce ? rawY : y }}
-              aria-hidden="true"
-            >
-              <div className="aarti-flame-glow" />
-              <div className="aarti-flame-tongue" />
-              <div className="aarti-wick-cup" />
-            </motion.div>
+                {/* 2. Main Sanctum Stage (Flex-1 min-h-0, centers image below header) */}
+                <main className="pointer-events-none relative flex flex-1 min-h-0 items-center justify-center py-2 sm:py-4">
+                  <motion.div
+                    initial={reduce ? false : { opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: reduce ? 0 : 1.1, ease: EASE_DEVOTIONAL }}
+                    className="relative aspect-[4/5] h-full max-h-[calc(100vh-140px)] w-auto max-w-sm sm:max-w-md overflow-hidden rounded-t-[8rem] sm:rounded-t-[10rem] rounded-b-3xl border border-gold/40 shadow-[0_0_120px_-30px_rgba(255,170,60,0.55)]"
+                  >
+                    <FallbackImage
+                      src={images.radhaMadhav.src}
+                      alt={images.radhaMadhav.alt}
+                      label={images.radhaMadhav.label}
+                      palette={images.radhaMadhav.palette}
+                      className="h-full w-full object-cover object-top"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#160707]/70 via-transparent to-[#160707]/35" />
+                  </motion.div>
+                </main>
 
-            <button
-              ref={closeRef}
-              type="button"
-              onClick={() => setOpen(false)}
-              className="absolute right-5 top-5 z-10 rounded-full border border-cream/25 px-4 py-2 font-body text-xs font-semibold uppercase tracking-[0.14em] text-cream/80 transition hover:border-cream/50 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-light"
-              style={{ cursor: "pointer" }}
-              aria-label={lang === "hi" ? "आरती मोड बंद करें" : "Close aarti mode"}
-            >
-              {lang === "hi" ? "समापन" : "Close"}
-            </button>
-          </motion.div>
+                {/* 3. The offered flame, carried by the devotee */}
+                <motion.div
+                  className="aarti-flame"
+                  style={{ x: reduce ? rawX : x, y: reduce ? rawY : y }}
+                  aria-hidden="true"
+                >
+                  <div className="aarti-flame-glow" />
+                  <div className="aarti-flame-tongue" />
+                  <div className="aarti-wick-cup" />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </>
   );
 }

@@ -13,6 +13,8 @@ import {
 import JapaMala from "@/components/features/JapaMala";
 import AartiMode from "@/components/features/AartiMode";
 import MahamantraToggle from "@/components/features/MahamantraToggle";
+import TempleBell from "@/components/features/TempleBell";
+import KirtanaPlayer from "@/components/features/KirtanaPlayer";
 import { SACRED_EVENTS } from "@/lib/sacred-calendar";
 import { clampToViewport } from "@/lib/clamp-drag";
 import {
@@ -56,12 +58,44 @@ function useNextSacredEvent() {
   }, [now]);
 }
 
+function useScrollDirection() {
+  const [scrollDir, setScrollDir] = useState<"up" | "down">("up");
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const updateScrollDir = () => {
+      const currentY = window.scrollY;
+      if (Math.abs(currentY - lastY) > 8) {
+        setScrollDir(currentY > lastY && currentY > 60 ? "down" : "up");
+        lastY = currentY > 0 ? currentY : 0;
+      }
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollDir);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return scrollDir;
+}
+
 export default function SadhanaDock() {
   const reduce = useReducedMotion();
   const { lang } = useLang();
   const [collapsed, setCollapsed] = useState(true);
   const [ready, setReady] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const scrollDir = useScrollDirection();
   // Live drag offset as Framer motion values so a released flick can coast on
   // its own momentum and rubber-band at the viewport edge (Apple fluid drag).
   const x = useMotionValue(0);
@@ -73,6 +107,15 @@ export default function SadhanaDock() {
   const dockRef = useRef<HTMLDivElement | null>(null);
   const persistTimer = useRef<number | null>(null);
   const nextEvent = useNextSacredEvent();
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const hideOnScroll = isMobile && scrollDir === "down";
 
   useEffect(() => {
     let storedCollapsed = false;
@@ -157,6 +200,29 @@ export default function SadhanaDock() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
+  // Auto-collapse dock on scroll on mobile screens so floating controls never block content
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.innerWidth < 768 && !collapsed) {
+        setCollapsed(true);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [collapsed]);
+
+  // Click outside to collapse dock
+  useEffect(() => {
+    if (collapsed) return;
+    const onClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (dockRef.current && !dockRef.current.contains(e.target as Node)) {
+        setCollapsed(true);
+      }
+    };
+    document.addEventListener("pointerdown", onClickOutside);
+    return () => document.removeEventListener("pointerdown", onClickOutside);
+  }, [collapsed]);
+
   const persistPos = (next: Pos) => {
     try {
       window.localStorage.setItem(POS_KEY, JSON.stringify(next));
@@ -224,9 +290,12 @@ export default function SadhanaDock() {
           // motion-value listener persists wherever it comes to rest.
           schedulePersist();
         }}
-        initial={reduce ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.3, ...spring.gentle }}
+        initial={reduce ? false : { opacity: 0, y: 0 }}
+        animate={{
+          opacity: hideOnScroll ? 0 : 1,
+          y: hideOnScroll ? 100 : 0,
+        }}
+        transition={reduce ? { duration: 0 } : { duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         onPointerDownCapture={dismissHint}
         data-dragging={dragging ? "true" : undefined}
       >
@@ -247,10 +316,10 @@ export default function SadhanaDock() {
           )}
         </AnimatePresence>
 
-        {/* Persistent chrome, so the full transform string is used rather than
-            Framer's y/scale shorthands: the shorthands are composed on the main
-            thread, while a single `transform` value is handed straight to the
-            compositor. */}
+        {/* KirtanaPlayer stays persistently mounted so audio never stops when dock collapses */}
+        <KirtanaPlayer hideDockButton={collapsed} />
+
+        {/* Persistent chrome */}
         <AnimatePresence initial={false}>
           {!collapsed && (
             <motion.div
@@ -269,9 +338,9 @@ export default function SadhanaDock() {
               className="flex flex-col items-start gap-2.5"
             >
               {nextEvent && (
-                <LotusLink href="/#festivals" className="sadhana-event-chip" onClick={dismissHint}>
+                <LotusLink href="/#festivals" className="sadhana-event-chip max-w-[200px] xs:max-w-[240px] sm:max-w-none" onClick={dismissHint}>
                   <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12"/></svg>
-                  <span>
+                  <span className="truncate">
                     {lang === "hi" ? nextEvent.nameHi : nextEvent.name}
                     {" · "}
                     {nextEvent.days === 0
@@ -282,6 +351,7 @@ export default function SadhanaDock() {
                   </span>
                 </LotusLink>
               )}
+              <TempleBell />
               <MahamantraToggle />
               <AartiMode />
               <JapaMala />

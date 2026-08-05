@@ -7,50 +7,75 @@ import { getJalandharDaypart, type Daypart } from "@/lib/daypart";
 interface DaypartLayerProps {
   variant: Daypart;
   desktopSrc: string;
+  desktopVideo: string;
   mobileSrc: string;
   eager: boolean;
   onFatal: () => void;
 }
 
 /**
- * One crossfading hero layer. Visibility is driven purely by the
+ * One crossfading hero layer. On desktop (sm+), a looping muted `<video>`
+ * plays the daypart backdrop. On mobile, the original `<picture>`/`<img>`
+ * path is preserved. Visibility is driven purely by the
  * `<html data-daypart>` attribute via CSS (.hero-daypart-layer), so both
- * layers stay mounted and there is no hydration mismatch. If the daypart image
- * is missing it retries with the shared fallback; if that fails too it reports
- * upward so the ornamental SVG hero can take over.
+ * layers stay mounted and there is no hydration mismatch.
  */
 function DaypartLayer({
   variant,
   desktopSrc,
+  desktopVideo,
   mobileSrc,
   eager,
   onFatal,
 }: DaypartLayerProps) {
   const [useFallback, setUseFallback] = useState(false);
-  const desktop = useFallback ? heroFallback.desktop : desktopSrc;
+  const videoSrc = useFallback
+    ? heroBackgrounds.day.desktopVideo
+    : desktopVideo;
+  const desktopImg = useFallback ? heroFallback.desktop : desktopSrc;
   const mobile = useFallback ? heroFallback.mobile : mobileSrc;
 
   return (
-    <picture
+    <div
       className={`hero-daypart-layer hero-daypart-layer--${variant} absolute inset-0 z-[1] block h-full w-full`}
     >
-      <source media="(max-width: 639px)" srcSet={mobile} />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={desktop}
-        alt=""
-        aria-hidden="true"
-        draggable={false}
-        loading={eager ? "eager" : "lazy"}
-        decoding="async"
-        fetchPriority={eager ? "high" : "low"}
+      {/* ---- Desktop: looping video (hidden on mobile via CSS) ---- */}
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+      <video
+        className="hero-video pointer-events-none absolute inset-0 h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload={eager ? "auto" : "metadata"}
         onError={() => {
           if (!useFallback) setUseFallback(true);
           else onFatal();
         }}
-        className="hero-artwork pointer-events-none h-full w-full object-contain object-top sm:object-cover sm:object-center"
-      />
-    </picture>
+      >
+        <source src={videoSrc} type="video/mp4" />
+      </video>
+
+      {/* ---- Mobile: static image (hidden on desktop via CSS) ---- */}
+      <picture className="hero-mobile-art pointer-events-none absolute inset-0 block h-full w-full">
+        <source media="(max-width: 639px)" srcSet={mobile} />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={mobile}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+          fetchPriority={eager ? "high" : "low"}
+          onError={() => {
+            if (!useFallback) setUseFallback(true);
+            else onFatal();
+          }}
+          className="hero-artwork pointer-events-none h-full w-full object-cover object-center"
+        />
+      </picture>
+    </div>
   );
 }
 
@@ -88,6 +113,7 @@ export default function HeroBackground({
       <DaypartLayer
         variant="day"
         desktopSrc={heroBackgrounds.day.desktop}
+        desktopVideo={heroBackgrounds.day.desktopVideo}
         mobileSrc={heroBackgrounds.day.mobile}
         eager
         onFatal={onUnavailable}
@@ -95,6 +121,7 @@ export default function HeroBackground({
       <DaypartLayer
         variant="evening"
         desktopSrc={heroBackgrounds.evening.desktop}
+        desktopVideo={heroBackgrounds.evening.desktopVideo}
         mobileSrc={heroBackgrounds.evening.mobile}
         eager={false}
         onFatal={onUnavailable}
@@ -102,6 +129,7 @@ export default function HeroBackground({
       <DaypartLayer
         variant="night"
         desktopSrc={heroBackgrounds.night.desktop}
+        desktopVideo={heroBackgrounds.night.desktopVideo}
         mobileSrc={heroBackgrounds.night.mobile}
         eager={false}
         onFatal={onUnavailable}

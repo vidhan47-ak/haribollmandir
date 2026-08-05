@@ -110,7 +110,7 @@ function CardShell({
 }) {
   return (
     <div
-      className={`relative flex h-full flex-col overflow-hidden rounded-[1.4rem] sm:rounded-[1.6rem] border border-gold/35 bg-gradient-to-b from-[#42141c]/55 via-[#2d0c13]/60 to-[#1a060a]/65 p-4.5 sm:p-7 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,231,165,0.2)] backdrop-blur-xl backdrop-saturate-150 transform-gpu ${className}`}
+      className={`relative flex h-full flex-col overflow-hidden rounded-[1.4rem] sm:rounded-[1.6rem] border border-gold/35 bg-gradient-to-b from-[#42141c]/55 via-[#2d0c13]/60 to-[#1a060a]/65 p-5 xs:p-6 sm:p-7 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,231,165,0.2)] backdrop-blur-xl backdrop-saturate-150 transform-gpu ${className}`}
     >
       <span
         aria-hidden="true"
@@ -174,12 +174,12 @@ function NextAartiCard({ lang }: { lang: Lang }) {
             ].map(([unitLabel, value]) => (
               <div
                 key={String(unitLabel)}
-                className="relative flex-1 overflow-hidden rounded-xl sm:rounded-2xl border border-gold/30 bg-white/[0.08] px-1 py-2.5 sm:py-3 text-center"
+                className="relative flex-1 min-w-0 overflow-hidden rounded-xl sm:rounded-2xl border border-gold/30 bg-white/[0.08] px-1 py-2 sm:py-3 text-center"
               >
-                <span className="block font-display text-xl font-semibold tabular-nums text-gold-light sm:text-3xl">
+                <span className="block font-display text-lg xs:text-xl font-semibold tabular-nums text-gold-light sm:text-3xl">
                   {pad(Number(value))}
                 </span>
-                <span className="mt-0.5 sm:mt-1 block font-body text-[7.5px] sm:text-[8px] uppercase tracking-[0.12em] text-cream/60">
+                <span className="mt-0.5 sm:mt-1 block font-body text-[7px] xs:text-[7.5px] sm:text-[8px] uppercase tracking-[0.1em] text-cream/60 truncate">
                   {unitLabel}
                 </span>
               </div>
@@ -374,11 +374,42 @@ function VerseCard({ lang, dayNumber }: { lang: Lang; dayNumber: number | null }
   const t = UI[lang];
   const verse = dayNumber === null ? null : pickForDay(VERSES, dayNumber);
 
-  const shareVerseWhatsApp = () => {
+  const shareVerseWhatsApp = async () => {
     if (!verse) return;
-    const body = lang === "hi" ? verse.hi : verse.en;
+    const translation = lang === "hi" ? verse.hi : verse.en;
     const origin = typeof window !== "undefined" ? window.location.origin : "https://hariboll-mandir.org";
-    const text = `🌸 *Hariboll Mandir — Verse of the Day* 🌸\n\n"${verse.sanskrit}"\n\n_${verse.transliteration}_\n\n${body}\n\n— *${verse.reference}*\n\n✨ *Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir, Jalandhar*\n${origin}`;
+
+    const text = [
+      `🙏 *HARIBOLL MANDIR — VERSE OF THE DAY* 🙏`,
+      ``,
+      `📜 *Sanskrit Verse:*`,
+      `"${verse.sanskrit}"`,
+      ``,
+      `🪔 *Transliteration:*`,
+      `_${verse.transliteration}_`,
+      ``,
+      `📖 *Translation:*`,
+      translation,
+      ``,
+      `— *Reference:* ${verse.reference}`,
+      ``,
+      `🛕 *Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir*`,
+      `📍 Jalandhar, Punjab`,
+      `🔗 ${origin}`,
+    ].join("\n");
+
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({
+          title: "Verse of the Day — Hariboll Mandir",
+          text: text,
+        });
+        return;
+      } catch {
+        // Fall back to direct WhatsApp link if native share is cancelled/fails
+      }
+    }
+
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };

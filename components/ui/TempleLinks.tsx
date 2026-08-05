@@ -127,22 +127,22 @@ export function TempleLinkRows({
     : TEMPLE_LINKS;
 
   return (
-    <ul className={`grid gap-2 sm:grid-cols-2 ${className}`}>
+    <ul className={`grid gap-2 min-w-0 sm:grid-cols-2 ${className}`}>
       {links.map((link) => (
-        <li key={link.id}>
+        <li key={link.id} className="min-w-0">
           <a
             href={link.href}
             {...targetProps(link)}
-            className="temple-link-row group flex items-center gap-3 rounded-2xl border border-gold/25 bg-white/55 px-3.5 py-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream-50"
+            className="temple-link-row group flex items-center gap-2.5 sm:gap-3 rounded-2xl border border-gold/25 bg-white/55 px-3 py-2.5 sm:px-3.5 sm:py-3 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream-50 min-w-0 overflow-hidden"
           >
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-gold/30 bg-cream-50 text-gold-deep">
-              <TempleLinkIcon id={link.id} className="h-[18px] w-[18px]" />
+            <span className="grid h-8 w-8 sm:h-9 sm:w-9 shrink-0 place-items-center rounded-xl border border-gold/30 bg-cream-50 text-gold-deep">
+              <TempleLinkIcon id={link.id} className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
             </span>
-            <span className="min-w-0">
-              <span className="block font-heading text-[15px] font-semibold leading-tight text-maroon">
+            <span className="min-w-0 flex-1 overflow-hidden">
+              <span className="block truncate font-heading text-xs sm:text-[15px] font-semibold leading-tight text-maroon">
                 {lang === "hi" ? link.labelHi : link.label}
               </span>
-              <span className="mt-0.5 block truncate font-body text-xs text-ink-soft">
+              <span className="mt-0.5 block truncate font-body text-[11px] sm:text-xs text-ink-soft">
                 {link.handle ?? (lang === "hi" ? link.noteHi : link.note)}
               </span>
             </span>

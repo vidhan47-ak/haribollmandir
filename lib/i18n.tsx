@@ -509,7 +509,7 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       gallery: "गैलरी",
       visit: "पधारें",
       contact: "संपर्क करें",
-      brand: "हरिबोल मंदिर",
+      brand: "Hariboll Mandir",
       location: "जालंधर, पंजाब",
       donate: "दान",
       donateScan: "दान हेतु स्कैन करें",
@@ -610,7 +610,7 @@ const TRANSLATIONS: Record<Lang, Dict> = {
       aaratiLabel: "नित्य आरती",
     },
     footer: {
-      brand: "हरिबोल मंदिर",
+      brand: "Hariboll Mandir",
       brandSub: "राधा माधव · जालंधर",
       addressName: TEMPLE_ADDRESS.nameHi,
       address: templeAddressLine("hi"),

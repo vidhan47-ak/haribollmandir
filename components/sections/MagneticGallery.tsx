@@ -8,6 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import FallbackImage from "@/components/ui/FallbackImage";
 import { darshanGallery, type Palette } from "@/lib/images";
 import { useLang } from "@/lib/i18n";
+import { LotusLink } from "@/components/ui/ViewTransitions";
 
 const EASE = EASE_DEVOTIONAL;
 
@@ -29,13 +30,7 @@ const INFLUENCE_FACTOR = 1.9; // magnify radius, in multiples of the base width
 const BLUR = 3; // px blur applied to the resting bars when a photo is open
 // Time constant (seconds) for the magnify follow. Frame-rate independent (see
 // the exponential step in the rAF loop) so it feels identical at 60/120Hz.
-//
-// Was 0.05 — a 50ms follow, eight to sixteen times faster than anything else on
-// the site (spring.snappy is 280ms, the Lotus Breath reveals 560–820ms). At that
-// speed the row snapped at the cursor like a macOS Dock, which is a playful
-// desktop-utility gesture rather than a temple one. 0.16 keeps the fisheye
-// legible while settling at roughly the pace of the rest of the site.
-const SMOOTH_TAU = 0.16;
+const SMOOTH_TAU = 0.08;
 
 const PALETTE_GLOW: Record<Palette, string> = {
   maroon: "rgba(110,30,42,0.34)",
@@ -62,7 +57,7 @@ const heightFor = (f: number) => COLLAPSED_H + (HOVER_H - COLLAPSED_H) * f;
 
 export default function MagneticGallery() {
   const reduce = useReducedMotion();
-  const { t } = useLang();
+  const { lang, t } = useLang();
 
   const items = useMemo(
     () =>
@@ -113,8 +108,7 @@ export default function MagneticGallery() {
   }, [count]);
 
   // Keep the dock's full-bleed width — and the cached rect the magnify loop
-  // reads — in sync with the viewport. Measuring happens here, on resize and on
-  // scroll only, never inside the animation frame.
+  // reads — in sync with the viewport. Measuring happens here on resize and scroll.
   useEffect(() => {
     const el = dockRef.current;
     if (!el) return;
@@ -126,11 +120,17 @@ export default function MagneticGallery() {
     };
     measure();
 
-    // `left` shifts with vertical scroll only via layout changes, but a sticky
-    // header or a horizontal scroll can move it, so refresh cheaply on both.
+    let scrollRaf = 0;
     const onScroll = () => {
-      const rect = el.getBoundingClientRect();
-      rectRef.current = { left: rect.left, width: rect.width || 1200 };
+      if (!scrollRaf) {
+        scrollRaf = requestAnimationFrame(() => {
+          scrollRaf = 0;
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            rectRef.current = { left: rect.left, width: rect.width || 1200 };
+          }
+        });
+      }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -143,6 +143,7 @@ export default function MagneticGallery() {
     }
 
     return () => {
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", measure);
       ro?.disconnect();
@@ -466,6 +467,15 @@ export default function MagneticGallery() {
             ? "Click away to return to the darshan row"
             : "Draw near a darshan to magnify · click to behold"}
         </p>
+
+        <div className="mt-8 hidden lg:flex justify-center">
+          <LotusLink
+            href="/gallery"
+            className="btn-gold group inline-flex items-center gap-2.5 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.2em] font-heading shadow-[0_10px_35px_rgba(201,162,75,0.3)] hover:scale-105 transition-all duration-300"
+          >
+            <span>{lang === "hi" ? "संपूर्ण चित्रदीर्घा देखें ➔" : "View Full Temple Gallery ➔"}</span>
+          </LotusLink>
+        </div>
       </Reveal>
 
       {/* ------------------------------------------------------------------ */}
@@ -551,6 +561,15 @@ export default function MagneticGallery() {
                   </button>
                 );
               })}
+            </div>
+
+            <div className="mt-8 flex justify-center">
+              <LotusLink
+                href="/gallery"
+                className="btn-gold group inline-flex items-center gap-2.5 px-6 py-3 text-xs uppercase tracking-[0.18em] font-heading shadow-[0_8px_30px_rgba(201,162,75,0.25)] hover:scale-105 transition-all duration-300"
+              >
+                <span>{lang === "hi" ? "संपूर्ण चित्रदीर्घा देखें ➔" : "View Full Temple Gallery ➔"}</span>
+              </LotusLink>
             </div>
           </div>
         </Reveal>

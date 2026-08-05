@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { spring } from "@/lib/springs";
 import { useLang } from "@/lib/i18n";
@@ -13,10 +14,43 @@ import { useLang } from "@/lib/i18n";
 
 const BEADS = 108;
 const STORAGE_KEY = "hariboll-japa";
+const GOAL_KEY = "hariboll-japa-goal";
+const STREAK_KEY = "hariboll-japa-streak";
 const FOCUSABLE =
   'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 type JapaState = { bead: number; rounds: number };
+
+function getTodayKey() {
+  return new Date().toISOString().split("T")[0];
+}
+
+function loadStreak(): { count: number; lastDate: string } {
+  try {
+    const raw = window.localStorage.getItem(STREAK_KEY);
+    if (!raw) return { count: 0, lastDate: "" };
+    return JSON.parse(raw);
+  } catch {
+    return { count: 0, lastDate: "" };
+  }
+}
+
+function updateStreak(): number {
+  try {
+    const today = getTodayKey();
+    const existing = loadStreak();
+    if (existing.lastDate === today) {
+      return existing.count;
+    }
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+    const newCount = existing.lastDate === yesterday ? existing.count + 1 : 1;
+    const next = { count: newCount, lastDate: today };
+    window.localStorage.setItem(STREAK_KEY, JSON.stringify(next));
+    return newCount;
+  } catch {
+    return 1;
+  }
+}
 
 function loadState(): JapaState {
   try {
@@ -127,21 +161,47 @@ export default function JapaMala() {
     };
   }, [open]);
 
-  const advance = () => {
+  const [goal, setGoal] = useState(16);
+  const [streak, setStreak] = useState(0);
+
+  useEffect(() => {
+    try {
+      const savedGoal = window.localStorage.getItem(GOAL_KEY);
+      if (savedGoal) setGoal(Number(savedGoal) || 16);
+    } catch {
+      /* ignore */
+    }
+    setStreak(loadStreak().count);
+  }, []);
+
+  const changeGoal = (newGoal: number) => {
+    setGoal(newGoal);
+    try {
+      window.localStorage.setItem(GOAL_KEY, String(newGoal));
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const advance = (e?: React.SyntheticEvent) => {
+    if (e) e.stopPropagation();
     setState((prev) => {
       const nextBead = prev.bead + 1;
-      const next =
-        nextBead >= BEADS
-          ? { bead: 0, rounds: prev.rounds + 1 }
-          : { bead: nextBead, rounds: prev.rounds };
-      if (nextBead >= BEADS) {
+      const isRoundFinished = nextBead >= BEADS;
+      const next = isRoundFinished
+        ? { bead: 0, rounds: prev.rounds + 1 }
+        : { bead: nextBead, rounds: prev.rounds };
+
+      if (isRoundFinished) {
         setRoundFlash(true);
         window.clearTimeout(flashTimer.current);
         flashTimer.current = window.setTimeout(() => setRoundFlash(false), 1600);
+        const newStreak = updateStreak();
+        setStreak(newStreak);
       }
       if (typeof navigator !== "undefined" && "vibrate" in navigator) {
         try {
-          navigator.vibrate(nextBead >= BEADS ? [30, 60, 30] : 10);
+          navigator.vibrate(isRoundFinished ? [30, 60, 30] : 10);
         } catch {
           // Haptics are a bonus, never a requirement.
         }
@@ -179,6 +239,9 @@ export default function JapaMala() {
       ? `मनका ${bead} / ${BEADS}। ${rounds} माला पूर्ण।`
       : `Bead ${bead} of ${BEADS}. ${rounds} round${rounds === 1 ? "" : "s"} completed.`;
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   return (
     <>
       <button
@@ -201,16 +264,22 @@ export default function JapaMala() {
         </span>
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="fixed inset-0 z-[90] flex items-center justify-center bg-[#16090b]/85 p-5 backdrop-blur-md"
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduce ? undefined : { opacity: 0 }}
-            transition={{ duration: reduce ? 0 : 0.35 }}
-            onClick={() => setOpen(false)}
-          >
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                className="fixed inset-0 z-[99999] flex items-center justify-center bg-[#16090b]/85 p-4 sm:p-6 backdrop-blur-md"
+                initial={reduce ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={reduce ? undefined : { opacity: 0 }}
+                transition={{ duration: reduce ? 0 : 0.35 }}
+                onClick={(e) => {
+                  if (e.target === e.currentTarget) {
+                    setOpen(false);
+                  }
+                }}
+              >
             <motion.div
               ref={dialogRef}
               id="japa-mala-dialog"
@@ -223,6 +292,8 @@ export default function JapaMala() {
               exit={reduce ? undefined : { opacity: 0, y: 20, scale: 0.97 }}
               transition={reduce ? { duration: 0 } : spring.gentle}
               onClick={(event) => event.stopPropagation()}
+              onPointerDown={(event) => event.stopPropagation()}
+              onTouchStart={(event) => event.stopPropagation()}
               className={`relative w-full max-w-md overflow-hidden rounded-[2rem] border border-gold/35 bg-[radial-gradient(circle_at_50%_15%,#5c3929_0%,#3d1016_52%,#20090d_100%)] px-6 py-8 text-center text-cream shadow-[0_30px_100px_-20px_rgba(0,0,0,0.9)] sm:px-10 ${
                 roundFlash ? "japa-round-flash" : ""
               }`}
@@ -314,6 +385,36 @@ export default function JapaMala() {
                     : "Tap the mala once with each mantra."}
               </p>
 
+              {/* Daily Streak + Target Goal Bar */}
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-gold/25 bg-black/25 px-3.5 py-2 text-xs">
+                <div className="flex items-center gap-1.5 font-body font-semibold text-amber-300">
+                  <span>🔥</span>
+                  <span>{streak} {lang === "hi" ? "दिन का नियम" : "Day Streak"}</span>
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <span className="font-body text-[11px] text-cream/70">
+                    {lang === "hi" ? "लक्ष्य:" : "Goal:"}
+                  </span>
+                  <select
+                    value={goal}
+                    onClick={(e) => e.stopPropagation()}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      changeGoal(Number(e.target.value));
+                    }}
+                    className="rounded border border-gold/30 bg-[#250a0f] px-2 py-1 font-body text-xs font-medium text-gold-light focus:outline-none focus:ring-1 focus:ring-gold"
+                  >
+                    <option value={1}>1 {lang === "hi" ? "माला" : "Round"}</option>
+                    <option value={4}>4 {lang === "hi" ? "माला" : "Rounds"}</option>
+                    <option value={16}>16 {lang === "hi" ? "माला" : "Rounds"}</option>
+                    <option value={32}>32 {lang === "hi" ? "माला" : "Rounds"}</option>
+                    <option value={64}>64 {lang === "hi" ? "माला" : "Rounds"}</option>
+                  </select>
+                </div>
+              </div>
+
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <button type="button" onClick={advance} className="btn-gold">
                   {lang === "hi" ? "जप करें" : "Chant"}
@@ -338,7 +439,9 @@ export default function JapaMala() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
-    </>
-  );
+      </AnimatePresence>,
+      document.body
+    )}
+  </>
+);
 }

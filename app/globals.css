@@ -1,6 +1,18 @@
+@font-face {
+  font-family: 'SamarkanFont';
+  src: url('/font/SAMAN___.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-samarkan {
+  font-family: 'SamarkanFont', var(--font-cinzel), 'Cinzel', serif;
+}
 
 /* ------------------------------------------------------------------ */
 /*  Base                                                               */
@@ -1199,6 +1211,14 @@ html[data-daypart="night"] .hero-daypart-layer--night {
 /* Reduced motion keeps the daypart crossfade — it is pure opacity and it
    explains that the backdrop changed. PRODUCT.md asks for exactly this: "calm
    crossfade or instant fallbacks". The global 200ms cap applies. */
+
+/* ---- Desktop shows looping video; mobile shows static image ---- */
+@media (min-width: 640px) {
+  .hero-mobile-art { display: none !important; }
+}
+@media (max-width: 639px) {
+  .hero-video { display: none !important; }
+}
 
 /* ------------------------------------------------------------------ */
 /*  Darshan card twilight backlight                                    */

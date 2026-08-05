@@ -136,6 +136,8 @@ export default function ReadingContent({
   const [kirtan, setKirtan] = useState(false);
   // Always "deva" on the first render so the static HTML and hydration agree.
   const [script, setScript] = useState<ScriptMode>("deva");
+  const [textSize, setTextSize] = useState<"sm" | "base" | "lg" | "xl">("base");
+  const [readingTheme, setReadingTheme] = useState<"dark" | "parchment" | "cream">("dark");
 
   /** Only offer the script toggle on articles that actually contain Devanāgarī. */
   const hasDevanagari = useMemo(
@@ -494,6 +496,35 @@ export default function ReadingContent({
                       </span>
                     </button>
                   )}
+
+                  {/* Text Size Controls (A- / A+) */}
+                  <div className="inline-flex items-center rounded-full border border-gold/40 bg-cream-50/70 p-1 text-gold-deeper backdrop-blur">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (textSize === "xl") setTextSize("lg");
+                        else if (textSize === "lg") setTextSize("base");
+                        else if (textSize === "base") setTextSize("sm");
+                      }}
+                      className="px-2.5 py-1 font-body text-xs font-bold transition hover:text-gold"
+                      title="Decrease font size"
+                    >
+                      A-
+                    </button>
+                    <span className="h-3 w-px bg-gold/30" />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (textSize === "sm") setTextSize("base");
+                        else if (textSize === "base") setTextSize("lg");
+                        else if (textSize === "lg") setTextSize("xl");
+                      }}
+                      className="px-2.5 py-1 font-body text-xs font-bold transition hover:text-gold"
+                      title="Increase font size"
+                    >
+                      A+
+                    </button>
+                  </div>
                 </div>
               </div>
 

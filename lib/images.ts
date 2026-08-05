@@ -247,14 +247,17 @@ export const darshanGallery: DarshanImage[] = [
 export const heroBackgrounds = {
   day: {
     desktop: "/images/hero-morning.webp",
+    desktopVideo: "/video/morning.mp4",
     mobile: "/images/hero-morning-mobile.webp",
   },
   evening: {
     desktop: "/images/hero-evening.webp",
+    desktopVideo: "/video/evening.mp4",
     mobile: "/images/hero-evening-mobile.webp",
   },
   night: {
     desktop: "/images/hero-night.webp",
+    desktopVideo: "/video/night.mp4",
     mobile: "/images/hero-night-mobile.webp",
   },
 } as const;

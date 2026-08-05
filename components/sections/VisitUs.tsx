@@ -60,67 +60,67 @@ export default function VisitUs() {
           eyebrow={t.visit.eyebrow}
           title={t.visit.title}
           subtitle={t.visit.subtitle}
-          className="rounded-[2rem] border border-white/55 bg-[#fff8e8]/90 px-6 py-8 shadow-[0_18px_50px_-28px_rgba(45,28,8,0.55)] sm:px-10"
+          className="rounded-[2rem] border border-white/55 bg-[#fff8e8]/90 px-5 py-6 shadow-[0_18px_50px_-28px_rgba(45,28,8,0.55)] sm:px-10 sm:py-8"
         />
 
-        <div className="mt-16 overflow-hidden rounded-[2rem] border border-gold/25 bg-cream-50 shadow-soft lg:mt-20">
+        <div className="mt-8 overflow-hidden rounded-[1.6rem] sm:rounded-[2rem] border border-gold/25 bg-cream-50 shadow-soft sm:mt-12 lg:mt-16">
           <div className="grid lg:grid-cols-2">
-            <Reveal className="darshan-glass-panel p-8 sm:p-12 lg:p-14">
-              <div className="flex items-start gap-4">
-                <span className="mt-1 text-gold-deep">
+            <Reveal className="darshan-glass-panel p-5 xs:p-6 sm:p-10 lg:p-12">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <span className="mt-1 shrink-0 text-gold-deep">
                   <PinIcon />
                 </span>
-                <div>
-                  <h3 className="font-heading text-2xl font-semibold text-maroon">
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-heading text-xl font-semibold text-maroon sm:text-2xl">
                     {t.visit.addressName}
                   </h3>
-                  <p className="mt-3 font-body text-base leading-relaxed text-ink-soft">
+                  <p className="mt-2 font-body text-sm leading-relaxed text-ink-soft sm:mt-3 sm:text-base">
                     {t.visit.address}
                   </p>
                 </div>
               </div>
 
-              <div className="my-8 h-px w-full bg-gradient-to-r from-gold/40 to-transparent" />
+              <div className="my-6 h-px w-full bg-gradient-to-r from-gold/40 to-transparent sm:my-8" />
 
-              <div className="flex items-start gap-4">
-                <span className="mt-1 text-gold-deep">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <span className="mt-1 shrink-0 text-gold-deep">
                   <ClockIcon />
                 </span>
-                <div className="w-full">
+                <div className="min-w-0 flex-1">
                   <p className="font-body text-xs uppercase tracking-widest2 text-gold-deeper">
                     {t.visit.timingsLabel}
                   </p>
-                  <ul className="mt-3 space-y-2">
+                  <ul className="mt-3 space-y-2.5">
                     {t.visit.timings.map((tm) => (
                       <li
                         key={tm.label}
-                        className="flex items-center justify-between gap-4 font-body text-[15px] text-ink"
+                        className="flex flex-col gap-0.5 sm:flex-row sm:items-center sm:justify-between font-body text-xs sm:text-[15px]"
                       >
-                        <span className="text-ink-soft">{tm.label}</span>
-                        <span className="font-medium tabular-nums">{tm.value}</span>
+                        <span className="font-medium text-ink-soft">{tm.label}</span>
+                        <span className="font-semibold tabular-nums text-maroon">{tm.value}</span>
                       </li>
                     ))}
                   </ul>
-                  <p className="mt-3 border-t border-gold/20 pt-3 font-body text-[13px] text-ink-soft">
-                    <span className="font-semibold text-gold-deeper">
+                  <p className="mt-3.5 border-t border-gold/20 pt-3 font-body text-xs text-ink-soft sm:text-[13px]">
+                    <span className="block mb-1 font-semibold text-gold-deeper">
                       {t.visit.aaratiLabel}
                     </span>
-                    <span className="mt-0.5 block tabular-nums">
+                    <span className="block leading-relaxed break-words tabular-nums text-ink">
                       {aaratiScheduleLine(lang)}
                     </span>
                   </p>
                 </div>
               </div>
 
-              <div className="my-8 h-px w-full bg-gradient-to-r from-gold/40 to-transparent" />
+              <div className="my-6 h-px w-full bg-gradient-to-r from-gold/40 to-transparent sm:my-8" />
 
               {/* Every way to reach the mandir — email, WhatsApp, the social
                   channels and directions, all read from lib/temple.ts. */}
-              <div className="flex items-start gap-4">
-                <span className="mt-1 text-gold-deep">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <span className="mt-1 shrink-0 text-gold-deep">
                   <MailIcon />
                 </span>
-                <div className="w-full min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="font-body text-xs uppercase tracking-widest2 text-gold-deeper">
                     {t.visit.reachUsLabel}
                   </p>

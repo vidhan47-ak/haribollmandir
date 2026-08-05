@@ -39,3 +39,7 @@ next-env.d.ts
 
 # Local Netlify folder
 .netlify
+
+# Temporary zips and raw image downloads
+*.zip
+_gdrive*/

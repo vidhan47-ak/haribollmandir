@@ -33,6 +33,7 @@ export default function HashScroll() {
       let targetObserver: MutationObserver | null = null;
       let refreshFrameId: number | null = null;
       let scrollFrameId: number | null = null;
+      const retryTimerIds: number[] = [];
 
       const isCurrentAttempt = () =>
         !disposed &&
@@ -62,6 +63,8 @@ export default function HashScroll() {
         cancelFrame(scrollFrameId);
         refreshFrameId = null;
         scrollFrameId = null;
+        retryTimerIds.forEach((timerId) => window.clearTimeout(timerId));
+        retryTimerIds.length = 0;
       };
 
       const requestRefreshAndScroll = () => {
@@ -152,14 +155,31 @@ export default function HashScroll() {
       }
 
       waitForTarget();
+
+      // A fragment can be resolved before the intro, fonts, and responsive
+      // imagery have settled. Re-apply this still-current target a few times
+      // so the visitor ends at the chosen section rather than near it.
+      [400, 1400, 3000, 4800].forEach((delay) => {
+        try {
+          const timerId = window.setTimeout(() => {
+            if (isCurrentAttempt()) requestRefreshAndScroll();
+          }, delay);
+          retryTimerIds.push(timerId);
+        } catch {
+          // The initial fragment attempt remains sufficient where timers are
+          // unavailable.
+        }
+      });
     };
 
     window.addEventListener("hashchange", handleHash);
+    window.addEventListener("popstate", handleHash);
     handleHash();
 
     return () => {
       disposed = true;
       window.removeEventListener("hashchange", handleHash);
+      window.removeEventListener("popstate", handleHash);
       cancelPendingAttempt();
     };
   }, [controller]);

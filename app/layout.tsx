@@ -194,11 +194,11 @@ export default function RootLayout({
             >
               <Navbar />
               {children}
+              <SadhanaDock />
             </LotusTransitionProvider>
           </SmoothScroll>
           <TulsiCursor />
           <PWAClient />
-          <SadhanaDock />
         </LanguageProvider>
       </body>
     </html>

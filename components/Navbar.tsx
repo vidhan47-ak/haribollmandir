@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   AnimatePresence,
   animate,
@@ -11,11 +11,8 @@ import {
   useMotionValueEvent,
   useReducedMotion,
 } from "framer-motion";
-import {
-  useScrollController,
-  useSmoothScrollTo,
-} from "@/components/SmoothScroll";
-import { SuspensionReason } from "@/components/scroll";
+import { useScrollController, useSmoothScrollTo } from "@/components/SmoothScroll";
+import { ScrollRefreshReason, ScrollResult, SuspensionReason } from "@/components/scroll";
 import LotusMark from "@/components/ui/LotusMark";
 import { clampToViewport } from "@/lib/clamp-drag";
 import {
@@ -27,34 +24,36 @@ import {
 } from "@/lib/springs";
 import { useLang } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
-import { useLotusNavigate } from "@/components/ui/ViewTransitions";
+import { LotusLink } from "@/components/ui/ViewTransitions";
+import { scrollToElement } from "@/lib/scroll-helper";
 
 type NavKey = "home" | "daily" | "about" | "festivals" | "calendar" | "heritage" | "library" | "gallery" | "visit";
-type NavLink = { key: NavKey; target?: string; href?: string };
+type NavLink = { key: NavKey; href: string; target?: string };
 
 const LINKS: NavLink[] = [
-  { key: "home", target: "#home" },
-  { key: "daily", target: "#bhakti" },
-  { key: "about", target: "#about" },
-  { key: "festivals", target: "#festivals" },
+  { key: "home", href: "/#home", target: "#home" },
+  { key: "daily", href: "/#bhakti", target: "#bhakti" },
+  { key: "about", href: "/#about", target: "#about" },
+  { key: "festivals", href: "/#festivals", target: "#festivals" },
   { key: "calendar", href: "/vaishnava-calendar" },
   { key: "heritage", href: "/gaudiya-heritage" },
   { key: "library", href: "/grantha-mandir" },
-  { key: "gallery", target: "#gallery" },
-  { key: "visit", target: "#visit" },
+  { key: "gallery", href: "/#gallery", target: "#gallery" },
+  { key: "visit", href: "/#visit", target: "#visit" },
 ];
 
 // Sections tracked for the active-link scroll-spy (homepage only).
-const SPY_TARGETS = ["#home", "#bhakti", "#about", "#festivals", "#seva", "#gallery", "#visit"];
+const SPY_TARGETS = ["#home", "#darshan", "#bhakti", "#about", "#festivals", "#seva", "#gallery", "#visit"];
 
 // Home sections with dark backdrops — the bar-less home navbar shows light text
 // over these (hero, festivals, gallery) and dark text over the light sections.
-const HOME_DARK_SECTIONS = ["#home", "#bhakti", "#festivals", "#gallery"];
+const HOME_DARK_SECTIONS = ["#home", "#darshan", "#bhakti", "#festivals", "#gallery"];
 
 // Remembers where the user parked the draggable navbar capsule.
 const NAV_POS_KEY = "hariboll-nav-pos";
 // Shared with the sadhana dock: nudge the drag affordance once, ever.
 const DRAG_HINT_KEY = "hariboll-drag-hint-seen";
+
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -78,13 +77,54 @@ export default function Navbar() {
   const dragControls = useDragControls();
   const constraintsRef = useRef<HTMLDivElement | null>(null);
   const navRef = useRef<HTMLElement | null>(null);
-  const scrollTo = useSmoothScrollTo();
   const scrollController = useScrollController();
   const pathname = usePathname();
-  const navigate = useLotusNavigate();
   const { t, lang } = useLang();
+  const smoothScrollTo = useSmoothScrollTo();
+  const router = useRouter();
 
   const isHome = pathname === "/";
+
+  /** Scroll to a homepage section or navigate to sub-page.
+   * Instant first-click response with high-velocity devotional smooth scroll. */
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    target?: string,
+  ) => {
+    // 1. Clear any active intro splash and unlock body scroll
+    try {
+      sessionStorage.setItem("hariboll_intro_splash_seen_v2", "1");
+      document.documentElement.classList.remove("has-intro-splash");
+    } catch {
+      /* ignore */
+    }
+
+    // 2. Unlock mobile menu scroll lock immediately if open
+    if (open) {
+      setOpen(false);
+    }
+    document.body.style.overflow = "";
+
+    // 3. If target section clicked while on home page, handle smooth scroll
+    if (target && isHome) {
+      e.preventDefault();
+      const id = target.replace(/^#/, "");
+
+      if (window.history.replaceState) {
+        window.history.replaceState(null, "", `#${id}`);
+      }
+
+      const doScroll = () => {
+        scrollToElement(id, -80);
+      };
+
+      if (open) {
+        requestAnimationFrame(doScroll);
+      } else {
+        doScroll();
+      }
+    }
+  };
   // Keep the homepage navbar bar-less only at the top of the hero. Once the
   // page moves, transition into the Apple-style liquid-glass material.
   const glass = !isHome || scrolled;
@@ -299,28 +339,6 @@ export default function Navbar() {
     ease: EASE_DEVOTIONAL,
   };
 
-  const handleNav = (link: { target?: string; href?: string }) => {
-    setOpen(false);
-    // Wait a tick so the menu-close scroll unlock applies first.
-    setTimeout(() => {
-      if (link.href) {
-        if (pathname === link.href) {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } else {
-          navigate(link.href);
-        }
-        return;
-      }
-      if (!link.target) return;
-      if (isHome) {
-        scrollTo(link.target);
-      } else {
-        // Return to the homepage and let it scroll to the section (e.g. "/#about").
-        navigate("/" + link.target);
-      }
-    }, 60);
-  };
-
   return (
     <>
       {/* Drag boundary (inset ~8px) for the floating nav capsule — Framer
@@ -352,21 +370,17 @@ export default function Navbar() {
             schedulePersist();
           }}
           data-dragging={dragging ? "true" : undefined}
-          className={`mx-auto flex items-center justify-between gap-2 rounded-full px-3 py-2 sm:gap-3 sm:px-5 ${
+          className={`mx-auto flex items-center justify-between gap-3 rounded-full px-4 py-2 sm:gap-4 sm:px-5.5 sm:py-2.5 ${
             floating ? "w-fit max-w-[calc(100vw-1.5rem)]" : "max-w-[84rem]"
           } ${
             glass
-              ? // backdrop-filter and border-color were outside this list, so the
-                // glass and its hairline snapped into place while the shadow eased
-                // over half a second. All four now move together, in budget.
-                "nav-liquid-glass nav-liquid-glass--solid transition-[padding,background,box-shadow,border-color,backdrop-filter] duration-300 ease-devotional"
+              ? "nav-liquid-glass nav-liquid-glass--solid transition-[padding,background,box-shadow,border-color,backdrop-filter] duration-300 ease-devotional"
               : lightText
                 ? "transition-none [text-shadow:0_1px_8px_rgba(0,0,0,0.35)]"
                 : "transition-none"
           }`}
         >
-          {/* Drag grip — the only surface that starts a drag, so links keep
-              clicking. Double-click snaps the bar back to the top. */}
+          {/* Drag grip */}
           <button
             type="button"
             onPointerDown={(e) => dragControls.start(e)}
@@ -393,9 +407,10 @@ export default function Navbar() {
           </button>
 
           {/* Brand */}
-          <button
-            onClick={() => handleNav({ target: "#home" })}
-            className="group flex shrink-0 items-center gap-2 text-left sm:gap-3"
+          <LotusLink
+            href="/#home"
+            onClick={(e) => handleNavClick(e, "#home")}
+            className="group flex shrink-0 items-center gap-2.5 text-left sm:gap-3"
             aria-label="Back to top"
           >
             {logoOk ? (
@@ -405,61 +420,69 @@ export default function Navbar() {
                 alt="Hariboll Mandir logo"
                 draggable={false}
                 onError={() => setLogoOk(false)}
-                className={`h-9 w-auto max-w-[96px] shrink-0 object-contain transition-[transform] duration-[240ms] ease-devotional sm:max-w-[132px] ${
-                  scrolled ? "scale-95 sm:h-10" : "scale-100 sm:h-10"
+                className={`h-9 w-auto max-w-[105px] shrink-0 object-contain transition-[transform] duration-[240ms] ease-devotional sm:h-11 sm:max-w-[135px] ${
+                  scrolled ? "scale-95 sm:h-10" : "scale-100 sm:h-11"
                 }`}
               />
             ) : (
               <LotusMark
-                className={`h-9 w-9 shrink-0 transition-colors duration-500 ${
+                className={`h-9 w-9 shrink-0 transition-colors duration-500 sm:h-10 sm:w-10 ${
                   solid ? "text-maroon" : "text-gold-light"
                 }`}
               />
             )}
             <span className="flex flex-col">
               <span
-                className={`font-display whitespace-nowrap text-sm font-semibold leading-normal tracking-wide transition-colors duration-500 sm:text-base ${
+                className={`font-samarkan whitespace-nowrap text-xl font-medium leading-none tracking-wide transition-colors duration-500 sm:text-2xl md:text-[25px] ${
                   solid ? "text-maroon" : "text-cream"
                 }`}
               >
                 {t.nav.brand}
               </span>
               <span
-                className={`mt-1 hidden whitespace-nowrap font-body text-[10px] uppercase leading-none tracking-widest2 transition-colors duration-500 min-[380px]:block ${
+                className={`mt-1 hidden whitespace-nowrap font-body text-[10px] uppercase leading-none tracking-widest2 transition-colors duration-500 2xl:block ${
                   solid ? "text-gold-deeper" : "text-gold-light/90"
                 }`}
               >
                 {t.nav.location}
               </span>
             </span>
-          </button>
+          </LotusLink>
 
           {/* Desktop links */}
-          <div className="hidden min-w-0 items-center justify-center gap-0.5 lg:flex">
-            {LINKS.filter((l) => l.key !== "home").map((link) => {
+          <div className="hidden min-w-0 flex-1 items-center justify-evenly gap-1 xl:flex xl:gap-2 2xl:gap-3">
+            {LINKS.map((link) => {
               const isActive = isLinkActive(link);
-              return (
-                <button
-                  key={link.href ?? link.target}
-                  onClick={() => handleNav(link)}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`group press-nudge relative whitespace-nowrap px-1.5 py-2 font-body text-[12px] font-medium transition-colors duration-200 xl:px-2.5 xl:text-[13px] ${
-                    solid
-                      ? isActive
-                        ? "text-maroon"
-                        : "text-ink hover:text-maroon"
-                      : isActive
-                        ? "text-white"
-                        : "text-cream/90 hover:text-white"
-                  }`}
-                >
+              const className = `group press-nudge relative whitespace-nowrap px-2 py-1.5 font-body text-[11px] font-medium transition-colors duration-200 xl:px-2.5 xl:text-[12px] 2xl:px-3 2xl:text-[13.5px] ${
+                solid
+                  ? isActive
+                    ? "text-maroon font-semibold"
+                    : "text-ink hover:text-maroon"
+                  : isActive
+                    ? "text-white font-semibold"
+                    : "text-cream/90 hover:text-white"
+              }`;
+              const content = (
+                <>
                   {t.nav[link.key]}
                   <span
                     className={`absolute inset-x-2 -bottom-0.5 h-px origin-center bg-gold transition-[transform,opacity] duration-200 ease-devotional xl:inset-x-3 ${
                       isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100"
                     }`}
                   />
-                </button>
+                </>
+              );
+
+              return (
+                <LotusLink
+                  key={link.key}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.target)}
+                  aria-current={isActive ? "location" : undefined}
+                  className={className}
+                >
+                  {content}
+                </LotusLink>
               );
             })}
 
@@ -527,18 +550,19 @@ export default function Navbar() {
             </div>
 
             {/* Glass Contact Temple pill flanked by gold ornaments */}
-            <div className="ml-1.5 xl:ml-2">
-              <button
-                onClick={() => handleNav({ target: "#visit" })}
+            <div className="ml-1.5 hidden xl:ml-2 2xl:block">
+              <LotusLink
+                href="/#visit"
+                onClick={(e) => handleNavClick(e, "#visit")}
                 className={`nav-glass-btn whitespace-nowrap ${solid ? "text-maroon" : "text-cream"}`}
               >
                 {t.nav.contact}
-              </button>
+              </LotusLink>
             </div>
           </div>
 
           {/* Mobile: language toggle + hamburger */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-2 xl:hidden">
             <LanguageToggle className={solid || open ? "text-maroon" : "text-cream"} />
             <button
               onClick={() => setOpen((v) => !v)}
@@ -602,20 +626,24 @@ export default function Navbar() {
             >
               {LINKS.map((link) => {
                 const isActive = isLinkActive(link);
+                const className = `link-underline font-heading text-3xl font-medium transition-colors duration-300 hover:text-gold-light sm:text-4xl ${
+                  isActive ? "is-active text-gold-light" : "text-cream"
+                }`;
+                const content = t.nav[link.key];
                 return (
                   <motion.li
-                    key={link.href ?? link.target}
+                    key={link.key}
                     variants={menuItem}
                     transition={menuItemTransition}
                   >
-                    <button
-                      onClick={() => handleNav(link)}
-                      className={`link-underline font-heading text-3xl font-medium transition-colors duration-300 hover:text-gold-light sm:text-4xl ${
-                        isActive ? "is-active text-gold-light" : "text-cream"
-                      }`}
+                    <LotusLink
+                      href={link.href}
+                      onClick={(e) => handleNavClick(e, link.target)}
+                      aria-current={isActive ? "location" : undefined}
+                      className={className}
                     >
-                      {t.nav[link.key]}
-                    </button>
+                      {content}
+                    </LotusLink>
                   </motion.li>
                 );
               })}

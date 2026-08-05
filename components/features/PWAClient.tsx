@@ -38,6 +38,30 @@ const INSTALL_COPY = {
   },
 } as const;
 
+export function requestSacredNotifications(lang: "en" | "hi") {
+  if (typeof window === "undefined" || !("Notification" in window)) {
+    alert(lang === "hi" ? "इस ब्राउज़र में सूचनाएँ उपलब्ध नहीं हैं।" : "Notifications are not supported by this browser.");
+    return;
+  }
+
+  Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+      new Notification(
+        lang === "hi" ? "🔔 हरिबोल मंदिर सूचनाएं सक्रिय" : "🔔 Hariboll Mandir Reminders Active",
+        {
+          body:
+            lang === "hi"
+              ? "आपको एकादशी एवं मुख्य पर्वों की सुबह सूचना प्राप्त होगी।"
+              : "You will receive sacred morning reminders for Ekādaśī & major festivals.",
+          icon: "/apple-touch-icon.png",
+        }
+      );
+    } else {
+      alert(lang === "hi" ? "सूचना अनुमति अस्वीकार कर दी गई।" : "Notification permission was not granted.");
+    }
+  });
+}
+
 export default function PWAClient() {
   const [prompt, setPrompt] = useState<InstallPromptEvent | null>(null);
   const [visible, setVisible] = useState(false);

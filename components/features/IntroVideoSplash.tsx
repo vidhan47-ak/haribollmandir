@@ -1,127 +1,116 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const SESSION_KEY = "hariboll_intro_splash_seen_v1";
-const DISPLAY_DURATION_MS = 3000; // 3 seconds total play time before starting fade out
-const FADE_DURATION_MS = 1000; // 1 second radial mask transition
+const SESSION_KEY = "hariboll_intro_splash_seen_v2";
+const FADE_MS = 600;
+const SAFETY_MS = 10000; // Backup timeout only if network hangs or video fails to load
+
+type Phase = "init" | "play" | "fade" | "done";
 
 export default function IntroVideoSplash() {
-  // Initialize state to TRUE by default (for SSR and initial client pass)
-  // so the splash overlay is in the initial HTML and paints instantly on Frame 0.
-  const [isVisible, setIsVisible] = useState<boolean>(() => {
-    if (typeof window === "undefined") return true;
-    try {
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-      const hasSeenIntro = sessionStorage.getItem(SESSION_KEY);
-      return !prefersReducedMotion && !hasSeenIntro;
-    } catch {
-      return true;
-    }
-  });
-
-  const [isFading, setIsFading] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return window.innerWidth < 768;
-    }
-    return false;
-  });
+  const [phase, setPhase] = useState<Phase>("init");
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const fadeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  useEffect(() => {
-    // Check if reduced motion or already seen in session
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    const hasSeenIntro = sessionStorage.getItem(SESSION_KEY);
-
-    if (prefersReducedMotion || hasSeenIntro) {
-      setIsVisible(false);
-      document.documentElement.classList.remove("has-intro-splash");
-      return;
-    }
-
-    // Detect screen width for PC vs Phone video selection
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-    setIsVisible(true);
-
-    // Lock body scroll during splash screen
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    // Force play video as soon as component mounts
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {
-        // Autoplay may be deferred by browser policies, keep silent fallback
-      });
-    }
-
-    // Set 4-second display timer before initiating radial fade out
-    timerRef.current = setTimeout(() => {
-      startFadeOut();
-    }, DISPLAY_DURATION_MS);
-
-    return () => {
-      window.removeEventListener("resize", checkIsMobile);
-      document.body.style.overflow = originalOverflow;
-      document.documentElement.classList.remove("has-intro-splash");
-      if (timerRef.current) clearTimeout(timerRef.current);
-      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
-    };
+  const clearTimers = useCallback(() => {
+    for (const t of timers.current) clearTimeout(t);
+    timers.current = [];
   }, []);
 
-  const startFadeOut = () => {
-    if (isFading) return;
-    setIsFading(true);
-
-    // Save session flag so it won't re-trigger on internal route changes
-    sessionStorage.setItem(SESSION_KEY, "true");
-
-    // Unlock body scroll as transition starts
-    document.body.style.overflow = "";
-    document.documentElement.classList.remove("has-intro-splash");
-
-    fadeTimerRef.current = setTimeout(() => {
-      setIsVisible(false);
-    }, FADE_DURATION_MS);
-  };
-
-  const handleSkip = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    startFadeOut();
-  };
-
-  // Handle video loading and playing whenever visible or isMobile changes
-  useEffect(() => {
-    if (isVisible && videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.play().catch(() => {
-        // Autoplay may be deferred by browser policies
-      });
+  /** Start the radial fade-out, unlock scroll, persist session flag. */
+  const fade = useCallback(() => {
+    setPhase((prev) => {
+      if (prev === "fade" || prev === "done") return prev;
+      return "fade";
+    });
+    try {
+      sessionStorage.setItem(SESSION_KEY, "1");
+    } catch {
+      /* ignore */
     }
-  }, [isMobile, isVisible]);
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = "";
+      document.documentElement.classList.remove("has-intro-splash");
+    }
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+  }, []);
 
-  if (!isVisible) return null;
+  /** Completely remove the overlay from the DOM. */
+  const teardown = useCallback(() => {
+    setPhase("done");
+    clearTimers();
+  }, [clearTimers]);
+
+  // ── Client initialization ──
+  useEffect(() => {
+    try {
+      if (
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        sessionStorage.getItem(SESSION_KEY)
+      ) {
+        document.body.style.overflow = "";
+        document.documentElement.classList.remove("has-intro-splash");
+        setPhase("done");
+        return;
+      }
+    } catch {
+      /* ignore */
+    }
+
+    setPhase("play");
+  }, []);
+
+  // ── "play" phase: lock scroll, play video, set safety fallback ──
+  useEffect(() => {
+    if (phase !== "play") return;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.classList.add("has-intro-splash");
+
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      const p = videoRef.current.play();
+      if (p !== undefined) {
+        p.catch((err) => {
+          console.warn("Video play fallback:", err);
+          fade(); // Instant fallback if autoplay is blocked by browser policy
+        });
+      }
+    }
+
+    // Safety fallback timer in case video fails to load or stalls indefinitely
+    timers.current.push(
+      setTimeout(() => {
+        fade();
+        setTimeout(teardown, FADE_MS);
+      }, SAFETY_MS),
+    );
+
+    return clearTimers;
+  }, [phase, fade, teardown, clearTimers]);
+
+  // ── "fade" phase: remove overlay after the clip-path animation finishes ──
+  useEffect(() => {
+    if (phase !== "fade") return;
+    timers.current.push(setTimeout(teardown, FADE_MS));
+    return clearTimers;
+  }, [phase, teardown, clearTimers]);
+
+  // ── Render ──
+  if (phase === "init" || phase === "done") return null;
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {(phase === "play" || phase === "fade") && (
         <motion.div
           key="intro-splash-overlay"
           initial={{ opacity: 1, clipPath: "circle(150% at 50% 50%)" }}
           animate={
-            isFading
+            phase === "fade"
               ? {
                   clipPath: "circle(0% at 50% 50%)",
                   opacity: 0,
@@ -133,64 +122,58 @@ export default function IntroVideoSplash() {
                   scale: 1,
                 }
           }
+          exit={{ opacity: 0 }}
           transition={{
-            duration: isFading ? FADE_DURATION_MS / 1000 : 0.3,
-            ease: [0.22, 1, 0.36, 1], // devotional ease
+            duration: phase === "fade" ? FADE_MS / 1000 : 0.2,
+            ease: [0.22, 1, 0.36, 1],
           }}
-          className="fixed inset-0 h-[100dvh] w-screen z-[99999] flex items-center justify-center bg-[#0a0607] overflow-hidden select-none pointer-events-auto"
+          className="fixed inset-0 h-[100dvh] w-screen z-[99999] flex items-center justify-center bg-[#18110b] overflow-hidden select-none pointer-events-auto"
           aria-label="Temple intro animation"
         >
-          {/* Fullscreen Video Player with preload auto and native media query sources */}
+          {/* Warm devotional background fill */}
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-60 pointer-events-none bg-hero-warm"
+            aria-hidden="true"
+          />
+
+          {/* ── Video with native media queries ── */}
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
             ref={videoRef}
             autoPlay
             muted
             playsInline
             preload="auto"
-            onEnded={startFadeOut}
-            className="w-full h-full object-cover pointer-events-none"
+            onEnded={fade}
+            onError={fade}
+            className="w-full h-full object-cover pointer-events-none relative z-0"
           >
             <source
-              src="/video/starting animation phone.mp4"
-              type="video/mp4"
+              src="/video/starting-animation-phone.mp4"
               media="(max-width: 767px)"
+              type="video/mp4"
             />
             <source
-              src="/video/starting animation pc.mp4"
-              type="video/mp4"
+              src="/video/starting-animation-pc.mp4"
               media="(min-width: 768px)"
-            />
-            <source
-              src="/videos/starting animation phone.mp4"
-              type="video/mp4"
-              media="(max-width: 767px)"
-            />
-            <source
-              src="/videos/starting animation pc.mp4"
-              type="video/mp4"
-              media="(min-width: 768px)"
-            />
-            {/* Default fallback for older browsers */}
-            <source
-              src={
-                isMobile
-                  ? "/video/starting animation phone.mp4"
-                  : "/video/starting animation pc.mp4"
-              }
               type="video/mp4"
             />
+            <source src="/video/starting-animation-pc.mp4" type="video/mp4" />
           </video>
 
-          {/* Golden Ambient Vignette & Mask Overlay */}
-          <div className="absolute inset-0 pointer-events-none bg-radial-gradient from-transparent via-[#0c0708]/20 to-[#0c0708]/80" />
+          {/* ── Vignette ── */}
+          <div className="absolute inset-0 pointer-events-none bg-radial-gradient from-transparent via-[#0c0708]/20 to-[#0c0708]/80 z-10" />
 
-          {/* Elegant Skip Intro Button */}
+          {/* ── Skip button ── */}
           <motion.button
             initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: isFading ? 0 : 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            onClick={handleSkip}
-            className="absolute top-6 right-6 z-10 flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-widest font-heading text-[#f3e3c3] bg-[#1a0e11]/70 hover:bg-[#2a171c] border border-[#c9a24b]/40 hover:border-[#c9a24b] rounded-full backdrop-blur-md transition-all duration-300 shadow-lg cursor-pointer"
+            animate={{ opacity: phase === "fade" ? 0 : 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.3 }}
+            onClick={() => {
+              clearTimers();
+              fade();
+            }}
+            className="absolute top-6 right-6 z-20 flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-widest font-heading text-[#f3e3c3] bg-[#1a0e11]/80 hover:bg-[#2a171c] border border-[#c9a24b]/40 hover:border-[#c9a24b] rounded-full backdrop-blur-md transition-all duration-300 shadow-lg cursor-pointer"
           >
             <span>Skip Intro</span>
             <svg

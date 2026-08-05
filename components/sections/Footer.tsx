@@ -3,8 +3,8 @@
 import { usePathname } from "next/navigation";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import LotusMark from "@/components/ui/LotusMark";
-import { useSmoothScrollTo } from "@/components/SmoothScroll";
 import { useLotusNavigate } from "@/components/ui/ViewTransitions";
+import { scrollToElement } from "@/lib/scroll-helper";
 import { useLang } from "@/lib/i18n";
 import { motion, useReducedMotion } from "framer-motion";
 import { TempleSocialIcons } from "@/components/ui/TempleLinks";
@@ -14,7 +14,6 @@ import { TEMPLE_EMAIL, aaratiSummary } from "@/lib/temple";
 const TARGETS = ["#darshan", "#bhakti", "#about", "#seva", "#festivals", "/gaudiya-heritage", "/grantha-mandir", "#gallery", "#visit"];
 
 export default function Footer() {
-  const scrollTo = useSmoothScrollTo();
   const pathname = usePathname();
   const navigate = useLotusNavigate();
   const { t, lang } = useLang();
@@ -27,7 +26,7 @@ export default function Footer() {
       return;
     }
     if (pathname === "/") {
-      scrollTo(target);
+      scrollToElement(target, -80);
     } else {
       navigate("/" + target);
     }
@@ -52,7 +51,7 @@ export default function Footer() {
         <div className="container-temple relative py-16 lg:py-20">
           {/* Four columns arrive on the shared 70ms stagger rather than as one
               block — the token layer clamps this to LOTUS_BREATH_TOKENS. */}
-          <Stagger className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.15fr]">
+          <Stagger className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.9fr_1fr_1.4fr] lg:gap-12">
             <StaggerItem>
               <div className="flex items-center gap-3">
                 <LotusMark className="h-10 w-10 text-gold-light" />
@@ -106,35 +105,40 @@ export default function Footer() {
               >
                 {TEMPLE_EMAIL}
               </a>
-              <p className="text-living mt-8 font-script text-3xl">
-                {t.footer.haribol}
-              </p>
+              <div className="-mt-8 -mb-14 -ml-3 sm:-mt-12 sm:-mb-20 sm:-ml-5">
+                <img
+                  src="/images/Hariboll.png"
+                  alt="Haribol!"
+                  draggable={false}
+                  className="h-40 sm:h-52 w-auto max-w-[420px] object-contain"
+                />
+              </div>
             </StaggerItem>
 
-            {/* Darshan timings — the footer's functional block, kept scannable. */}
-            <StaggerItem>
+            {/* Darshan timings — given 1.4fr width with flex wrapping so it never squishes. */}
+            <StaggerItem className="min-w-0">
               <p className="font-body text-xs uppercase tracking-widest2 text-gold-light">
                 {t.footer.timingsLabel}
               </p>
               <dl className="mt-5 space-y-3">
-                <div className="flex items-baseline justify-between gap-4 border-b border-cream/10 pb-3">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b border-cream/10 pb-3">
                   <dt className="flex items-center gap-2 font-body text-sm text-cream/75">
                     <span aria-hidden="true" className="relative flex h-2 w-2">
                       <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-300/90" />
                     </span>
                     {t.footer.liveLabel}
                   </dt>
-                  <dd className="whitespace-nowrap font-body text-sm tabular-nums text-gold-light">
+                  <dd className="font-body text-sm tabular-nums text-gold-light">
                     {aaratiSummary(lang)}
                   </dd>
                 </div>
                 {t.visit.timings.map((row) => (
                   <div
                     key={row.label}
-                    className="flex items-baseline justify-between gap-4 border-b border-cream/10 pb-3"
+                    className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b border-cream/10 pb-3"
                   >
                     <dt className="font-body text-sm text-cream/75">{row.label}</dt>
-                    <dd className="whitespace-nowrap font-body text-sm tabular-nums text-cream/90">
+                    <dd className="font-body text-sm tabular-nums text-cream/90">
                       {row.value}
                     </dd>
                   </div>
