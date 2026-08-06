@@ -316,6 +316,38 @@ export default function SadhanaDock() {
           )}
         </AnimatePresence>
 
+        <AnimatePresence initial={false}>
+          {!collapsed && nextEvent && (
+            <motion.div
+              initial={
+                reduce
+                  ? false
+                  : { opacity: 0, transform: "translateY(10px) scale(0.96)" }
+              }
+              animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
+              exit={
+                reduce
+                  ? undefined
+                  : { opacity: 0, transform: "translateY(10px) scale(0.96)" }
+              }
+              transition={reduce ? { duration: 0 } : spring.default}
+            >
+              <LotusLink href="/#festivals" className="sadhana-event-chip max-w-[200px] xs:max-w-[240px] sm:max-w-none" onClick={dismissHint}>
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12"/></svg>
+                <span className="truncate">
+                  {lang === "hi" ? nextEvent.nameHi : nextEvent.name}
+                  {" · "}
+                  {nextEvent.days === 0
+                    ? lang === "hi" ? "आज" : "today"
+                    : lang === "hi"
+                      ? `${nextEvent.days} दिन`
+                      : `in ${nextEvent.days}d`}
+                </span>
+              </LotusLink>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* KirtanaPlayer stays persistently mounted so audio never stops when dock collapses */}
         <KirtanaPlayer hideDockButton={collapsed} />
 
@@ -337,20 +369,6 @@ export default function SadhanaDock() {
               transition={reduce ? { duration: 0 } : spring.default}
               className="flex flex-col items-start gap-2.5"
             >
-              {nextEvent && (
-                <LotusLink href="/#festivals" className="sadhana-event-chip max-w-[200px] xs:max-w-[240px] sm:max-w-none" onClick={dismissHint}>
-                  <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 1v3M11 1v3M2 7h12"/></svg>
-                  <span className="truncate">
-                    {lang === "hi" ? nextEvent.nameHi : nextEvent.name}
-                    {" · "}
-                    {nextEvent.days === 0
-                      ? lang === "hi" ? "आज" : "today"
-                      : lang === "hi"
-                        ? `${nextEvent.days} दिन`
-                        : `in ${nextEvent.days}d`}
-                  </span>
-                </LotusLink>
-              )}
               <TempleBell />
               <MahamantraToggle />
               <AartiMode />

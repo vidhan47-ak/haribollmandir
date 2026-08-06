@@ -26,7 +26,7 @@ export default function HeritageCallout() {
 
       <HeritageFigures />
 
-      <div className="container-temple relative z-10 lg:px-56 xl:px-72">
+      <div className="container-temple relative z-10 lg:px-64 xl:px-80 2xl:px-[22rem]">
         <SectionHeading
           eyebrow={t.seva.eyebrow}
           title={t.seva.title}

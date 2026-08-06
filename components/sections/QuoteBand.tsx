@@ -120,6 +120,35 @@ export default function QuoteBand({
         <div className="absolute h-[520px] w-[520px] rounded-full border border-gold/20 opacity-40 animate-spin-slow" />
       </motion.div>
 
+      {/* Floating Golden Lotus Petal Shower */}
+      {!reduce && (
+        <div className="pointer-events-none absolute inset-0 z-[7] overflow-hidden" aria-hidden="true">
+          {Array.from({ length: 14 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute h-4 w-2.5 bg-gradient-to-tr from-amber-600 via-gold-light to-amber-100 opacity-75 shadow-[0_0_8px_rgba(240,216,150,0.7)]"
+              style={{
+                top: `${(i * 7) % 90}%`,
+                left: `${(i * 14) % 95}%`,
+                borderRadius: "80% 0 80% 0",
+              }}
+              animate={{
+                y: ["0px", "140px", "280px"],
+                x: ["0px", i % 2 === 0 ? "35px" : "-35px", "0px"],
+                rotate: [0, 45, 90, 135, 180],
+                opacity: [0, 0.85, 0.95, 0.4, 0],
+              }}
+              transition={{
+                duration: 5 + (i % 4),
+                repeat: Infinity,
+                delay: i * 0.45,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+      )}
+
       {/* Faint floral pattern */}
       <div className="pattern-floral pointer-events-none absolute inset-0 opacity-20" />
 

@@ -54,7 +54,8 @@ export default function Footer() {
           <Stagger className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.9fr_1fr_1.4fr] lg:gap-12">
             <StaggerItem>
               <div className="flex items-center gap-3">
-                <LotusMark className="h-10 w-10 text-gold-light" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/logo.png" alt="Hariboll Mandir logo" className="h-10 w-10 shrink-0 object-contain" />
                 <div className="leading-tight">
                   <p className="font-display text-lg font-semibold text-cream">
                     {t.footer.brand}

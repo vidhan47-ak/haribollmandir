@@ -413,24 +413,15 @@ export default function Navbar() {
             className="group flex shrink-0 items-center gap-2.5 text-left sm:gap-3"
             aria-label="Back to top"
           >
-            {logoOk ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src="/images/logo.png"
-                alt="Hariboll Mandir logo"
-                draggable={false}
-                onError={() => setLogoOk(false)}
-                className={`h-9 w-auto max-w-[105px] shrink-0 object-contain transition-[transform] duration-[240ms] ease-devotional sm:h-11 sm:max-w-[135px] ${
-                  scrolled ? "scale-95 sm:h-10" : "scale-100 sm:h-11"
-                }`}
-              />
-            ) : (
-              <LotusMark
-                className={`h-9 w-9 shrink-0 transition-colors duration-500 sm:h-10 sm:w-10 ${
-                  solid ? "text-maroon" : "text-gold-light"
-                }`}
-              />
-            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo.png"
+              alt="Hariboll Mandir logo"
+              draggable={false}
+              className={`h-9 w-9 shrink-0 object-contain transition-transform duration-300 ease-devotional sm:h-11 sm:w-11 ${
+                scrolled ? "scale-95" : "scale-100"
+              }`}
+            />
             <span className="flex flex-col">
               <span
                 className={`font-samarkan whitespace-nowrap text-xl font-medium leading-none tracking-wide transition-colors duration-500 sm:text-2xl md:text-[25px] ${

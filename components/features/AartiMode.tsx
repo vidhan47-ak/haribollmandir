@@ -56,6 +56,15 @@ export default function AartiMode() {
   useEffect(() => {
     if (!open) return;
 
+    // Play reverberating brass temple bell sound on Aarti launch
+    try {
+      const bellAudio = new Audio("/audio/templebell.mp3");
+      bellAudio.volume = 0.7;
+      bellAudio.play().catch(() => {});
+    } catch {
+      /* ignore audio autoplay policies */
+    }
+
     const startX = window.innerWidth / 2;
     const startY = window.innerHeight * 0.72;
     rawX.set(startX);
@@ -183,6 +192,37 @@ export default function AartiMode() {
                 <p id="aarti-instructions" className="sr-only">
                   {instructions}
                 </p>
+
+                {/* Floating flame embers particle shower */}
+                {!reduce && (
+                  <div className="pointer-events-none absolute inset-0 overflow-hidden z-30" aria-hidden="true">
+                    {Array.from({ length: 20 }).map((_, i) => (
+                      <motion.span
+                        key={i}
+                        className="absolute rounded-full bg-gradient-to-t from-amber-400 via-yellow-200 to-amber-100"
+                        style={{
+                          width: (i % 3) + 3,
+                          height: (i % 3) + 3,
+                          left: `${(i * 7) % 96}%`,
+                          bottom: `-5%`,
+                          boxShadow: "0 0 10px rgba(255, 200, 80, 0.85)",
+                        }}
+                        animate={{
+                          y: ["0vh", "-105vh"],
+                          x: [0, (i % 2 === 0 ? 1 : -1) * (20 + (i * 3))],
+                          opacity: [0, 0.9, 1, 0.4, 0],
+                          scale: [0.6, 1.3, 0.8],
+                        }}
+                        transition={{
+                          duration: 4 + (i % 5),
+                          repeat: Infinity,
+                          delay: (i % 6) * 0.7,
+                          ease: "easeInOut",
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
 
                 {/* 1. Header Bar (Flex shrink-0, stays at the top above image) */}
                 <header className="relative z-20 flex shrink-0 items-start justify-between gap-4 pb-2">
