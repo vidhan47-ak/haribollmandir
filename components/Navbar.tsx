@@ -120,13 +120,6 @@ export default function Navbar() {
 
       const doScroll = () => {
         scrollToElement(id, -80);
-        try {
-          if (smoothScrollTo) {
-            smoothScrollTo(`#${id}`, -80);
-          }
-        } catch {
-          /* ignore */
-        }
       };
 
       if (wasOpen) {

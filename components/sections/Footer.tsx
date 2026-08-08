@@ -31,13 +31,6 @@ export default function Footer() {
     }
     if (pathname === "/") {
       scrollToElement(target, -80);
-      try {
-        if (smoothScrollTo) {
-          smoothScrollTo(target, -80);
-        }
-      } catch {
-        /* ignore */
-      }
     } else {
       navigate("/" + target);
     }

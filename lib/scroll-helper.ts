@@ -1,7 +1,18 @@
 /**
  * Fast, fluid smooth scrolling helper.
- * Uses browser-native smooth scroll to avoid conflicts with CSS scroll-behavior.
+ * Uses exact static offsetTop calculation to bypass CSS transforms and parallax shifts.
  */
+
+export function getElementOffsetTop(el: HTMLElement): number {
+  let top = 0;
+  let current: HTMLElement | null = el;
+  while (current) {
+    top += current.offsetTop;
+    current = current.offsetParent as HTMLElement | null;
+  }
+  return top;
+}
+
 export function animateScrollTo(
   targetY: number,
   durationMs = 450,
@@ -20,7 +31,7 @@ export function animateScrollTo(
 }
 
 /**
- * Calculates absolute Y position of an element and scrolls smoothly to it
+ * Calculates absolute static Y position of an element and scrolls smoothly to it
  * with top clearance for the fixed navbar.
  */
 export function scrollToElement(
@@ -37,18 +48,9 @@ export function scrollToElement(
 
   if (!el) return false;
 
-  const rectTop = el.getBoundingClientRect().top;
-  const targetY = Math.max(0, rectTop + window.scrollY + offset);
+  const targetY = Math.max(0, getElementOffsetTop(el) + offset);
 
-  animateScrollTo(targetY, 450, () => {
-    // Layout-settle re-check in case dynamic content/images shift position
-    const finalTop = el.getBoundingClientRect().top;
-    if (Math.abs(finalTop + offset) > 8) {
-      const adjustedY = Math.max(0, finalTop + window.scrollY + offset);
-      window.scrollTo({ top: adjustedY, behavior: "smooth" });
-    }
-    onComplete?.();
-  });
+  animateScrollTo(targetY, 450, onComplete);
 
   return true;
 }
