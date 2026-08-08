@@ -105,9 +105,7 @@
     --dur-ceremony: 900ms;
   }
 
-  html.has-intro-splash body {
-    overflow: hidden !important;
-  }
+
 
   html {
     max-width: 100%;

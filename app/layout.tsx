@@ -16,9 +16,9 @@ import TulsiCursor from "@/components/ui/TulsiCursor";
 import SacredParticles from "@/components/features/SacredParticles";
 import { LanguageProvider } from "@/lib/i18n";
 import PWAClient from "@/components/features/PWAClient";
-import SadhanaDock from "@/components/features/SadhanaDock";
 import { LotusTransitionProvider } from "@/components/ui/ViewTransitions";
-import IntroVideoSplash from "@/components/features/IntroVideoSplash";
+import SadhanaDock from "@/components/features/SadhanaDock";
+
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -140,11 +140,7 @@ export default function RootLayout({
             __html: `(function(){try{var h=parseInt(new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Kolkata",hour:"numeric",hour12:false}).format(new Date()),10);if(h===24)h=0;var d=(h>=4&&h<12)?"day":(h>=12&&h<18)?"evening":"night";document.documentElement.setAttribute("data-daypart",d);}catch(e){document.documentElement.setAttribute("data-daypart","day");}})();`,
           }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=window.sessionStorage.getItem("hariboll_intro_splash_seen_v2");var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(!s&&!rm){document.documentElement.classList.add("has-intro-splash");}}catch(e){}})();`,
-          }}
-        />
+
         {process.env.NODE_ENV !== "production" && (
           <script
             dangerouslySetInnerHTML={{
@@ -185,7 +181,6 @@ export default function RootLayout({
         className={`${playfair.variable} ${cinzel.variable} ${inter.variable} ${handlee.variable} ${cormorant.variable} ${jakarta.variable} ${laila.variable} ${notoSansDev.variable} font-body antialiased`}
       >
         <LanguageProvider>
-          <IntroVideoSplash />
           <SmoothScroll>
             <SacredParticles />
             <LotusTransitionProvider
