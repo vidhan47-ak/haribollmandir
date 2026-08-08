@@ -1,16 +1,24 @@
 /**
- * Fast, fluid smooth scrolling helper.
- * Uses exact static offsetTop calculation to bypass CSS transforms and parallax shifts.
+ * Fast, accurate smooth scroll helper for page sections.
+ * Calculates exact top position relative to document viewport + scrollY and clearance offset.
  */
 
-export function getElementOffsetTop(el: HTMLElement): number {
-  let top = 0;
-  let current: HTMLElement | null = el;
-  while (current) {
-    top += current.offsetTop;
-    current = current.offsetParent as HTMLElement | null;
-  }
-  return top;
+export function scrollToSection(targetId: string, offset = -80): boolean {
+  if (typeof window === "undefined") return false;
+
+  const id = targetId.replace(/^#/, "");
+  const el = document.getElementById(id);
+  if (!el) return false;
+
+  const rect = el.getBoundingClientRect();
+  const targetY = Math.max(0, rect.top + window.scrollY + offset);
+
+  window.scrollTo({
+    top: targetY,
+    behavior: "smooth",
+  });
+
+  return true;
 }
 
 export function animateScrollTo(
@@ -30,10 +38,6 @@ export function animateScrollTo(
   }
 }
 
-/**
- * Calculates absolute static Y position of an element and scrolls smoothly to it
- * with top clearance for the fixed navbar.
- */
 export function scrollToElement(
   elementOrId: HTMLElement | string,
   offset = -80,
@@ -41,16 +45,10 @@ export function scrollToElement(
 ): boolean {
   if (typeof window === "undefined") return false;
 
-  const el =
-    typeof elementOrId === "string"
-      ? document.getElementById(elementOrId.replace(/^#/, ""))
-      : elementOrId;
-
-  if (!el) return false;
-
-  const targetY = Math.max(0, getElementOffsetTop(el) + offset);
-
-  animateScrollTo(targetY, 450, onComplete);
-
-  return true;
+  const id = typeof elementOrId === "string" ? elementOrId : elementOrId.id;
+  const ok = scrollToSection(id, offset);
+  if (ok && onComplete) {
+    window.setTimeout(onComplete, 450);
+  }
+  return ok;
 }

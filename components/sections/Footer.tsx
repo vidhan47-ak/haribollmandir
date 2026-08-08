@@ -4,22 +4,18 @@ import { usePathname } from "next/navigation";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import LotusMark from "@/components/ui/LotusMark";
 import { useLotusNavigate } from "@/components/ui/ViewTransitions";
-import { scrollToElement } from "@/lib/scroll-helper";
+import { scrollToElement, scrollToSection } from "@/lib/scroll-helper";
 import { useLang } from "@/lib/i18n";
 import { motion, useReducedMotion } from "framer-motion";
 import { TempleSocialIcons } from "@/components/ui/TempleLinks";
 import { EASE_DEVOTIONAL } from "@/lib/springs";
 import { TEMPLE_EMAIL, aaratiSummary } from "@/lib/temple";
 
-import { useSmoothScrollTo } from "@/components/SmoothScroll";
-import { ScrollResult } from "@/components/scroll";
-
 const TARGETS = ["#darshan", "#bhakti", "#about", "#seva", "#festivals", "/gaudiya-heritage", "/grantha-mandir", "#gallery", "#visit"];
 
 export default function Footer() {
   const pathname = usePathname();
   const navigate = useLotusNavigate();
-  const smoothScrollTo = useSmoothScrollTo();
   const { t, lang } = useLang();
   const reduce = useReducedMotion();
   const year = new Date().getFullYear();
@@ -30,7 +26,7 @@ export default function Footer() {
       return;
     }
     if (pathname === "/") {
-      scrollToElement(target, -80);
+      scrollToSection(target, -80);
     } else {
       navigate("/" + target);
     }

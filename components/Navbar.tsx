@@ -25,7 +25,7 @@ import {
 import { useLang } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
 import { LotusLink } from "@/components/ui/ViewTransitions";
-import { scrollToElement } from "@/lib/scroll-helper";
+import { scrollToElement, scrollToSection } from "@/lib/scroll-helper";
 
 type NavKey = "home" | "daily" | "about" | "festivals" | "calendar" | "heritage" | "library" | "gallery" | "visit";
 type NavLink = { key: NavKey; href: string; target?: string };
@@ -119,7 +119,7 @@ export default function Navbar() {
       }
 
       const doScroll = () => {
-        scrollToElement(id, -80);
+        scrollToSection(id, -80);
       };
 
       if (wasOpen) {
