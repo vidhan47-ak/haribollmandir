@@ -143,7 +143,7 @@ export default function ParallaxScene({
   return (
     <motion.div
       ref={ref}
-      className="parallax-main-scene"
+      className="parallax-main-scene relative"
       data-parallax-enabled={enabled ? "true" : "false"}
       style={
         {
