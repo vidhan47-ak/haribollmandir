@@ -95,6 +95,8 @@ export default function Navbar() {
     try {
       sessionStorage.setItem("hariboll_intro_splash_seen_v2", "1");
       document.documentElement.classList.remove("has-intro-splash");
+      document.body.style.overflow = "";
+      window.dispatchEvent(new Event("hariboll:dismiss-splash"));
     } catch {
       /* ignore */
     }

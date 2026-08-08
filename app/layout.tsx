@@ -142,7 +142,7 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=window.sessionStorage.getItem("hariboll_intro_splash_seen_v1");var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(!s&&!rm){document.documentElement.classList.add("has-intro-splash");}}catch(e){}})();`,
+            __html: `(function(){try{var s=window.sessionStorage.getItem("hariboll_intro_splash_seen_v2");var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(!s&&!rm){document.documentElement.classList.add("has-intro-splash");}}catch(e){}})();`,
           }}
         />
         {process.env.NODE_ENV !== "production" && (

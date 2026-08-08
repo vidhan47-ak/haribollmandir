@@ -64,6 +64,17 @@ export default function IntroVideoSplash() {
     setPhase("play");
   }, []);
 
+  // ── Dismiss on nav click or explicit dismiss event ──
+  useEffect(() => {
+    const onDismiss = () => {
+      clearTimers();
+      fade();
+      teardown();
+    };
+    window.addEventListener("hariboll:dismiss-splash", onDismiss);
+    return () => window.removeEventListener("hariboll:dismiss-splash", onDismiss);
+  }, [clearTimers, fade, teardown]);
+
   // ── "play" phase: lock scroll, play video, set safety fallback ──
   useEffect(() => {
     if (phase !== "play") return;
