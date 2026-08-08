@@ -118,10 +118,15 @@ export default function SadhanaDock() {
   const hideOnScroll = isMobile && scrollDir === "down";
 
   useEffect(() => {
-    let storedCollapsed = false;
+    let storedCollapsed = true;
     let hintSeen = true;
     try {
-      storedCollapsed = window.localStorage.getItem(COLLAPSED_KEY) === "1";
+      const stored = window.localStorage.getItem(COLLAPSED_KEY);
+      if (stored !== null) {
+        storedCollapsed = stored === "1";
+      } else {
+        storedCollapsed = true;
+      }
       hintSeen = window.localStorage.getItem(HINT_KEY) === "1";
       const rawPos = window.localStorage.getItem(POS_KEY);
       if (rawPos) {

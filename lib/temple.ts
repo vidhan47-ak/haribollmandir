@@ -218,13 +218,6 @@ export const AARATI_TIMES: readonly AaratiTime[] = [
   {
     name: "Sandhyā Ārati",
     nameHi: "संध्या आरती",
-    minutes: 18 * 60 + 30,
-    durationMinutes: 60,
-    isLiveBroadcast: false,
-  },
-  {
-    name: "Evening Sabhā & Live",
-    nameHi: "सायं सभा एवं लाइव",
     minutes: 19 * 60 + 30,
     durationMinutes: 90,
     isLiveBroadcast: true,

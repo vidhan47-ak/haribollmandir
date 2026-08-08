@@ -511,7 +511,7 @@ export function getGoogleCalendarUrl(
   const titleName = lang === "hi" ? (event.nameHi ?? event.name) : event.name;
   const title = encodeURIComponent(`🌸 ${titleName} — Hariboll Mandir`);
   const details = encodeURIComponent(
-    "Sacred observances & darshan at Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir (Pratap Bagh, Jalandhar, Punjab).\n\nDetails: https://hariboll-mandir-test.vidhanarora60.chatgpt.site/vaishnava-calendar",
+    "Sacred observances & darshan at Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir (Pratap Bagh, Jalandhar, Punjab).\n\nDetails: https://hariboll-mandir.pages.dev/vaishnava-calendar",
   );
   const location = encodeURIComponent("Hariboll Mandir, Pratap Bagh, Jalandhar, Punjab");
   const cleanDate = event.date.replace(/-/g, "");

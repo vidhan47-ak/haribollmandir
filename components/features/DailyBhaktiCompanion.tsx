@@ -568,15 +568,8 @@ export default function DailyBhaktiCompanion() {
   const { lang } = useLang();
   const t = UI[lang];
 
-  // One shared IST day number for the day-based cards; refreshed each minute so
-  // the content rolls over at IST midnight without a reload.
-  const [dayNumber, setDayNumber] = useState<number | null>(() => {
-    try {
-      return getIstMoment().dayNumber;
-    } catch {
-      return null;
-    }
-  });
+  // Initialized to null for SSR so server and initial client HTML match deterministically.
+  const [dayNumber, setDayNumber] = useState<number | null>(null);
   useEffect(() => {
     const sync = () => setDayNumber(getIstMoment().dayNumber);
     sync();

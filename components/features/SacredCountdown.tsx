@@ -22,25 +22,38 @@ function parts(ms: number) {
 export default function SacredCountdown() {
   const { lang } = useLang();
   const reduce = useReducedMotion();
-  // Start from a stable value so server and client render the same first frame.
+  const [mounted, setMounted] = useState(false);
   const [now, setNow] = useState(0);
 
   useEffect(() => {
+    setMounted(true);
     setNow(Date.now());
     const timer = window.setInterval(() => setNow(Date.now()), SECOND);
     return () => window.clearInterval(timer);
   }, []);
 
-  const next = useMemo(
-    () => SACRED_EVENTS.find((event) => new Date(event.date).getTime() > now),
-    [now],
-  );
+  const next = useMemo(() => {
+    if (!mounted || now === 0) return null;
+    return SACRED_EVENTS.find((event) => new Date(event.date).getTime() > now);
+  }, [mounted, now]);
 
-  // `now === 0` is the pre-mount frame, not an exhausted calendar.
+  if (!mounted || now === 0) {
+    return (
+      <aside
+        className="mx-auto mt-12 max-w-5xl rounded-[1.75rem] border border-gold/25 bg-maroon-dark/60 px-6 py-7 text-center shadow-[0_24px_70px_-32px_rgba(0,0,0,0.8)] backdrop-blur-md sm:mt-14"
+        aria-label={lang === "hi" ? "अगला पावन दिवस" : "Next sacred day"}
+      >
+        <p className="font-body text-[10px] uppercase tracking-widest2 text-gold-light/80">
+          {lang === "hi" ? "अगला पावन दिवस" : "Next Sacred Day"}
+        </p>
+        <div className="mt-4 flex items-center justify-center gap-3">
+          <div className="h-6 w-48 rounded bg-gold/15 animate-pulse" />
+        </div>
+      </aside>
+    );
+  }
+
   if (!next) {
-    if (now === 0) return null;
-    // The calendar has run past its horizon. Say so, rather than silently
-    // removing the whole section as if there were never a festival coming.
     return (
       <aside
         className="mx-auto mt-12 max-w-5xl rounded-[1.75rem] border border-gold/25 bg-maroon-dark/60 px-6 py-7 text-center shadow-[0_24px_70px_-32px_rgba(0,0,0,0.8)] backdrop-blur-md sm:mt-14"

@@ -79,7 +79,7 @@ const notoSansDev = Noto_Sans_Devanagari({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hariboll-mandir-test.vidhanarora60.chatgpt.site"),
+  metadataBase: new URL("https://hariboll-mandir.pages.dev"),
   title:
     "Sree Chaitanya Mahaprabhu Sree Radha Madhav Mandir | Hariboll Mandir, Jalandhar",
   description:
