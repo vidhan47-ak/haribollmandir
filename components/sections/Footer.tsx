@@ -30,16 +30,13 @@ export default function Footer() {
       return;
     }
     if (pathname === "/") {
-      let res: ScrollResult = ScrollResult.CONTROLLER_UNAVAILABLE;
+      scrollToElement(target, -80);
       try {
         if (smoothScrollTo) {
-          res = smoothScrollTo(target, -80);
+          smoothScrollTo(target, -80);
         }
       } catch {
-        /* fallback */
-      }
-      if (res !== ScrollResult.ACCEPTED) {
-        scrollToElement(target, -80);
+        /* ignore */
       }
     } else {
       navigate("/" + target);

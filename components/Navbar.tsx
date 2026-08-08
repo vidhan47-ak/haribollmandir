@@ -119,16 +119,13 @@ export default function Navbar() {
       }
 
       const doScroll = () => {
-        let res: ScrollResult = ScrollResult.CONTROLLER_UNAVAILABLE;
+        scrollToElement(id, -80);
         try {
           if (smoothScrollTo) {
-            res = smoothScrollTo(`#${id}`, -80);
+            smoothScrollTo(`#${id}`, -80);
           }
         } catch {
-          /* fallback */
-        }
-        if (res !== ScrollResult.ACCEPTED) {
-          scrollToElement(id, -80);
+          /* ignore */
         }
       };
 
