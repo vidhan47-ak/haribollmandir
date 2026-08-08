@@ -1,6 +1,6 @@
 /**
  * Fast, fluid smooth scrolling helper.
- * Animates scroll Y using high-performance RAF and devotional power-ease curve.
+ * Uses browser-native smooth scroll to avoid conflicts with CSS scroll-behavior.
  */
 export function animateScrollTo(
   targetY: number,
@@ -9,40 +9,14 @@ export function animateScrollTo(
 ): void {
   if (typeof window === "undefined") return;
 
-  const startY = window.scrollY;
-  const distance = targetY - startY;
+  window.scrollTo({
+    top: Math.max(0, targetY),
+    behavior: "smooth",
+  });
 
-  if (Math.abs(distance) < 2) {
-    window.scrollTo(0, targetY);
-    onComplete?.();
-    return;
+  if (onComplete) {
+    window.setTimeout(onComplete, Math.min(600, durationMs));
   }
-
-  // Adjust duration based on distance: short hops ~300ms, long hops ~520ms max
-  const duration = Math.min(520, Math.max(300, Math.abs(distance) * 0.22));
-  const startTime = performance.now();
-
-  // Devotional Lotus ease curve: cubic-bezier(0.22, 1, 0.36, 1) approximation
-  const easeOutDevotional = (t: number): number => {
-    return 1 - Math.pow(1 - t, 3.5);
-  };
-
-  const step = (currentTime: number) => {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(1, elapsed / duration);
-    const easedProgress = easeOutDevotional(progress);
-
-    window.scrollTo(0, startY + distance * easedProgress);
-
-    if (progress < 1) {
-      requestAnimationFrame(step);
-    } else {
-      window.scrollTo(0, targetY);
-      onComplete?.();
-    }
-  };
-
-  requestAnimationFrame(step);
 }
 
 /**
@@ -67,9 +41,9 @@ export function scrollToElement(
   const targetY = Math.max(0, rectTop + window.scrollY + offset);
 
   animateScrollTo(targetY, 450, () => {
-    // Layout-settle re-check in case dynamic content/fonts loaded during motion
+    // Layout-settle re-check in case dynamic content/images shift position
     const finalTop = el.getBoundingClientRect().top;
-    if (Math.abs(finalTop + offset) > 6) {
+    if (Math.abs(finalTop + offset) > 8) {
       const adjustedY = Math.max(0, finalTop + window.scrollY + offset);
       window.scrollTo({ top: adjustedY, behavior: "smooth" });
     }

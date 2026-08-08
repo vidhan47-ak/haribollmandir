@@ -7,7 +7,7 @@ import { EASE_DEVOTIONAL } from "@/lib/springs";
 const EASE = EASE_DEVOTIONAL;
 
 const BASE =
-  "pointer-events-none absolute bottom-0 z-[1] select-none drop-shadow-[0_22px_45px_rgba(50,25,5,0.38)] w-56 sm:w-72 md:w-80 lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem]";
+  "pointer-events-none absolute bottom-0 z-[1] hidden select-none drop-shadow-[0_22px_45px_rgba(50,25,5,0.38)] lg:block lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem]";
 
 /**
  * Two devotional figures that flank the "Harinam, Bhakti & Seva" section and

@@ -621,32 +621,7 @@ export default function KirtanaPlayer({ hideDockButton = false }: { hideDockButt
                       {lang === "hi" ? "श्रील बी. बी. तीर्थ महाराज कीर्तन" : "Śrīla B. B. Tīrtha Mahārāja Kīrtana"}
                     </p>
 
-                    {/* Mode switcher tabs */}
-                    <div className="mt-3 inline-flex rounded-full border border-gold/30 bg-black/40 p-1">
-                      <button
-                        type="button"
-                        onClick={() => setMode("audio")}
-                        className={`rounded-full px-3 py-1 font-body text-xs font-semibold transition ${
-                          mode === "audio" ? "bg-gold-gradient text-maroon-dark shadow-sm" : "text-cream/70 hover:text-cream"
-                        }`}
-                      >
-                        🎵 {lang === "hi" ? "ऑडियो" : "Audio Track"}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (audioRef.current) audioRef.current.pause();
-                          setMode("video");
-                        }}
-                        className={`rounded-full px-3 py-1 font-body text-xs font-semibold transition ${
-                          mode === "video" ? "bg-gold-gradient text-maroon-dark shadow-sm" : "text-cream/70 hover:text-cream"
-                        }`}
-                      >
-                        🎥 {lang === "hi" ? "वीडियो कीर्तन" : "YouTube Video"}
-                      </button>
-                    </div>
-
-                    <h3 className="mt-3 font-heading text-lg font-semibold text-cream sm:text-xl">
+                    <h3 className="mt-4 font-heading text-lg font-semibold text-cream sm:text-xl">
                       {lang === "hi" ? track.titleHi : track.title}
                     </h3>
 
@@ -654,67 +629,53 @@ export default function KirtanaPlayer({ hideDockButton = false }: { hideDockButt
                       {lang === "hi" ? track.artistHi : track.artist}
                     </p>
 
-                    {mode === "video" ? (
-                      <div className="mt-4 relative aspect-video w-full overflow-hidden rounded-xl border border-gold/40 bg-black shadow-lg">
-                        <iframe
-                          src={`https://www.youtube.com/embed/${track.embedId}?autoplay=1`}
-                          title={track.title}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                          className="h-full w-full border-0"
-                        />
+                    {/* Animated lotus audio visualizer */}
+                    {playing ? (
+                      <div className="mt-5 flex items-center justify-center gap-1.5 h-8">
+                        {[20, 32, 16, 36, 24, 28, 18].map((h, i) => (
+                          <motion.span
+                            key={i}
+                            animate={{ height: [8, h, 10] }}
+                            transition={{ repeat: Infinity, duration: 0.5 + i * 0.12, repeatType: "mirror" }}
+                            className="w-1.5 rounded-full bg-gold-light"
+                          />
+                        ))}
                       </div>
                     ) : (
-                      <>
-                        {/* Animated lotus audio visualizer */}
-                        {playing ? (
-                          <div className="mt-5 flex items-center justify-center gap-1.5 h-8">
-                            {[20, 32, 16, 36, 24, 28, 18].map((h, i) => (
-                              <motion.span
-                                key={i}
-                                animate={{ height: [8, h, 10] }}
-                                transition={{ repeat: Infinity, duration: 0.5 + i * 0.12, repeatType: "mirror" }}
-                                className="w-1.5 rounded-full bg-gold-light"
-                              />
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="mt-5 h-8 flex items-center justify-center font-body text-xs text-cream/50 italic">
-                            {lang === "hi" ? "सुनने के लिए प्ले पर क्लिक करें" : "Click Play to begin kīrtana"}
-                          </div>
-                        )}
-
-                        {/* Player controls */}
-                        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              togglePlay();
-                            }}
-                            className="btn-gold min-w-[140px]"
-                          >
-                            {playing
-                              ? lang === "hi" ? "रुकें (Pause)" : "Pause"
-                              : lang === "hi" ? "कीर्तन सुनें" : "Play Kīrtana"}
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              nextTrack(e);
-                            }}
-                            className="rounded-full border border-gold-light/40 px-5 py-2.5 font-body text-xs font-semibold uppercase tracking-[0.14em] text-gold-light transition hover:border-gold-light hover:text-cream"
-                          >
-                            {lang === "hi" ? "अगला ⏭" : "Next ⏭"}
-                          </button>
-                        </div>
-                      </>
+                      <div className="mt-5 h-8 flex items-center justify-center font-body text-xs text-cream/50 italic">
+                        {lang === "hi" ? "सुनने के लिए प्ले पर क्लिक करें" : "Click Play to begin kīrtana"}
+                      </div>
                     )}
 
+                    {/* Player controls */}
+                    <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          togglePlay();
+                        }}
+                        className="btn-gold min-w-[140px]"
+                      >
+                        {playing
+                          ? lang === "hi" ? "रुकें (Pause)" : "Pause"
+                          : lang === "hi" ? "कीर्तन सुनें" : "Play Kīrtana"}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          nextTrack(e);
+                        }}
+                        className="rounded-full border border-gold-light/40 px-5 py-2.5 font-body text-xs font-semibold uppercase tracking-[0.14em] text-gold-light transition hover:border-gold-light hover:text-cream"
+                      >
+                        {lang === "hi" ? "अगला ⏭" : "Next ⏭"}
+                      </button>
+                    </div>
+
                     {/* Track selector dropdown */}
-                    <div className="mt-5 text-left">
+                    <div className="mt-6 text-left">
                       <label className="block font-body text-[11px] font-semibold uppercase tracking-wider text-gold-light/80 mb-1.5">
                         {lang === "hi" ? "कीर्तन चुनें:" : "Select Track:"}
                       </label>
@@ -727,7 +688,7 @@ export default function KirtanaPlayer({ hideDockButton = false }: { hideDockButt
                           setTrackIndex(idx);
                           setPlaying(false);
                           setTimeout(() => {
-                            if (audioRef.current && mode === "audio") {
+                            if (audioRef.current) {
                               playTrack();
                             }
                           }, 150);
@@ -740,18 +701,6 @@ export default function KirtanaPlayer({ hideDockButton = false }: { hideDockButt
                           </option>
                         ))}
                       </select>
-                    </div>
-
-                    <div className="mt-5 border-t border-gold/20 pt-4 flex flex-col gap-2 items-center">
-                      <a
-                        href={track.youtubeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1.5 font-body text-xs font-medium text-amber-300 transition hover:underline"
-                      >
-                        ▶ {lang === "hi" ? "YouTube पर मूल वीडियो देखें" : "Watch original video on YouTube"} ↗
-                      </a>
                     </div>
                   </motion.div>
                 </motion.div>

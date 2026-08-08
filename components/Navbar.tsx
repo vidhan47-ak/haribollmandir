@@ -119,7 +119,7 @@ export default function Navbar() {
       };
 
       if (open) {
-        requestAnimationFrame(doScroll);
+        setTimeout(doScroll, 60);
       } else {
         doScroll();
       }

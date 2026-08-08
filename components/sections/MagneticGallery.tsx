@@ -323,7 +323,7 @@ export default function MagneticGallery() {
   return (
     <section
       id="gallery"
-      className="relative overflow-hidden bg-[#071d26] py-20 sm:py-28"
+      className="relative overflow-hidden bg-[#071d26] py-20 sm:py-28 scroll-mt-20"
     >
       {/* Shared dark backdrop so the section reads as one cohesive room. */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">

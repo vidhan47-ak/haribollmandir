@@ -54,12 +54,12 @@ export const SACRED_EVENTS: SacredEvent[] = [
     noteHi: "9 अगस्त व्रत • 10 अगस्त सुबह 06:17 से पहले पारण",
   },
   {
-    name: "Pavitrā-ropaṇī Ekādaśī",
-    nameHi: "पवित्रोपना एकादशी",
+    name: "Pavitrā Ekādaśī • Jhulan Utsav",
+    nameHi: "पवित्रोपना एकादशी • झूलन उत्सव",
     date: "2026-08-23T00:00:00+05:30",
     kind: "ekadashi",
-    note: "Beginning of Śrī Śrī Rādhā-Govinda's Jhulana-yātrā",
-    noteHi: "श्री श्री राधा-गोविंद की झूलन-यात्रा आरंभ",
+    note: "Beginning of Śrī Śrī Rādhā-Govinda's Jhulan Utsav • Fast on 23 August",
+    noteHi: "श्री श्री राधा-गोविंद की झूलन उत्सव आरंभ • 23 अगस्त व्रत",
   },
   {
     name: "Śrī Baladeva Pūrṇimā",

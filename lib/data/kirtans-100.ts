@@ -273,19 +273,118 @@ export const KIRTANS_100: readonly Kirtan[] = [
     audioSrc: "/audio/kirtan/Mangalacharan.mp3",
   },
 
-  // Generate continuous variations & devotional songs covering 100 entries
+  // Generate continuous variations & devotional songs covering 100 entries with authentic lyrics
   ...Array.from({ length: 81 }).map((_, idx) => {
     const songId = idx + 20;
     const baseNames = [
-      { en: "Jaya Rādhe Jaya Kṛṣṇa Jaya Vṛndāvana", hi: "जय राधे जय कृष्ण जय वृंदावन", tradEn: "Vraja Kīrtana", tradHi: "व्रज कीर्तन" },
-      { en: "Nagara Saṅkīrtana", hi: "नगर संकीर्तन", tradEn: "Śrī Caitanya Gaudiya Math", tradHi: "श्री चैतन्य गौड़ीय मठ" },
-      { en: "Śrī Dāmodarāṣṭakam Kīrtana", hi: "श्री दामोदराष्टकम् कीर्तन", tradEn: "Padma Purāṇa / Kārtika", tradHi: "पद्म पुराण / कार्तिक" },
-      { en: "Jīv Jāgo Jīv Jāgo", hi: "जीव जागो जीव जागो", tradEn: "Śrīla Bhaktivinoda Ṭhākura", tradHi: "श्रील भक्तिविनोद ठाकुर" },
-      { en: "Nitāi Pada Kamala", hi: "निताई पद कमल", tradEn: "Śrīla Narottama dāsa Ṭhākura", tradHi: "श्रील नरोत्तम दास ठाकुर" },
-      { en: "Gopīnāth Mama Nivedana Śuno", hi: "गोपीनाथ मम निवेदन सुनो", tradEn: "Śrīla Bhaktivinoda Ṭhākura", tradHi: "श्रील भक्तिविनोद ठाकुर" },
-      { en: "Śrī Kṛṣṇa Caitanya Prabhu Nityānanda", hi: "श्री कृष्ण चैतन्य प्रभु नित्यानंद", tradEn: "Pañca-Tattva Mahā-mantra", tradHi: "पंच-तत्त्व महामंत्र" },
-      { en: "Vṛndāvana Chalo He Gopināth", hi: "वृंदावन चलो हे गोपीनाथ", tradEn: "Ratha Yātrā Kīrtana", tradHi: "रथ यात्रा कीर्तन" },
-      { en: "Śrī Rādhā Kṛṣṇa Praṇāma", hi: "श्री राधा कृष्ण प्रणाम", tradEn: "Gauḍīya Stotra", tradHi: "गौड़ीय स्तोत्र" },
+      {
+        en: "Jaya Rādhe Jaya Kṛṣṇa Jaya Vṛndāvana",
+        hi: "जय राधे जय कृष्ण जय वृंदावन",
+        tradEn: "Vraja Kīrtana",
+        tradHi: "व्रज कीर्तन",
+        lines: [
+          "jaya rādhe, jaya kṛṣṇa, jaya vṛndāvana",
+          "śrī govinda, gopīnātha, madana-mohana",
+        ],
+        meaning: "All glories to Śrīmatī Rādhārāṇī, Lord Kṛṣṇa, and sacred Vṛndāvana! Glories to Govinda, Gopīnātha, and Madana-mohana.",
+        meaningHi: "जय राधे, जय कृष्ण, जय वृंदावन! श्री गोविंद, गोपीनाथ, मदन-मोहन की नित्य जय हो।",
+      },
+      {
+        en: "Nagara Saṅkīrtana",
+        hi: "नगर संकीर्तन",
+        tradEn: "Śrī Caitanya Gaudiya Math",
+        tradHi: "श्री चैतन्य गौड़ीय मठ",
+        lines: [
+          "harer nāma harer nāma harer nāmaiva kevalam",
+          "kalau nāsty eva nāsty eva nāsty eva gatir anyathā",
+        ],
+        meaning: "In this Age of Kali, there is no other way, no other way, no other way for spiritual liberation than chanting the Holy Name of Hari.",
+        meaningHi: "कलयुग में केवल और केवल श्रीहरि के पावन नाम का संकीर्तन ही परम गति प्रदान करने वाला एकमात्र उपाय है।",
+      },
+      {
+        en: "Śrī Dāmodarāṣṭakam Kīrtana",
+        hi: "श्री दामोदराष्टकम् कीर्तन",
+        tradEn: "Padma Purāṇa / Kārtika",
+        tradHi: "पद्म पुराण / कार्तिक",
+        lines: [
+          "namāmīśvaraṁ sac-cid-ānanda-rūpaṁ",
+          "lasat-kuṇḍalaṁ gokule bhrājamānam",
+        ],
+        meaning: "To the Supreme Lord Damodara, whose form is eternal, conscious and blissful, I offer my respectful obeisances.",
+        meaningHi: "सच्चिदानंद रूप, गोकुल में शोभायमान भगवान श्री दामोदर के पावन चरणों में कोटि-कोटि प्रणाम।",
+      },
+      {
+        en: "Jīv Jāgo Jīv Jāgo",
+        hi: "जीव जागो जीव जागो",
+        tradEn: "Śrīla Bhaktivinoda Ṭhākura",
+        tradHi: "श्रील भक्तिविनोद ठाकुर",
+        lines: [
+          "jīv jāgo, jīv jāgo, gauracānda bole",
+          "koto nidrā jāo māyā-piśācīra kole",
+        ],
+        meaning: "Wake up, sleeping souls! Wake up! Lord Gaurāṅga calls out. How long will you sleep in the lap of Maya?",
+        meaningHi: "उठो जीव! जागो! महाप्रभु पुकार रहे हैं। अज्ञान और माया की गोद में कब तक सोते रहोगे?",
+      },
+      {
+        en: "Nitāi Pada Kamala",
+        hi: "निताई पद कमल",
+        tradEn: "Śrīla Narottama dāsa Ṭhākura",
+        tradHi: "श्रील नरोत्तम दास ठाकुर",
+        lines: [
+          "nitāi-pada-kamala, koti-candra-suśītala",
+          "je chāyāy jagata jurāy",
+        ],
+        meaning: "The lotus feet of Lord Nityānanda are as soothing as millions of moons, shading the world from spiritual distress.",
+        meaningHi: "श्री नित्यानंद प्रभु के चरण-कमल करोड़ों चंद्रमाओं के समान परम शीतल और सर्व-संताप हारी हैं।",
+      },
+      {
+        en: "Gopīnāth Mama Nivedana Śuno",
+        hi: "गोपीनाथ मम निवेदन सुनो",
+        tradEn: "Śrīla Bhaktivinoda Ṭhākura",
+        tradHi: "श्रील भक्तिविनोद ठाकुर",
+        lines: [
+          "gopīnāth, mama nivedana śuno",
+          "viṣayī durjana, sadā kāma-rata, kichu nāhi mora guṇa",
+        ],
+        meaning: "O Gopīnātha, Lord of the gopīs, please hear my humble prayer! I am a fallen soul seeking Your unconditioned mercy.",
+        meaningHi: "हे गोपीनाथ! मेरी विनम्र प्रार्थना सुनो। मैं विषय-वासनाओं में डूबा गुणहीन जीव हूँ, मुझे अपनी शरण लें।",
+      },
+      {
+        en: "Śrī Kṛṣṇa Caitanya Prabhu Nityānanda",
+        hi: "श्री कृष्ण चैतन्य प्रभु नित्यानंद",
+        tradEn: "Pañca-Tattva Mahā-mantra",
+        tradHi: "पंच-तत्त्व महामंत्र",
+        lines: [
+          "śrī-kṛṣṇa-caitanya prabhu-nityānanda",
+          "śrī-advaita gadādhara śrīvāsādi-gaura-bhakta-vṛnda",
+        ],
+        meaning: "I offer my obeisances unto Śrī Kṛṣṇa Caitanya, Prabhu Nityānanda, Śrī Advaita, Gadādhara, Śrīvāsa and all Gaudiya devotees.",
+        meaningHi: "श्री कृष्ण चैतन्य, प्रभु नित्यानंद, श्री अद्वैत, गदाधर, श्रीवास और समस्त गौर-भक्तवृंद के चरणों में नमन।",
+      },
+      {
+        en: "Vṛndāvana Chalo He Gopināth",
+        hi: "वृंदावन चलो हे गोपीनाथ",
+        tradEn: "Ratha Yātrā Kīrtana",
+        tradHi: "रथ यात्रा कीर्तन",
+        lines: [
+          "vṛndāvana chalo he gopīnāth",
+          "rādhā-kuṇḍa śyāma-kuṇḍa girirāja-sāth",
+        ],
+        meaning: "O Gopīnātha, let us return to holy Vṛndāvana! To the divine shores of Rādhā-kuṇḍa, Śyāma-kuṇḍa and Govardhana Hill.",
+        meaningHi: "हे गोपीनाथ! चलो पावन वृंदावन धाम चले, जहाँ श्रीराधाकुंड, श्यामकुंड और श्रीगिरिराज जी विराजमान हैं।",
+      },
+      {
+        en: "Śrī Rādhā Kṛṣṇa Praṇāma",
+        hi: "श्री राधा कृष्ण प्रणाम",
+        tradEn: "Gauḍīya Stotra",
+        tradHi: "गौड़ीय स्तोत्र",
+        lines: [
+          "tapa-kāñcana-gaurāṅgi rādhe vṛndāvaneśvari",
+          "vṛṣabhānu-sute devī praṇamāmi hari-priye",
+        ],
+        meaning: "I offer my respects to Śrīmatī Rādhārāṇī, whose complexion is like molten gold, who is the Queen of Vṛndāvana and dear to Hari.",
+        meaningHi: "तप्त स्वर्ण समान अंगकांति वाली, श्रीवृंदावन की अधीश्वरी, वृषभानु-नंदिनी श्रीराधा के चरणों में प्रणाम।",
+      },
     ];
     const item = baseNames[idx % baseNames.length];
     
@@ -322,12 +421,9 @@ export const KIRTANS_100: readonly Kirtan[] = [
       titleHi: `${item.hi} (दिवस ${songId})`,
       tradition: item.tradEn,
       traditionHi: item.tradHi,
-      lines: [
-        "Hare Kṛṣṇa Hare Kṛṣṇa Kṛṣṇa Kṛṣṇa Hare Hare",
-        "Hare Rāma Hare Rāma Rāma Rāma Hare Hare",
-      ],
-      meaning: "Engage your mind, body and soul in the eternal, nectarine saṅkīrtana of the Lord's holy names.",
-      meaningHi: "अपने मन, वाणी और जीवन को भगवान के पवित्र नामों के नित्य संकीर्तन में समर्पित करें।",
+      lines: item.lines,
+      meaning: item.meaning,
+      meaningHi: item.meaningHi,
       audioSrc: audioPool[idx % audioPool.length],
     };
   })
