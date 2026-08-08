@@ -315,7 +315,7 @@ const TRANSLATIONS: Record<Lang, Dict> = {
     },
     footer: {
       brand: "Hariboll Mandir",
-      brandSub: "Radha Madhav · Jalandhar",
+      brandSub: "Jalandhar",
       addressName: TEMPLE_ADDRESS.name,
       address: templeAddressLine("en"),
       explore: "Explore",
@@ -611,7 +611,7 @@ const TRANSLATIONS: Record<Lang, Dict> = {
     },
     footer: {
       brand: "Hariboll Mandir",
-      brandSub: "राधा माधव · जालंधर",
+      brandSub: "जालंधर",
       addressName: TEMPLE_ADDRESS.nameHi,
       address: templeAddressLine("hi"),
       explore: "अन्वेषण",
