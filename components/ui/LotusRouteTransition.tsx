@@ -17,6 +17,7 @@ import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
 
 import "./lotus-route-transition.css";
+import { scrollToSection } from "@/lib/scroll-helper";
 
 const DEFAULT_ROUTES = [
   "/",
@@ -779,6 +780,21 @@ export function LotusLink({
       (target !== undefined && target !== "_self")
     ) {
       return;
+    }
+
+    if (href.includes("#")) {
+      const parts = href.split("#");
+      const pagePath = parts[0] || "/";
+      const hashId = parts[1];
+
+      if (normalizePath(pagePath) === normalizePath(pathname) && hashId) {
+        event.preventDefault();
+        if (window.history.replaceState) {
+          window.history.replaceState(null, "", `#${hashId}`);
+        }
+        scrollToSection(hashId, -80);
+        return;
+      }
     }
 
     event.preventDefault();
