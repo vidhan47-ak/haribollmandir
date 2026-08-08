@@ -1,3 +1,0 @@
-﻿next_present=False
-netlify_state=True
-plugins_dir=True
