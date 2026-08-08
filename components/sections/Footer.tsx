@@ -11,11 +11,15 @@ import { TempleSocialIcons } from "@/components/ui/TempleLinks";
 import { EASE_DEVOTIONAL } from "@/lib/springs";
 import { TEMPLE_EMAIL, aaratiSummary } from "@/lib/temple";
 
+import { useSmoothScrollTo } from "@/components/SmoothScroll";
+import { ScrollResult } from "@/components/scroll";
+
 const TARGETS = ["#darshan", "#bhakti", "#about", "#seva", "#festivals", "/gaudiya-heritage", "/grantha-mandir", "#gallery", "#visit"];
 
 export default function Footer() {
   const pathname = usePathname();
   const navigate = useLotusNavigate();
+  const smoothScrollTo = useSmoothScrollTo();
   const { t, lang } = useLang();
   const reduce = useReducedMotion();
   const year = new Date().getFullYear();
@@ -26,7 +30,17 @@ export default function Footer() {
       return;
     }
     if (pathname === "/") {
-      scrollToElement(target, -80);
+      let res: ScrollResult = ScrollResult.CONTROLLER_UNAVAILABLE;
+      try {
+        if (smoothScrollTo) {
+          res = smoothScrollTo(target, -80);
+        }
+      } catch {
+        /* fallback */
+      }
+      if (res !== ScrollResult.ACCEPTED) {
+        scrollToElement(target, -80);
+      }
     } else {
       navigate("/" + target);
     }

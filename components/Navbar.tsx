@@ -100,8 +100,10 @@ export default function Navbar() {
     }
 
     // 2. Unlock mobile menu scroll lock immediately if open
+    const wasOpen = open;
     if (open) {
       setOpen(false);
+      scrollController.resume(SuspensionReason.MOBILE_MENU);
     }
     document.body.style.overflow = "";
 
@@ -115,11 +117,21 @@ export default function Navbar() {
       }
 
       const doScroll = () => {
-        scrollToElement(id, -80);
+        let res: ScrollResult = ScrollResult.CONTROLLER_UNAVAILABLE;
+        try {
+          if (smoothScrollTo) {
+            res = smoothScrollTo(`#${id}`, -80);
+          }
+        } catch {
+          /* fallback */
+        }
+        if (res !== ScrollResult.ACCEPTED) {
+          scrollToElement(id, -80);
+        }
       };
 
-      if (open) {
-        setTimeout(doScroll, 60);
+      if (wasOpen) {
+        setTimeout(doScroll, 80);
       } else {
         doScroll();
       }
